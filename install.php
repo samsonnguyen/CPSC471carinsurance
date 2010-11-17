@@ -21,10 +21,9 @@ mysql_query("CREATE TABLE Client
 	FOREIGN KEY (Company) REFERENCES Company(Commercial_License_No)
 		ON DELETE SET NULL			ON UPDATE CASCADE,
 	FOREIGN KEY (Policy_No) REFERENCES Private_Policy(Policy_No)
-		ON DELETE CASCADE			ON UPDATE CASCADE); ")
- 	or die(mysql_error());  
-	
-//Create company table
+		ON DELETE CASCADE			ON UPDATE CASCADE);") or die(mysql_error());  
+
+//Create Company table
 mysql_query("CREATE TABLE Company(
 		Commercial_License_No 	INT	NOT	NULL,
 		Name		VARCHAR(20)	NOT NULL,
@@ -38,7 +37,7 @@ mysql_query("CREATE TABLE Company(
  	or die(mysql_error());  
 
 //Create Company_Policy table
-mysql_query("	CREATE TABLE Company_Policy
+mysql_query("CREATE TABLE Company_Policy
 	(	Policy_No 		INT	NOT	NULL AUTO_INCREMENT,
 		Premium_Rate	INT	NOT NULL,
 		Coverage		INT,
@@ -47,7 +46,7 @@ mysql_query("	CREATE TABLE Company_Policy
  	or die(mysql_error());  
 
 // Create Private_Policy table
-mysql_query("	CREATE TABLE Private_Policy
+mysql_query("CREATE TABLE Private_Policy
 	(	Policy_No 		INT	NOT	NULL AUTO_INCREMENT,
 		Premium_Rate	INT	NOT NULL,
 		Coverage		INT,	
@@ -55,7 +54,7 @@ mysql_query("	CREATE TABLE Private_Policy
  	or die(mysql_error());  
 
 //Creat Ticket table
-mysql_query("	CREATE TABLE Ticket
+mysql_query("CREATE TABLE Ticket
 	(	Client_ID		INT		NOT NULL,
 		Infraction_No	INT		NOT NULL,
 		Officer_Name	VARCHAR(20) NOT NULL,
@@ -68,7 +67,7 @@ mysql_query("	CREATE TABLE Ticket
  	or die(mysql_error());  
 
 //Create Clients_Under_Policy table
-mysql_query("	CREATE TABLE Clients_Under_Policy
+mysql_query("CREATE TABLE Clients_Under_Policy
 	(	Client_ID		INT		NOT NULL,
 		Client_Under	INT		NOT NULL,
 	PRIMARY KEY (Client_ID,Client_Under),
@@ -79,7 +78,7 @@ mysql_query("	CREATE TABLE Clients_Under_Policy
  	or die(mysql_error());  
 
 //Create Vehicle table
-mysql_query("	CREATE TABLE Vehicle
+mysql_query("CREATE TABLE Vehicle
 	(	VIN				CHAR(17)		NOT NULL,
 		Year			NUMERIC(4,0)	NOT NULL,
 		Make			VARCHAR(15),
@@ -101,7 +100,7 @@ mysql_query("	CREATE TABLE Vehicle
  	or die(mysql_error());  
 
 //Create Claim table
-mysql_query("	CREATE TABLE Claim
+mysql_query("CREATE TABLE Claim
 	(	Claim_No		INT	NOT NULL	AUTO_INCREMENT,
 		Amount			INT NOT NULL,
 		Date			DATE,
@@ -112,7 +111,7 @@ mysql_query("	CREATE TABLE Claim
  	or die(mysql_error());  
 
 //Create Claims table (weak entity)
-mysql_query("	CREATE TABLE Claims
+mysql_query("CREATE TABLE Claims
 	(	Client_ID	INT		NOT NULL,
 		Claim_No	INT		NOT NULL,
 		VIN			CHAR(17)		NOT NULL,
@@ -126,7 +125,7 @@ mysql_query("	CREATE TABLE Claims
  	or die(mysql_error());  
 
 //Create Third_Party table
-mysql_query("	CREATE TABLE Third_Party
+mysql_query("CREATE TABLE Third_Party
 	(	Claim_No		INT		NOT NULL,
 		Party_Name		VARCHAR(20)	NOT NULL,
 		Insurer_Name	VARCHAR(20) NOT NULL,
@@ -142,6 +141,21 @@ mysql_query("	CREATE TABLE Third_Party
 		ON DELETE CASCADE		ON UPDATE CASCADE);")
  	or die(mysql_error());  
 //Finished
-echo "Tables Created! Database Install was successful";
+echo "Tables Created!\n";
 
+/*
+ * Create admin database tables for the admin backend
+ * Password will be text, Encryption is out of the contexts of
+ * this course, therefore we are not worried about security
+ * Permissions will dictate the level of access that the use has.
+ */
+mysql_query("CREATE TABLE Employees
+	(	Employee_ID		INT	NOT NULL AUTO_INCREMENT,
+		Username		VARCHAR(20)	NOT NULL,
+		Password		VARCHAR(20) NOT NULL,
+		Permissions		CHAR,
+	PRIMARY KEY (Employee_ID));")
+ 	or die(mysql_error());  
+ 	
+echo "Employee Table Created! Database Install was successful";
 ?>
