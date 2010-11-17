@@ -124,7 +124,7 @@ mysql_query("	CREATE TABLE Third_Party
 		Vehicle_Year	INT,
 		Vehicle_Make	VARCHAR(15),
 		Vehicle_Model	VARCHAR(20),
-		Party_License_No	VARCHAR(8),
+		Party_License_No	VARCHAR(8) NOT NULL,
 	PRIMARY KEY (Claim_No,Party_Name),
 	FOREIGN KEY (Claim_No) REFERENCES Claim(Claim_ID)
 		ON DELETE CASCADE		ON UPDATE CASCADE);")
