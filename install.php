@@ -29,7 +29,8 @@ mysql_query("CREATE TABLE Company(
 		Manager		VARCHAR(20),
 		Policy_No	INT,
 	PRIMARY KEY (Commercial_License_No),
-	FOREIGN KEY (Policy_No) REFERENCES Company_Policy(Policy_No));")
+	FOREIGN KEY (Policy_No) REFERENCES Company_Policy(Policy_No)
+		ON DELETE SET NULL			ON UPDATE CASCADE);")
  	or die(mysql_error());  
 	
 mysql_query("	CREATE TABLE Company_Policy
@@ -55,15 +56,18 @@ mysql_query("	CREATE TABLE Ticket
 		Classification	CHAR,
 		Date			DATE	NOT NULL,
 	PRIMARY KEY (Client_ID,Infraction_No),
-	FOREIGN KEY (Client_ID) REFERENCES Client(Client_ID));")
+	FOREIGN KEY (Client_ID) REFERENCES Client(Client_ID)
+		ON DELETE CASCADE			ON UPDATE CASCADE);")
  	or die(mysql_error());  
 	
 mysql_query("	CREATE TABLE Clients_Under_Policy
 	(	Client_ID		INT		NOT NULL,
 		Client_Under	INT		NOT NULL,
 	PRIMARY KEY (Client_ID,Client_Under),
-	FOREIGN KEY (Client_ID) REFERENCES Client(Client_ID),
-	FOREIGN KEY (Client_Under) REFERENCES Client(Client_ID));")
+	FOREIGN KEY (Client_ID) REFERENCES Client(Client_ID)
+		ON DELETE CASCADE			ON UPDATE CASCADE,
+	FOREIGN KEY (Client_Under) REFERENCES Client(Client_ID)
+		ON DELETE CASCADE			ON UPDATE CASCADE);")
  	or die(mysql_error());  
 		
 mysql_query("	CREATE TABLE Vehicle
@@ -83,7 +87,8 @@ mysql_query("	CREATE TABLE Vehicle
 		Type			CHAR,
 		Commercial		BOOLEAN,
 	PRIMARY KEY (VIN),
-	FOREIGN KEY (Client_ID) REFERENCES Client(Client_ID));")
+	FOREIGN KEY (Client_ID) REFERENCES Client(Client_ID)
+		ON DELETE CASCADE			ON UPDATE CASCADE);")
  	or die(mysql_error());  
 	
 mysql_query("	CREATE TABLE Claim
@@ -101,9 +106,12 @@ mysql_query("	CREATE TABLE Claims
 		Claim_No	INT		NOT NULL,
 		VIN			CHAR(17)		NOT NULL,
 	PRIMARY KEY (Client_ID,Claim_No,VIN),
-	FOREIGN KEY (Client_ID) REFERENCES Client(Client_ID),
-	FOREIGN KEY (Claim_No) REFERENCES Claim(Claim_No),
-	FOREIGN KEY (VIN) REFERENCES Vehicle(VIN));")
+	FOREIGN KEY (Client_ID) REFERENCES Client(Client_ID)
+		ON DELETE CASCADE			ON UPDATE CASCADE,
+	FOREIGN KEY (Claim_No) REFERENCES Claim(Claim_No)
+		ON DELETE CASCADE			ON UPDATE CASCADE,
+	FOREIGN KEY (VIN) REFERENCES Vehicle(VIN)
+		ON DELETE CASCADE			ON UPDATE CASCADE);")
  	or die(mysql_error());  
 	
 mysql_query("	CREATE TABLE Third_Party
@@ -118,7 +126,8 @@ mysql_query("	CREATE TABLE Third_Party
 		Vehicle_Model	VARCHAR(20),
 		Party_License_No	VARCHAR(8),
 	PRIMARY KEY (Claim_No,Party_Name),
-	FOREIGN KEY (Claim_No) REFERENCES Claim(Claim_ID));")
+	FOREIGN KEY (Claim_No) REFERENCES Claim(Claim_ID)
+		ON DELETE CASCADE		ON UPDATE CASCADE);")
  	or die(mysql_error());  
 
 echo "Tables Created! Database Install was successful";
