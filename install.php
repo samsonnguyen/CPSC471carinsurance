@@ -15,8 +15,10 @@ mysql_query("CREATE TABLE Client
 		Company		INT,
 		Policy_No	INT,
 	PRIMARY KEY (Client_ID),
-	FOREIGN KEY (Company) REFERENCES Company(Commercial_License_No),
-	FOREIGN KEY (Policy_No) REFERENCES Private_Policy(Policy_No)); ")
+	FOREIGN KEY (Company) REFERENCES Company(Commercial_License_No)
+		ON DELETE SET NULL			ON UPDATE CASCADE,
+	FOREIGN KEY (Policy_No) REFERENCES Private_Policy(Policy_No)
+		ON DELETE CASCADE			ON UPDATE CASCADE); ")
  	or die(mysql_error());  
 	
 mysql_query("CREATE TABLE Company(
