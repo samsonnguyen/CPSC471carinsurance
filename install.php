@@ -2,7 +2,10 @@
 require 'db.php';
 
 
-// Create a MySQL table in the selected database
+/*
+ * Create mySql tables for the database to store client account
+ * information and history
+ */
 mysql_query("CREATE TABLE Client
 	(	Client_ID 	INT			NOT	NULL AUTO_INCREMENT,
 		Name		VARCHAR(20)	NOT NULL,
@@ -21,6 +24,7 @@ mysql_query("CREATE TABLE Client
 		ON DELETE CASCADE			ON UPDATE CASCADE); ")
  	or die(mysql_error());  
 	
+//Create company table
 mysql_query("CREATE TABLE Company(
 		Commercial_License_No 	INT	NOT	NULL,
 		Name		VARCHAR(20)	NOT NULL,
@@ -32,7 +36,8 @@ mysql_query("CREATE TABLE Company(
 	FOREIGN KEY (Policy_No) REFERENCES Company_Policy(Policy_No)
 		ON DELETE SET NULL			ON UPDATE CASCADE);")
  	or die(mysql_error());  
-	
+
+//Create Company_Policy table
 mysql_query("	CREATE TABLE Company_Policy
 	(	Policy_No 		INT	NOT	NULL AUTO_INCREMENT,
 		Premium_Rate	INT	NOT NULL,
@@ -41,13 +46,15 @@ mysql_query("	CREATE TABLE Company_Policy
 	PRIMARY KEY (Policy_No));")
  	or die(mysql_error());  
 
+// Create Private_Policy table
 mysql_query("	CREATE TABLE Private_Policy
 	(	Policy_No 		INT	NOT	NULL AUTO_INCREMENT,
 		Premium_Rate	INT	NOT NULL,
 		Coverage		INT,	
 	PRIMARY KEY (Policy_No));")
  	or die(mysql_error());  
-	
+
+//Creat Ticket table
 mysql_query("	CREATE TABLE Ticket
 	(	Client_ID		INT		NOT NULL,
 		Infraction_No	INT		NOT NULL,
@@ -59,7 +66,8 @@ mysql_query("	CREATE TABLE Ticket
 	FOREIGN KEY (Client_ID) REFERENCES Client(Client_ID)
 		ON DELETE CASCADE			ON UPDATE CASCADE);")
  	or die(mysql_error());  
-	
+
+//Create Clients_Under_Policy table
 mysql_query("	CREATE TABLE Clients_Under_Policy
 	(	Client_ID		INT		NOT NULL,
 		Client_Under	INT		NOT NULL,
@@ -69,7 +77,8 @@ mysql_query("	CREATE TABLE Clients_Under_Policy
 	FOREIGN KEY (Client_Under) REFERENCES Client(Client_ID)
 		ON DELETE CASCADE			ON UPDATE CASCADE);")
  	or die(mysql_error());  
-		
+
+//Create Vehicle table
 mysql_query("	CREATE TABLE Vehicle
 	(	VIN				CHAR(17)		NOT NULL,
 		Year			NUMERIC(4,0)	NOT NULL,
@@ -90,7 +99,8 @@ mysql_query("	CREATE TABLE Vehicle
 	FOREIGN KEY (Client_ID) REFERENCES Client(Client_ID)
 		ON DELETE CASCADE			ON UPDATE CASCADE);")
  	or die(mysql_error());  
-	
+
+//Create Claim table
 mysql_query("	CREATE TABLE Claim
 	(	Claim_No		INT	NOT NULL	AUTO_INCREMENT,
 		Amount			INT NOT NULL,
@@ -100,7 +110,8 @@ mysql_query("	CREATE TABLE Claim
 		Client_At_Fault	BOOLEAN,
 	PRIMARY KEY (Claim_No));")
  	or die(mysql_error());  
-	
+
+//Create Claims table (weak entity)
 mysql_query("	CREATE TABLE Claims
 	(	Client_ID	INT		NOT NULL,
 		Claim_No	INT		NOT NULL,
@@ -113,7 +124,8 @@ mysql_query("	CREATE TABLE Claims
 	FOREIGN KEY (VIN) REFERENCES Vehicle(VIN)
 		ON DELETE CASCADE			ON UPDATE CASCADE);")
  	or die(mysql_error());  
-	
+
+//Create Third_Party table
 mysql_query("	CREATE TABLE Third_Party
 	(	Claim_No		INT		NOT NULL,
 		Party_Name		VARCHAR(20)	NOT NULL,
@@ -129,7 +141,7 @@ mysql_query("	CREATE TABLE Third_Party
 	FOREIGN KEY (Claim_No) REFERENCES Claim(Claim_ID)
 		ON DELETE CASCADE		ON UPDATE CASCADE);")
  	or die(mysql_error());  
-
+//Finished
 echo "Tables Created! Database Install was successful";
 
 ?>
