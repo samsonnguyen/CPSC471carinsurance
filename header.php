@@ -12,7 +12,7 @@
 	<div id="page">
 		<!-- HEADER -->
 		<div id="header">
-			<h2>CPSCARS Insurance company</h2>
+			<h2><?php echo $sitename;?></h2>
 		</div>
 		<!-- HEADER -->
 		<div class="menu">
