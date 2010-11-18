@@ -14,10 +14,18 @@
 		<div id="header">
 			<a href="index.php"><h2><?php echo $sitename;?></h2></a>
 		</div>
-		<!-- HEADER -->
+		<!-- //HEADER -->
+		
+		<!-- menu starts here -->
 		<div class="menu">
 			<ul>
-				<li><a href="index.php">Home</a></li>
+				<li><a href="index.php">Home
+				<?php
+					if(!isLoggedIn()){
+						echo '/Login';
+					}
+				?>
+				</a></li>
 				<li><a href="client.php">Client</a>
 					<ul>
 						<li><a href="addclient.php">Add Client</a></li>
@@ -35,6 +43,12 @@
 				<li><a href="premium.php"></a></li>
 				<li><a href="claims.php">Manage Claims</a></li>
 				<li><a href="manager.php">Managers</a></li>
+				<?php
+					if(isLoggedIn()){
+						echo '<li><a href="logout.php">Logout</a></li>';
+					}
+				?>
 			</ul>
-		</div><!-- //HEADER -->
+		</div><!-- //MENU -->
+		
 		<div id="content"><!-- Anything below this line will be the content -->

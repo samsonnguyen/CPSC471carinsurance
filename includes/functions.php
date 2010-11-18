@@ -4,8 +4,11 @@
  */
 function isLoggedIn(){
 	if(isset($_SESSION['user'])){
-		return true;
+		return true; //User logged int
 	} else{
-		return false;
+		return false; //User not logged in
 	}
 }
+
+
+?>

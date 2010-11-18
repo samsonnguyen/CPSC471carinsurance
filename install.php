@@ -140,7 +140,7 @@ mysql_query("CREATE TABLE Third_Party
 	FOREIGN KEY (Claim_No) REFERENCES Claim(Claim_ID)
 		ON DELETE CASCADE		ON UPDATE CASCADE);")
 or die(mysql_error());
-//Finished
+//Finished main datatables
 echo "Tables Created!\n";
 
 /*
@@ -157,5 +157,6 @@ mysql_query("CREATE TABLE Employees
 	PRIMARY KEY (Employee_ID));")
 or die(mysql_error());
 
+//Finished employee tables
 echo "Employee Table Created! Database Install was successful";
 ?>
