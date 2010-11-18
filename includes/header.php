@@ -12,7 +12,7 @@
 	<div id="page">
 		<!-- HEADER -->
 		<div id="header">
-			<h2><?php echo $sitename;?></h2>
+			<a href="index.php"><h2><?php echo $sitename;?></h2></a>
 		</div>
 		<!-- HEADER -->
 		<div class="menu">
@@ -25,6 +25,16 @@
 						<li><a href="updateclient.php">Update Client</a></li>
 					</ul>
 				</li>
+				<li><a href="vehicles.php">Vehicles</a>
+					<ul>
+						<li><a href="addvehicle.php">Add new vehicle</a></li>
+						<li><a href="removevehicle.php">Remove vehicle</a></li>
+						<li><a href="updatevehicle.php">Update vehicles</a></li>
+					</ul>
+				</li>
+				<li><a href="premium.php"></a></li>
+				<li><a href="claims.php">Manage Claims</a></li>
+				<li><a href="manager.php">Managers</a></li>
 			</ul>
 		</div><!-- //HEADER -->
 		<div id="content"><!-- Anything below this line will be the content -->

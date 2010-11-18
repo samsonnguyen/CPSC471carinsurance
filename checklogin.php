@@ -1,7 +1,8 @@
 <?php
 require 'db.php';
-require 'functions.php';
-include 'header.php';
+require 'config.php';
+require $includesfolder.'functions.php';
+include $includesfolder.'header.php';
 
 $tbl_name = "Employees";
 
@@ -43,5 +44,5 @@ else {
 <?php
 }
 
-include 'footer.php';
+include $includesfolder.'footer.php';
 ?>
