@@ -5,7 +5,7 @@
 $db_host = "dbs4.cpsc.ucalgary.ca";
 $db_username = "snguye";
 $db_pass = "306100";
-$db_database_name = "snguye"; 
+$db_database_name = "snguye";
 
 /*
  * Connect to the database

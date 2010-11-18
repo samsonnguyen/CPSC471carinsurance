@@ -34,7 +34,7 @@ mysql_query("CREATE TABLE Company(
 	PRIMARY KEY (Commercial_License_No),
 	FOREIGN KEY (Policy_No) REFERENCES Company_Policy(Policy_No)
 		ON DELETE SET NULL			ON UPDATE CASCADE);")
- 	or die(mysql_error());  
+or die(mysql_error());
 
 //Create Company_Policy table
 mysql_query("CREATE TABLE Company_Policy
@@ -43,7 +43,7 @@ mysql_query("CREATE TABLE Company_Policy
 		Coverage		INT,
 		#_Of_Employees	INT,	
 	PRIMARY KEY (Policy_No));")
- 	or die(mysql_error());  
+or die(mysql_error());
 
 // Create Private_Policy table
 mysql_query("CREATE TABLE Private_Policy
@@ -51,7 +51,7 @@ mysql_query("CREATE TABLE Private_Policy
 		Premium_Rate	INT	NOT NULL,
 		Coverage		INT,	
 	PRIMARY KEY (Policy_No));")
- 	or die(mysql_error());  
+or die(mysql_error());
 
 //Creat Ticket table
 mysql_query("CREATE TABLE Ticket
@@ -64,7 +64,7 @@ mysql_query("CREATE TABLE Ticket
 	PRIMARY KEY (Client_ID,Infraction_No),
 	FOREIGN KEY (Client_ID) REFERENCES Client(Client_ID)
 		ON DELETE CASCADE			ON UPDATE CASCADE);")
- 	or die(mysql_error());  
+or die(mysql_error());
 
 //Create Clients_Under_Policy table
 mysql_query("CREATE TABLE Clients_Under_Policy
@@ -75,7 +75,7 @@ mysql_query("CREATE TABLE Clients_Under_Policy
 		ON DELETE CASCADE			ON UPDATE CASCADE,
 	FOREIGN KEY (Client_Under) REFERENCES Client(Client_ID)
 		ON DELETE CASCADE			ON UPDATE CASCADE);")
- 	or die(mysql_error());  
+or die(mysql_error());
 
 //Create Vehicle table
 mysql_query("CREATE TABLE Vehicle
@@ -97,7 +97,7 @@ mysql_query("CREATE TABLE Vehicle
 	PRIMARY KEY (VIN),
 	FOREIGN KEY (Client_ID) REFERENCES Client(Client_ID)
 		ON DELETE CASCADE			ON UPDATE CASCADE);")
- 	or die(mysql_error());  
+or die(mysql_error());
 
 //Create Claim table
 mysql_query("CREATE TABLE Claim
@@ -108,7 +108,7 @@ mysql_query("CREATE TABLE Claim
 		Status			CHAR,
 		Client_At_Fault	BOOLEAN,
 	PRIMARY KEY (Claim_No));")
- 	or die(mysql_error());  
+or die(mysql_error());
 
 //Create Claims table (weak entity)
 mysql_query("CREATE TABLE Claims
@@ -122,7 +122,7 @@ mysql_query("CREATE TABLE Claims
 		ON DELETE CASCADE			ON UPDATE CASCADE,
 	FOREIGN KEY (VIN) REFERENCES Vehicle(VIN)
 		ON DELETE CASCADE			ON UPDATE CASCADE);")
- 	or die(mysql_error());  
+or die(mysql_error());
 
 //Create Third_Party table
 mysql_query("CREATE TABLE Third_Party
@@ -139,7 +139,7 @@ mysql_query("CREATE TABLE Third_Party
 	PRIMARY KEY (Claim_No,Party_Name),
 	FOREIGN KEY (Claim_No) REFERENCES Claim(Claim_ID)
 		ON DELETE CASCADE		ON UPDATE CASCADE);")
- 	or die(mysql_error());  
+or die(mysql_error());
 //Finished
 echo "Tables Created!\n";
 
@@ -155,7 +155,7 @@ mysql_query("CREATE TABLE Employees
 		Password		VARCHAR(20) NOT NULL,
 		Permissions		CHAR,
 	PRIMARY KEY (Employee_ID));")
- 	or die(mysql_error());  
- 	
+or die(mysql_error());
+
 echo "Employee Table Created! Database Install was successful";
 ?>

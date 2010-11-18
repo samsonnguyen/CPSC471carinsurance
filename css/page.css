@@ -1,0 +1,149 @@
+body {
+	background-image: url('../images/bg.gif');
+	background-repeat: repeat;
+	background-color: #fff;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+a:link,a:visited,a:active {
+	text-decoration: none;
+	color: #5B83B5;
+}
+
+a:hover {
+	color: #000;
+}
+
+div {
+	margin: 0;
+	padding: 0;
+}
+
+#topshadow {
+	background: url('../images/topshadow.png') no-repeat;
+	height: 15px;
+	margin: 40px auto 0px;
+	overflow: hidden;
+	padding: 0;
+	width: 980px;
+	display: block;
+}
+
+#bottomshadow {
+	background: url('../images/bottomshadow.png') no-repeat;
+	height: 15px;
+	margin: 0px auto 40px;
+	overflow: hidden;
+	width: 980px;
+}
+
+#page-wrapper,.region-page-closure { /*
+   * If you want to make the page a fixed width and centered in the viewport,
+   * this is the standards-compliant way to do that. See also the ie6.css file
+   * for the necessary IE5/IE6quirks hack to center a div.
+   */
+	width: 980px;
+	background: url('../images/middleshadow.png') repeat-y;
+	color: #333;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 0.9em;
+	min-height: 676px;
+	margin: 0 auto;
+	padding: 0;
+	background-attachment: scroll;
+	background-clip: border-box;
+}
+
+#page {
+	width: 944px;
+	margin: 0 auto;
+	background: #ddd;
+	border: 3px solid #fff;
+	min-height: 670px;
+}
+
+/** Css menu for primary links*/
+.menu{
+	border:none;
+	border:0px;
+	margin:0px;
+	padding:0px;
+	font: 67.5% "Lucida Sans Unicode", "Bitstream Vera Sans", "Trebuchet Unicode MS", "Lucida Grande", Verdana, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:bold;
+	}
+.menu ul{
+	background:#333333;
+	height:35px;
+	list-style:none;
+	margin:0;
+	padding:0;
+	}
+	.menu li{
+		float:left;
+		padding:0px;
+		}
+	.menu li a{
+		background:#333333;
+		color:#cccccc;
+		display:block;
+		font-weight:normal;
+		line-height:35px;
+		margin:0px;
+		padding:0px 25px;
+		text-align:center;
+		text-decoration:none;
+		}
+		.menu li a:hover, .menu ul li:hover a{
+			background: #2580a2;
+			color:#FFFFFF;
+			text-decoration:none;
+			}
+	.menu li ul{
+		background:#333333;
+		display:none;
+		height:auto;
+		padding:0px;
+		margin:0px;
+		border:0px;
+		position:absolute;
+		width:225px;
+		z-index:200;
+		/*top:1em;
+		/*left:0;*/
+		}
+	.menu li:hover ul{
+		display:block;
+		
+		}
+	.menu li li {
+		display:block;
+		float:none;
+		margin:0px;
+		padding:0px;
+		width:225px;
+		}
+	.menu li:hover li a{
+		background:none;
+		
+		}
+	.menu li ul a{
+		display:block;
+		height:35px;
+		font-size:12px;
+		font-style:normal;
+		margin:0px;
+		padding:0px 10px 0px 15px;
+		text-align:left;
+		}
+		.menu li ul a:hover, .menu li ul li:hover a{
+			background:#2580a2;
+			border:0px;
+			color:#ffffff;
+			text-decoration:none;
+			}
+	.menu p{
+		clear:left;
+		}	
