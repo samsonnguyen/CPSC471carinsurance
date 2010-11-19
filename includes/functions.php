@@ -10,5 +10,13 @@ function isLoggedIn(){
 	}
 }
 
+function getUserPermissions(){
+	if (isset($_SESSION['permission'])){
+		return $_SESSION['permission'];
+	} else {
+		return 0;
+	}
+}
+
 
 ?>

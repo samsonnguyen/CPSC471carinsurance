@@ -25,9 +25,10 @@ $count = mysql_num_rows($result);
 // If result matched $myusername and $mypassword, table row must be 1 row
 
 if($count==1){
+$row = mysql_fetch_assoc($result);
 // Register session data
 $_SESSION['user']= $myusername;
-$_SESSION['permission'] = $result['Permissions'];
+$_SESSION['permission'] = $row['Permissions'];
 ?>
 
 <!-- Login was successful, make link back to homepage -->

@@ -28,16 +28,16 @@
 				</a></li>
 				<li><a href="client.php">Client</a>
 					<ul>
-						<li><a href="addclient.php">Add Client</a></li>
-						<li><a href="removeclient.php">Remove Client</a></li>
-						<li><a href="updateclient.php">Update Client</a></li>
+						<li><a href="client.php?action=add">Add Client</a></li>
+						<li><a href="client.php?action=remove">Remove Client</a></li>
+						<li><a href="client.php?action=update">Update Client</a></li>
 					</ul>
 				</li>
-				<li><a href="vehicles.php">Vehicles</a>
+				<li><a href="vehicle.php">Vehicles</a>
 					<ul>
-						<li><a href="addvehicle.php">Add new vehicle</a></li>
-						<li><a href="removevehicle.php">Remove vehicle</a></li>
-						<li><a href="updatevehicle.php">Update vehicles</a></li>
+						<li><a href="vehicle.php?action=add">Add new vehicle</a></li>
+						<li><a href="vehicle.php?action=remove">Remove vehicle</a></li>
+						<li><a href="vehicle.php?action=update">Update vehicles</a></li>
 					</ul>
 				</li>
 				<li><a href="premium.php"></a></li>
