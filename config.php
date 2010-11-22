@@ -4,4 +4,5 @@
  */
 $sitename = "CPSCar Insurance";
 $includesfolder = "includes/";
+$classfolder = "class/";
 ?>
