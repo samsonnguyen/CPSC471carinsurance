@@ -7,7 +7,7 @@ include 'config.php';
 		<label for="myusername">Username</label><br />
 		<input name="myusername" type="text" id="myusername"><br />
 		<label for="mypassword">Password</label><br />
-		<input name="mypassword" type="text" id="mypassword"><br />
+		<input name="mypassword" type="password" id="mypassword"><br />
 		<input type="submit" name="Submit" value="Login"> 
 	</fieldset>
 </form>

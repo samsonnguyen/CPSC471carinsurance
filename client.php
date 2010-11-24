@@ -7,7 +7,7 @@ include $includesfolder.'header.php';
 if (isLoggedIn() && (getUserPermissions()=='1')){
 	if ($_GET['action']=='add'){
 		//Add client
-		echo 'add client';
+		include 'addclient.php';
 	} else if ($_GET['action']=='remove'){
 		//remove client
 		echo 'remove client';
