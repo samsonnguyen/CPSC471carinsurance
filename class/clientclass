@@ -1,0 +1,54 @@
+<?php
+class Client{
+	 
+	/*
+	 * Check if the client exists by client_id
+	 */
+	function clientExists($Client_ID){
+		$sql="SELECT * FROM Client WHERE Client_ID='$Client_ID'";
+		$result=mysql_query($sql);
+
+		// Mysql_num_row is counting table row
+		$count = mysql_num_rows($result);
+		if ($count==1){//Client exists
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/*
+	 * Check if client exists by name
+	 */
+	function clientExistsByName($Name){
+		$sql="SELECT * FROM Client WHERE Name='$Name'";
+		$result=mysql_query($sql);
+
+		// Mysql_num_row is counting table row
+		$count = mysql_num_rows($result);
+		if ($count>=1){//Client exists
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	function addNewClient($Name){
+		$sql = "INSERT INTO Vehicle(VIN,Year,License_Plate_No,Client_ID) VALUES ('$VIN','$Year', '$License_Plate_No','$Client_ID')";
+		mysql_query($sql) or die(mysql_error());
+	}
+	
+	function updateVehicle($VIN, $array){
+		$keys = array_keys($array); //Return the keys of the array;
+		$sql = "UPDATE Vehicle SET"; //Set the first part of the SQL query
+		for ($i=0;$i<count($keys);$i++){	
+			if ($i=(count($keys)-1)){//last value, do not include the comma
+				$sql = $sql." $keys[$i] = '$array[$i]' WHERE VIN='$VIN'";
+			} else {
+				$sql = $sql." $keys[$i] = '$array[$i]'";
+			}
+		}
+		echo ($sql);
+		mysql_query($sql);
+	}
+}
