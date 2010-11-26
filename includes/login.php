@@ -1,6 +1,4 @@
-<?php
-include 'config.php'; 
-?>
+<!-- Login form -->
 <form name="form1" method="post" action="checklogin.php">
 	<fieldset>
 		<legend>Please login to access the database</legend>

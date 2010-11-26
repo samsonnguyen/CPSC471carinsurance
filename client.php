@@ -1,13 +1,14 @@
 <?php
 require 'db.php';
-require 'includes/functions.php';
 require 'config.php';
+require $includesfolder.'functions.php';
 include $includesfolder.'header.php';
+
 
 if (isLoggedIn() && (getUserPermissions()=='1')){
 	if ($_GET['action']=='add'){
 		//Add client
-		include 'addclient.php';
+		include $includesfolder.'addclient.php';
 	} else if ($_GET['action']=='remove'){
 		//remove client
 		echo 'remove client';
