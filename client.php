@@ -7,7 +7,7 @@ include $includesfolder.'header.php';
 
 if (isLoggedIn() && (getUserPermissions()=='1')){
 	if ($_GET['action']=='add'){
-		//Add client
+		//display add client form
 		include $includesfolder.'addclient.php';
 	} else if ($_GET['action']=='remove'){
 		//remove client
@@ -17,6 +17,7 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 		echo 'update client';
 	} else {
 		//Client home, display stats?
+		include $includesfolder.'displayclientstats.php';
 		echo 'client home';
 	}
 } else {

@@ -1,6 +1,12 @@
 <?php
 require 'db.php';
-
+/*
+ * IMPORTANT!! NOT TO BE RUN ON THE DATABASE MORE THAN ONCE.
+ * THIS IS AN INITIAL INSTALL FOR SETUP ONLY!
+ * THIS FILE IS JUST TO ILLUSTRATE THE QUERIES THAT WERE USED TO
+ * CREATE THE INITIAL DATABASE SCHEMA.
+ * IMPORTANT!!
+ */
 
 /*
  * Create mySql tables for the database to store client account
@@ -8,8 +14,12 @@ require 'db.php';
  */
 mysql_query("CREATE TABLE Client
 	(	Client_ID 	INT			NOT	NULL AUTO_INCREMENT,
-		Name		VARCHAR(20)	NOT NULL,
+		FName		VARCHAR(20)	NOT NULL,
+		MName		VARCHAR(20),
+		LName		VARCHAR(20) NOT NULL,
 		Address		VARCHAR(50),
+		PostalCode	CHAR(6) NOT NULL,
+		Province	CHAR(2) NOT NULL,
 		Phone		INT,
 		Birthdate	INT,
 		Licence_No	CHAR(9),
