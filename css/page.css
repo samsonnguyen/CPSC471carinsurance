@@ -256,3 +256,24 @@ fieldset div.fm-req label:after {
 }
 
 /** Form Gender special case **/
+div.fm-gender{
+	float:left;
+	width: 884px !important;
+}
+.fm-gender span{
+	height:38px;
+	display:block;
+	float:left;
+	width: 150px;
+	text-align:right;
+	padding:0 14px;
+	margin:0;
+}
+.fm-gender label{
+	float: left;
+	width: 700px;
+	text-align:left;
+	padding:0;
+}
+.fm-gender label input{
+	width: 20px;
