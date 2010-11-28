@@ -277,3 +277,12 @@ div.fm-gender{
 }
 .fm-gender label input{
 	width: 20px;
+}
+/** Pagination **/
+.pagination {
+	margin-top:20px;
+	background-color: #fff;
+	text-align:right;
+}
+	
+	

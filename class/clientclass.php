@@ -89,11 +89,11 @@ class Client{
 	}
 	
 	/*
-	 * Returns an array of clients
+	 * Prints out a list of clients with a table
 	 */
-	function listClients($max){
+	function listClients($offset,$limit){
 		$returnString = array();
-		$sql = "SELECT * FROM Client $MAX";
+		$sql = "SELECT * FROM Client LIMIT $offset, $limit";
 		$data_p = mysql_query($sql);
 		print "<table class=\"clients\"><tr><td>Client ID</td><td>Name</td><td>Policy Number</td></tr>";
 		while($info = mysql_fetch_array( $data_p )){
@@ -108,6 +108,10 @@ class Client{
 	function totalClients(){
 		 $data = mysql_query("SELECT * FROM Client") or die(mysql_error());
 		 return $rows = mysql_num_rows($data); 
+	}
+	
+	function searchClient(){
+		
 	}
 }
 ?>
