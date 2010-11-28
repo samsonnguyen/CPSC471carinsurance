@@ -3,8 +3,35 @@ class Client{
 	/*
 	 * Add a new client TODO: NEED TO CHANGE THE DATABASE SCHEMA TO INCLUDE firstname, lastname, mname, address, postalcode, province 
 	 */
-	function addNewClient($Client_ID, $Address, $Phone, $Bdate, $Licence_No, $Gender, $Age, $Company, $Policy_No){
-		$sql = "INSERT INTO Vehicle(Client_ID,Name,Phone,Birthdate,Licence_No,Gender,Age,Company,Policy_No) VALUES ('$Client_ID','$Address', '$Phone','$Bdate','$Licence_No','$Gender','$Age','$Company','$Policy_No')";
+	function addNewClient($FName, $MName, $LName, $Address, $City, $PostalCode,
+							$Province, $Phone, $Bdate, $License_No, $Gender, $Age, $Company, $Policy_No){
+		$sql = "INSERT INTO Client(FName,MName,LName,Adress,City,PostalCode,Province,Phone,Birthdate,License_No,
+									Gender,Age,Company,Policy_No) VALUES ('$FName','$MName','$LName',$Address','$City','$PostalCode','$Province','$Phone','$Bdate','$License_No','$Gender','$Age','$Company','$Policy_No')";
+		mysql_query($sql) or die(mysql_error());
+	}
+	
+	function addNewClientByArray($array){
+				print "<BR/>";
+		
+		$keys = array_keys($array); //Return the keys of the array;
+		//print_r (count($keys));
+		$sql = "INSERT INTO Client ("; //Set the first part of the SQL query
+		for ($i=0;$i<count($keys);$i++){	
+			if ($i==(count($keys)-1)){//last value, do not include the comma
+				$sql = $sql.$keys[$i];
+			} else {
+				$sql = $sql.$keys[$i].",";
+			}
+		}
+		$sql = $sql.") VALUES (";
+		for ($i=0;$i<count($keys);$i++){	
+			if ($i==(count($keys)-1)){//last value, do not include the comma
+				$sql = $sql."'".$array[$keys[$i]]."');";
+			} else {
+				$sql = $sql."'".$array[$keys[$i]]."',";
+			}
+		}
+		echo $sql."<br />";
 		mysql_query($sql) or die(mysql_error());
 	}
 	
@@ -62,10 +89,25 @@ class Client{
 	}
 	
 	/*
-	 * TODO
+	 * Returns an array of clients
 	 */
-	function listClients(){
-		//TODO
+	function listClients($max){
+		$returnString = array();
+		$sql = "SELECT * FROM Client $MAX";
+		$data_p = mysql_query($sql);
+		print "<table class=\"clients\"><tr><td>Client ID</td><td>Name</td><td>Policy Number</td></tr>";
+		while($info = mysql_fetch_array( $data_p )){
+			Print "<tr><td>".$info['Client_ID']."</td><td>".$info['FName']." ".$info['MName']." ".$info['LName']."</td><td>".$info['Policy_No']."</td></tr>";
+		}
+		print "</table>";
+	}
+	
+	/*
+	 * Returns the number of Clients
+	 */
+	function totalClients(){
+		 $data = mysql_query("SELECT * FROM Client") or die(mysql_error());
+		 return $rows = mysql_num_rows($data); 
 	}
 }
 ?>

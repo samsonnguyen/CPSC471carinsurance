@@ -24,7 +24,7 @@
     </div>
      <div class="fm-req">
     	<label for="fm-birthdate">Birthdate:</label>
-    	<input name="fm-birthdate" id="fm-birthdate" type="text" title="Enter Birthdate in mm/dd/yyyy format"/>
+    	<input name="fm-birthdate" id="fm-birthdate" type="text" title="Enter Birthdate in yyy-mm-dd format"/>
     </div>
     <div class="fm-multi">
       <div class="fm-gender">
