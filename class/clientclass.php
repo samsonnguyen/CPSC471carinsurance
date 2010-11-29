@@ -110,6 +110,14 @@ class Client{
 		 return $rows = mysql_num_rows($data); 
 	}
 	
+	function searchbyId($clientid){
+	/*
+	 * currently display the selected id number, soon to display clients information and prompt for
+	 * delete or edit
+	 */
+	echo $clientid;
+	}
+	
 	function searchClient(){
 		
 	}

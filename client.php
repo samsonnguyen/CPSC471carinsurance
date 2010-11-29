@@ -16,6 +16,13 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 	} else if ($_GET['action']=='update'){
 		//update client
 		echo 'update client';
+	} else if ($_GET['action']=='search'){
+		//initiates form for searching
+		include $includesfolder.'searchclient.php';
+	} else if (isset($_GET['searchid'])){
+		//the search by id function option
+		$clientinstnace = new Client();
+		$clientinstnace->searchbyId($_POST['fm-clientID']);
 	} else if (isset($_GET['addclient'])){
 
 		//Add a new client, should be called only through a form
