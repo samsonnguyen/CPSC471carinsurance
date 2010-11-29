@@ -191,9 +191,13 @@ class Client{
   <!-- p id="fm-intro" required for 'hide optional fields' function -->
   <p id="fm-intro">Fields in <strong>bold</strong> are required.</p>
 
-  <form name="addclient" id="fm-form" method="post" action="client.php?addclient" >
+  <form name="addclient" id="fm-form" method="post" action="client.php?action=update&client=<?php print $clientid?>&form" >
     <fieldset>
     <legend>Personal information</legend>
+    <div class="fm-opt">
+    	<label for="fm-clientid">Client ID:</label>
+    	<input name="fm-clientid" disabled id="fm-clientid" type="text" value="<?php print $info['Client_ID'];?>"/>
+    </div>
     <div class="fm-req">
       <label for="fm-firstname">First name:</label>
       <input name="fm-firstname" id="fm-firstname" type="text" value="<?php print $info['FName'];?>"/>
@@ -288,6 +292,27 @@ class Client{
 </div>
 
 <?php 
-	} //print update form
+	} //CLOSE print update form
+	
+	/**
+	 * update the client information
+	 * @return unknown_type
+	 */
+	function updateClient($clientid, $array){
+		$sql="UPDATE Client SET ";
+		$keys = array_keys($array); //Return the keys of the array, use first element;
+		for ($i=0;$i<count($keys);$i++){
+			if ($i==(count($keys)-1)){ //last value, omit the comma
+				$sql = $sql.$keys[$i]."='".$array[$keys[$i]]."'";
+			} else {
+				$sql = $sql.$keys[$i]."='".$array[$keys[$i]]."', ";
+			}
+		}
+		$sql = $sql." WHERE Client_ID='$clientid'";
+		print $sql."<br />\n";
+		mysql_query($sql) or die(mysql_error());
+		return true;
+	}
+	
 }
 ?>

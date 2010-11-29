@@ -28,7 +28,31 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 		if ($clientid==null || $clientid==0){
 			print "Error, client cannot be null";
 		} else {
-			$clientinstance->printUpdateForm($clientid);
+			if (isset($_GET['form'])){
+				//This is a return call from the form, we do an update on the database
+				$newClientInfo['FName'] = $_POST['fm-firstname'];
+				$newClientInfo['MName'] = $_POST['fm-middlename'];
+				$newClientInfo['LName'] = $_POST['fm-lastname'];
+				$newClientInfo['Address'] = $_POST['fm-addr'];
+				$newClientInfo['City'] = $_POST['fm-city'];
+				$newClientInfo['PostalCode'] = $_POST['fm-postalcode'];
+				$newClientInfo['Province'] = $_POST['fm-province'];
+				$newClientInfo['Phone'] = $_POST['fm-telephone'];
+				$newClientInfo['Birthdate'] = $_POST['fm-birthdate'];
+				$newClientInfo['License_No'] = $_POST['fm-license_no'];
+				$newClientInfo['Gender'] = $_POST['fm-gender'];
+				$newClientInfo['Age'] = getAge($_POST['fm-birthdate']);
+				$newClientInfo['Company'] = $_POST['fm-company'];
+				$newClientInfo['Policy_No'] = $_POST['fm-policy'];
+				if ($clientinstance->updateClient($clientid,$newClientInfo)){
+					print "Client ".$clientid." successfully updated";
+				} else {
+					print "Error occured, please check your input";
+				}
+			} else {
+				//We cant to display an update form and get information
+				$clientinstance->printUpdateForm($clientid);
+			}
 		}
 	} else if ($_GET['action']=='search'){
 		//initiates form for searching
