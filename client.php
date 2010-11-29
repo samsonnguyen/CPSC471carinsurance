@@ -7,12 +7,22 @@ include $includesfolder.'header.php';
 
 
 if (isLoggedIn() && (getUserPermissions()=='1')){
+	$clientinstance = new Client(); //Create new client instance
 	if ($_GET['action']=='add'){
 		//display add client form
 		include $includesfolder.'addclient.php';
 	} else if ($_GET['action']=='remove'){
 		//remove client
-		echo 'remove client';
+		$clientid = $_GET['client'];
+		if ($clientid==null || $clientid==0){
+			print "Error, client cannot be null";
+		} else {
+			if ($clientinstance->deleteClient($clientid)){
+				print "Client deleted successfully!";
+			} else {
+				print "Client cannot be deleted";
+			}
+		}
 	} else if ($_GET['action']=='update'){
 		//update client
 		echo 'update client';
@@ -21,9 +31,8 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 		include $includesfolder.'searchclient.php';
 	} else if (isset($_GET['searchid'])){
 		//the search by id function option
-		$clientinstance = new Client();
 		$result = $clientinstance->searchbyId($_POST['fm-clientID']);
-		$clientinstance->display2DArray($result);
+		$clientinstance->display2DArray($result,true);
 	} else if (isset($_GET['addclient'])){
 
 		//Add a new client, should be called only through a form
@@ -41,7 +50,6 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 		$newClientInfo['Age'] = getAge($_POST['fm-birthdate']);
 		$newClientInfo['Company'] = $_POST['fm-company'];
 		$newClientInfo['Policy_No'] = $_POST['fm-policy'];
-		$clientinstance = new Client(); //New clientinstance
 		$clientinstance->addNewClientByArray($newClientInfo);
 		echo "client has been added";
 	} else {

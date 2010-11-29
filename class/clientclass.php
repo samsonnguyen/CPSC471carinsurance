@@ -118,7 +118,7 @@ class Client{
 		$result = mysql_query($sql);
 		$i = 0;
 		$toReturn;
-		while ($info = mysql_fetch_array($result,MYSQL_ASSOC)){
+		while ($info = mysql_fetch_array($result,MYSQL_ASSOC)){ //Use assoc, because otherwise we'll get duplicates
 			$toReturn[$i] = $info;
 			$i++;
 		}
@@ -133,8 +133,9 @@ class Client{
 	 * function that formats an array into a table.
 	 * this should work for all 2D arrays.
 	 * @param unknown_type $array
+	 * @param boolean $printoptions Set whether to display delete, update, etc functions
 	 */
-	function display2DArray($array){
+	function display2DArray($array,$printoptions){
 		if($array==null){
 			echo "No results were found!";
 		} else {
@@ -150,10 +151,33 @@ class Client{
 				for ($i=0;$i<(count($keys));$i++){	
 					print "<td>".$array[$j][$keys[$i]]."</td>\n";
 				}
-				echo "</tr>";
+				if ($printoptions){
+					print "<td>";
+					$this->printOptions($array[$j]['Client_ID']);
+					print "</td>\n";
+				}
+				print "</tr>\n";
 			}
-			echo "</table>";
+			print "</table>\n";
 		}
+	}
+	
+	/**
+	 * Print out options to delete, or update the client
+	 * @param $clientid
+	 * @return unknown_type
+	 */
+	function printOptions($clientid){
+		print "<a href=\"client.php?action=remove&client=$clientid\">X</a>";
+	}
+	
+	/**
+	 * Deletes a client based on client id, return true if it was successful
+	 */
+	function deleteClient($clientid){
+		$sql="DELETE FROM Client WHERE Client_ID='$clientid'";
+		mysql_query($sql) or die(mysql_error());
+		return true;
 	}
 }
 ?>
