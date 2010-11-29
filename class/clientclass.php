@@ -118,7 +118,7 @@ class Client{
 		$result = mysql_query($sql);
 		$i = 0;
 		$toReturn;
-		while ($info = mysql_fetch_array($result)){
+		while ($info = mysql_fetch_array($result,MYSQL_ASSOC)){
 			$toReturn[$i] = $info;
 			$i++;
 		}
@@ -141,14 +141,14 @@ class Client{
 			echo "<table class=\"clients\"><tr>";
 			$first = $array[0];
 			$keys = array_keys($first); //Return the keys of the array, use first element;
-			for ($i=1;$i<count($keys);$i=$i+2){
-				echo "<td>".$keys[$i]."</td>";
+			for ($i=0;$i<count($keys);$i++){
+				print "<td>".$keys[$i]."</td>\n";
 			}
 			echo "</tr>";
 			for ($j=0;$j<count($array);$j++){
 				echo "<tr>";
-				for ($i=0;$i<(count($keys))/2;$i++){	
-					echo "<td>".$array[$j][$i]."</td>";
+				for ($i=0;$i<(count($keys));$i++){	
+					print "<td>".$array[$j][$keys[$i]]."</td>\n";
 				}
 				echo "</tr>";
 			}
