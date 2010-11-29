@@ -24,8 +24,12 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 			}
 		}
 	} else if ($_GET['action']=='update'){
-		//update client
-		echo 'update client';
+		$clientid = $_GET['client'];
+		if ($clientid==null || $clientid==0){
+			print "Error, client cannot be null";
+		} else {
+			$clientinstance->printUpdateForm($clientid);
+		}
 	} else if ($_GET['action']=='search'){
 		//initiates form for searching
 		include $includesfolder.'searchclient.php';

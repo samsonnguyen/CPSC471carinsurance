@@ -108,5 +108,3 @@ function input2date($idate)
 	return $date;
 }
 ?>
-
-?>

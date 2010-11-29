@@ -44,16 +44,13 @@ div {
    * this is the standards-compliant way to do that. See also the ie6.css file
    * for the necessary IE5/IE6quirks hack to center a div.
    */
-	width: 980px;
-	background: url('../images/middleshadow.png') repeat-y;
+	/*background: url('../images/middleshadow.png') repeat-y;*/
+	/*display:inline-block;*/
 	color: #333;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 0.9em;
-	min-height: 676px;
-	margin: 0 auto;
-	padding: 0;
-	background-attachment: scroll;
-	background-clip: border-box;
+	margin: 20px auto;
+	width:980px;
 }
 
 #content {
@@ -61,7 +58,8 @@ div {
 }
 
 #page {
-	width: 944px;
+	min-width:980px;
+	float:left;
 	margin: 0 auto;
 	background: #ddd;
 	border: 3px solid #fff;

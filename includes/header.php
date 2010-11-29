@@ -7,7 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="css/page.css" />
 </head>
 <body>
-<div id="topshadow"></div>
+<!--<div id="topshadow"></div>-->
 <div id="page-wrapper">
 	<div id="page">
 		<!-- HEADER -->
