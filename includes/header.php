@@ -29,8 +29,6 @@
 				<li><a href="client.php">Client</a>
 					<ul>
 						<li><a href="client.php?action=add">Add Client</a></li>
-						<li><a href="client.php?action=remove">Remove Client</a></li>
-						<li><a href="client.php?action=update">Update Client</a></li>
 						<!-- added the search function not sure if i should remove the update and remove items above ^^^ -->
 						<li><a href="client.php?action=search">Search for Client</a></li>
 					</ul>
