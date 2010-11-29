@@ -68,8 +68,8 @@
       </select>
     </div>
     <div class="fm-req">
-      <label for="fm-zipcode">Zip code:</label>
-      <input id="fm-zipcode" name="fm-zipcode" type="text" />
+      <label for="fm-postalcode">Zip code:</label>
+      <input id="fm-postalcode" name="fm-postalcode" type="text" />
     </div>
     </fieldset>
     <fieldset>

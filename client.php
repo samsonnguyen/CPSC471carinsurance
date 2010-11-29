@@ -39,7 +39,7 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 		$newClientInfo['FName'] = $_POST['fm-firstname'];
 		$newClientInfo['MName'] = $_POST['fm-middlename'];
 		$newClientInfo['LName'] = $_POST['fm-lastname'];
-		$newClientInfo['Address'] = $_POST['fm-address'];
+		$newClientInfo['Address'] = $_POST['fm-addr'];
 		$newClientInfo['City'] = $_POST['fm-city'];
 		$newClientInfo['PostalCode'] = $_POST['fm-postalcode'];
 		$newClientInfo['Province'] = $_POST['fm-province'];
