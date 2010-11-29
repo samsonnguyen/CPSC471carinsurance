@@ -2,7 +2,6 @@
 		</div><!-- //content -->
 	</div><!-- //page -->
 </div><!-- //page-wrapper -->
-</center>
 <!-- <div id="bottomshadow"></div> -->
 </body>
 </html>
