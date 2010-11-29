@@ -110,16 +110,50 @@ class Client{
 		 return $rows = mysql_num_rows($data); 
 	}
 	
-	function searchbyId($clientid){
 	/*
-	 * currently display the selected id number, soon to display clients information and prompt for
-	 * delete or edit
+	 * Search clients by ID, return an array of the result 
 	 */
-	echo $clientid;
+	function searchbyId($clientid){
+		$sql = "SELECT * FROM Client WHERE Client_ID = '$clientid'";
+		$result = mysql_query($sql);
+		$i = 0;
+		$toReturn;
+		while ($info = mysql_fetch_array($result)){
+			$toReturn[$i] = $info;
+			$i++;
+		}
+		return $toReturn;
 	}
 	
 	function searchClient(){
 		
+	}
+	
+	/**
+	 * function that formats an array into a table.
+	 * this should work for all 2D arrays.
+	 * @param unknown_type $array
+	 */
+	function display2DArray($array){
+		if($array==null){
+			echo "No results were found!";
+		} else {
+			echo "<table class=\"clients\"><tr>";
+			$first = $array[0];
+			$keys = array_keys($first); //Return the keys of the array, use first element;
+			for ($i=1;$i<count($keys);$i=$i+2){
+				echo "<td>".$keys[$i]."</td>";
+			}
+			echo "</tr>";
+			for ($j=0;$j<count($array);$j++){
+				echo "<tr>";
+				for ($i=0;$i<(count($keys))/2;$i++){	
+					echo "<td>".$array[$j][$i]."</td>";
+				}
+				echo "</tr>";
+			}
+			echo "</table>";
+		}
 	}
 }
 ?>

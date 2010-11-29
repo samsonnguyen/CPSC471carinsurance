@@ -32,7 +32,7 @@ div {
 }
 
 #bottomshadow {
-	background: url('../images/bottomshadow.png') no-repeat;
+	background: url('../images/bottomshadow.png') repeat-x;
 	height: 15px;
 	margin: 0px auto 40px;
 	overflow: hidden;
@@ -284,5 +284,12 @@ div.fm-gender{
 	background-color: #fff;
 	text-align:right;
 }
-	
+
+/** Tables **/
+table {
+	background-color:#DDD;
+}
+td {
+	border: 1px solid #000;
+}
 	

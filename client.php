@@ -21,8 +21,9 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 		include $includesfolder.'searchclient.php';
 	} else if (isset($_GET['searchid'])){
 		//the search by id function option
-		$clientinstnace = new Client();
-		$clientinstnace->searchbyId($_POST['fm-clientID']);
+		$clientinstance = new Client();
+		$result = $clientinstance->searchbyId($_POST['fm-clientID']);
+		$clientinstance->display2DArray($result);
 	} else if (isset($_GET['addclient'])){
 
 		//Add a new client, should be called only through a form
