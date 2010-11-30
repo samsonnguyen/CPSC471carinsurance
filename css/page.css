@@ -255,26 +255,27 @@ fieldset div.fm-req label:after {
 }
 
 /** Form Gender special case **/
-div.fm-gender{
+.fm-multi div{
 	float:left;
 	width: 884px !important;
 }
-.fm-gender span{
-	height:38px;
+.fm-multi div span{
+	height:40px;
 	display:block;
 	float:left;
 	width: 150px;
 	text-align:right;
 	padding:0 14px;
 	margin:0;
+	clear:left;
 }
-.fm-gender label{
+.fm-multi div label{
 	float: left;
-	width: 700px;
+	width: 500px;
 	text-align:left;
 	padding:0;
 }
-.fm-gender label input{
+.fm-multi div label input{
 	width: 20px;
 }
 /** Pagination **/

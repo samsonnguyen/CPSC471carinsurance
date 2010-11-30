@@ -11,7 +11,7 @@ class Client{
 	}
 	
 	function addNewClientByArray($array){
-				print "<BR/>";
+		print "<BR/>";
 		
 		$keys = array_keys($array); //Return the keys of the array;
 		//print_r (count($keys));
@@ -31,7 +31,7 @@ class Client{
 				$sql = $sql."'".$array[$keys[$i]]."',";
 			}
 		}
-		echo $sql."<br />";
+		print $sql."<br />";
 		mysql_query($sql) or die(mysql_error());
 	}
 	
@@ -68,27 +68,6 @@ class Client{
 	}
 	
 	/*
-	 * Update the vehicle according to VIN, the array should be like follows:
-	 *   array['VIN'] = some vin
-	 *   array['Make'] = some make
-	 *   
-	 *   The Array's index(keys) should match the database attribute name
-	 */
-	function updateVehicle($VIN, $array){
-		$keys = array_keys($array); //Return the keys of the array;
-		$sql = "UPDATE Vehicle SET"; //Set the first part of the SQL query
-		for ($i=0;$i<count($keys);$i++){	
-			if ($i=(count($keys)-1)){//last value, do not include the comma
-				$sql = $sql." $keys[$i] = '$array[$i]' WHERE VIN='$VIN'";
-			} else {
-				$sql = $sql." $keys[$i] = '$array[$i]'";
-			}
-		}
-		echo ($sql);
-		mysql_query($sql);
-	}
-	
-	/*
 	 * Prints out a simple list of clients with a table
 	 */
 	function listClients($offset,$limit){
@@ -97,7 +76,9 @@ class Client{
 		$data_p = mysql_query($sql);
 		print "<table class=\"clients\"><tr><td>Client ID</td><td>Name</td><td>Policy Number</td></tr>";
 		while($info = mysql_fetch_array( $data_p )){
-			Print "<tr><td>".$info['Client_ID']."</td><td>".$info['FName']." ".$info['MName']." ".$info['LName']."</td><td>".$info['Policy_No']."</td></tr>";
+			Print "<tr><td>".$info['Client_ID']."</td><td>".$info['FName']." ".$info['MName']." ".$info['LName']."</td><td>".$info['Policy_No']."</td>";
+			$this->printOptions($info['Client_ID']);
+			print "</tr>";
 		}
 		print "</table>";
 	}
@@ -137,24 +118,22 @@ class Client{
 	 */
 	function display2DArray($array,$printoptions){
 		if($array==null){
-			echo "No results were found!";
+			print "No results were found!";
 		} else {
-			echo "<table class=\"clients\"><tr>";
+			print "<table class=\"clients\"><tr>";
 			$first = $array[0];
 			$keys = array_keys($first); //Return the keys of the array, use first element;
 			for ($i=0;$i<count($keys);$i++){
 				print "<td>".$keys[$i]."</td>\n";
 			}
-			echo "</tr>";
+			print "</tr>";
 			for ($j=0;$j<count($array);$j++){
-				echo "<tr>";
+				print "<tr>";
 				for ($i=0;$i<(count($keys));$i++){	
 					print "<td>".$array[$j][$keys[$i]]."</td>\n";
 				}
 				if ($printoptions){
-					print "<td>";
 					$this->printOptions($array[$j]['Client_ID']);
-					print "</td>\n";
 				}
 				print "</tr>\n";
 			}
@@ -168,7 +147,7 @@ class Client{
 	 * @return unknown_type
 	 */
 	function printOptions($clientid){
-		print "<a href=\"client.php?action=remove&client=$clientid\">X</a> <a href=\"client.php?action=update&client=$clientid\">Update</a>";
+		print "<td><a href=\"client.php?action=remove&client=$clientid\">X</a></td><td> <a href=\"client.php?action=update&client=$clientid\">Edit</a></td>\n";
 	}
 	
 	/**
@@ -309,7 +288,7 @@ class Client{
 			}
 		}
 		$sql = $sql." WHERE Client_ID='$clientid'";
-		print $sql."<br />\n";
+		//print $sql."<br />\n";
 		mysql_query($sql) or die(mysql_error());
 		return true;
 	}

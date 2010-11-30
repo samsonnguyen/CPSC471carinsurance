@@ -2,12 +2,14 @@
 require 'db.php';
 require 'config.php';
 require 'class/clientclass.php';
+require 'class/vehicleclass.php';
 require $includesfolder.'functions.php';
 include $includesfolder.'header.php';
 
 
 if (isLoggedIn() && (getUserPermissions()=='1')){
 	$clientinstance = new Client(); //Create new client instance
+	$vehicleinstance = new Vehicle();//Create new vehicle instance
 	if ($_GET['action']=='add'){
 		//display add client form
 		include $includesfolder.'addclient.php';
@@ -45,13 +47,17 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 				$newClientInfo['Company'] = $_POST['fm-company'];
 				$newClientInfo['Policy_No'] = $_POST['fm-policy'];
 				if ($clientinstance->updateClient($clientid,$newClientInfo)){
-					print "Client ".$clientid." successfully updated";
+					print "Client ".$clientid." successfully updated<br />\n";
+					print "<a href=\"client.php?action=update&client=".$clientid."\">Return</a>\n";
 				} else {
 					print "Error occured, please check your input";
 				}
 			} else {
 				//We cant to display an update form and get information
 				$clientinstance->printUpdateForm($clientid);
+				$vehicles = $vehicleinstance->searchVehicleByClient($clientid);
+				$vehicleinstance->display2DArray($vehicles, true);
+				print "<br /><a href=\"vehicle.php?action=add&client=".$clientid."\">Add a new vehicle for this client</a><br />\n";
 			}
 		}
 	} else if ($_GET['action']=='search'){
@@ -79,13 +85,13 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 		$newClientInfo['Company'] = $_POST['fm-company'];
 		$newClientInfo['Policy_No'] = $_POST['fm-policy'];
 		$clientinstance->addNewClientByArray($newClientInfo);
-		echo "client has been added";
+		print "Client has been added<br />\n";
 	} else {
 		//Client home, display stats?
 		include $includesfolder.'displayclientstats.php';
 	}
 } else {
-	echo 'Access denied';
+	print 'Access denied';
 }
 
 //content ends here, display the footer

@@ -16,7 +16,7 @@ if(isset($_GET['pagenum'])){
 //Count number of clients
 $rows = $clientinstance->totalClients();
 //This is the number of results displayed per page 
-$page_rows = 5; 
+$page_rows = 20; 
 
 //Calculate last page
 $last = ceil($rows/$page_rows); 
