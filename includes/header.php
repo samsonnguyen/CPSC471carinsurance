@@ -36,8 +36,7 @@
 				<li><a href="vehicle.php">Vehicles</a>
 					<ul>
 						<li><a href="vehicle.php?action=add">Add new vehicle</a></li>
-						<li><a href="vehicle.php?action=remove">Remove vehicle</a></li>
-						<li><a href="vehicle.php?action=update">Update vehicles</a></li>
+						<li><a href="vehicle.php?action=search">Search for vehicle</a></li>
 					</ul>
 				</li>
 				<li><a href="premium.php"></a></li>
