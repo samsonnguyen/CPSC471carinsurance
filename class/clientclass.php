@@ -175,7 +175,7 @@ class Client{
     <legend>Personal information</legend>
     <div class="fm-opt">
     	<label for="fm-clientid">Client ID:</label>
-    	<input name="fm-clientid" disabled id="fm-clientid" type="text" value="<?php print $info['Client_ID'];?>"/>
+    	<input name="fm-clientid" disabled id="fm-clientid" type="text" value="<?php print $clientid;?>"/>
     </div>
     <div class="fm-req">
       <label for="fm-firstname">First name:</label>

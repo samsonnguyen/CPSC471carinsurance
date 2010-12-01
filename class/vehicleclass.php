@@ -139,7 +139,7 @@ class Vehicle{
     <fieldset>
     <legend>Vehicle Owner</legend>
     <div class="fm-req">
-      <label for="fm-clientid">Client ID:</label>
+      <label for="fm-clientid"><a href="client.php?action=update&client=<?php print $info['Client_ID']?>">Client ID:</a></label>
       <input id="fm-clientid" name="fm-clientid" type="text"
       <?php print "value=\"".$info['Client_ID']."\"";?>/>
     </div>
@@ -226,7 +226,13 @@ class Vehicle{
 		$data_p = mysql_query($sql);
 		print "<table class=\"vehicles\"><tr><td>Client ID</td><td>VIN</td><td>Year</td><td>Make</td><td>Model</td></tr>";
 		while($info = mysql_fetch_array($data_p)){
-			Print "<tr><td>".$info['Client_ID']."</td><td>".$info['VIN']."</td><td>".$info['Year']."</td><td>".$info['Make']."</td><td>".$info['Model']."</td>";
+			Print "<tr><td>";
+			if (($info['Client_ID']!=null) || ($info['Client_ID']!=0)){
+				print "<a href=\"client.php?action=update&client=".$info['Client_ID']."\">".$info['Client_ID']."</a>";
+			} else {
+				print $info['Client_ID'];
+			}
+			print "</td><td>".$info['VIN']."</td><td>".$info['Year']."</td><td>".$info['Make']."</td><td>".$info['Model']."</td>";
 			$this->printOptions($info['VIN']);
 			print "</tr>";
 		}
