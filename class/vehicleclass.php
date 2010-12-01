@@ -10,7 +10,7 @@ class Vehicle{
 	 * @param unknown_type $Client_ID
 	 */
 	function addNewVehicle($array){
-		print "<BR/>";
+		//print "<BR/>";
 		$keys = array_keys($array); //Return the keys of the array;
 		//print_r (count($keys));
 		$sql = "INSERT INTO Vehicle ("; //Set the first part of the SQL query
@@ -29,7 +29,7 @@ class Vehicle{
 				$sql = $sql."'".$array[$keys[$i]]."',";
 			}
 		}
-		print $sql."<br />";
+		//print $sql."<br />";
 		mysql_query($sql) or die(mysql_error());
 		return true;
 	}
