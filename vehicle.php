@@ -74,6 +74,50 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 				$vehicleinstance->printUpdateForm($vehicleVIN);
 			}
 		}
+	} else if ($_GET['action']=='search'){
+		if ($_GET['form']=='client'){
+			//Search by client
+			$vehicles = $vehicleinstance->searchVehicleByClient($_POST['fm-clientID']);
+			$vehicleinstance->display2DArray($vehicles, true);
+		} else if ($_GET['form']=='vin'){
+			//Search by vin
+			$vehicles = $vehicleinstance->searchVehicleByVIN($_POST['fm-vin']);
+			$vehicleinstance->display2DArray($vehicles, true);
+		} else if ($_GET['form']=='info'){
+			//serach by information
+			$temp['year'] = $_POST['fm-year'];
+			$temp['make'] = $_POST['fm-make'];
+			$temp['model'] = $_POST['fm-model'];
+
+			/**
+			 * Perform wildcard changed for like format in mysql:
+			 * * => %, if * at the end
+			 * * => _, if not at the end 
+			 */
+			$currentDate = getdate();
+			//Check year
+			if (strlen($temp['year']) != 4){
+				unset($temp['year']);
+			} else {
+				$temp['year'] = convertToLike($temp['year']);
+			}
+			//check make
+			if (strlen($temp['make']) < 1){ //empty
+				unset($temp['make']);
+			} else {
+				$temp['make'] = convertToLike($temp['make']);
+			}
+			//check model
+			if (strlen($temp['model']) < 1){ //empty
+				unset($temp['model']);
+			} else {
+				$temp['model'] = convertToLike($temp['model']);
+			}
+			$vehicles = $vehicleinstance->searchVehicleByInfo($temp);
+			$vehicleinstance->display2DArray($vehicles, true); //display the result
+		} else {
+			include $includesfolder."searchvehicle.php";
+		}
 	} else {
 		//Home, display a list of vehicles and some statistics
 		include $includesfolder."displayvehiclestats.php";

@@ -107,4 +107,15 @@ function input2date($idate)
 
 	return $date;
 }
+
+function convertToLike($str){
+	if (substr($str,-1)=='*'){
+		$temp = substr_replace($str,'%', -1);
+	}
+	if (substr($str,0,1)=='*'){
+		$temp = substr_replace($temp,'%', 0,1);
+	}
+	$temp = str_replace('*','_',$temp);
+	return $temp;
+}
 ?>

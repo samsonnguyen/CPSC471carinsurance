@@ -45,6 +45,33 @@ class Vehicle{
 		return $toReturn;
 	}
 	
+	function searchVehicleByVIN($vin){
+		$sql = "SELECT * FROM Vehicle WHERE VIN='$vin'";
+		$result = mysql_query($sql) or die(mysql_error());
+		$i = 0;
+		while ($info = mysql_fetch_array($result,MYSQL_ASSOC)){
+			$toReturn[$i] = $info;
+			$i++;
+		}
+		return $toReturn;
+	}
+	
+	function searchVehicleByInfo($array){
+		$sql = "SELECT * FROM Vehicle WHERE";
+		$keys = array_keys($array);
+		for ($i = 0; $i< count($keys); $i++){
+			$sql = $sql." ".$keys[$i]." LIKE '".$array[$keys[$i]]."'"; 
+		}
+		//print $sql;
+		$result = mysql_query($sql) or die(mysql_error());
+		$i = 0;
+		while ($info = mysql_fetch_array($result,MYSQL_ASSOC)){
+			$toReturn[$i] = $info;
+			$i++;
+		}
+		return $toReturn;
+	}
+	
 	/**
 	 * function that formats an array into a table.
 	 * this should work for all 2D arrays.
