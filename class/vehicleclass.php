@@ -46,7 +46,7 @@ class Vehicle{
 	}
 	
 	function searchVehicleByVIN($vin){
-		$sql = "SELECT * FROM Vehicle WHERE VIN='$vin'";
+		$sql = "SELECT * FROM Vehicle WHERE VIN LIKE '$vin'";
 		$result = mysql_query($sql) or die(mysql_error());
 		$i = 0;
 		while ($info = mysql_fetch_array($result,MYSQL_ASSOC)){

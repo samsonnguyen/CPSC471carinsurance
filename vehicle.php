@@ -81,10 +81,10 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 			$vehicleinstance->display2DArray($vehicles, true);
 		} else if ($_GET['form']=='vin'){
 			//Search by vin
-			$vehicles = $vehicleinstance->searchVehicleByVIN($_POST['fm-vin']);
+			$vehicles = $vehicleinstance->searchVehicleByVIN(convertToLike($_POST['fm-vin']));
 			$vehicleinstance->display2DArray($vehicles, true);
 		} else if ($_GET['form']=='info'){
-			//serach by information
+			//search by information
 			$temp['year'] = $_POST['fm-year'];
 			$temp['make'] = $_POST['fm-make'];
 			$temp['model'] = $_POST['fm-model'];
