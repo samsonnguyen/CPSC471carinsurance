@@ -41,6 +41,12 @@
 				</li>
 				<li><a href="premium.php"></a></li>
 				<li><a href="claims.php">Manage Claims</a></li>
+				<li><a href="tickets.php">Tickets</a>
+					<ul>
+						<li><a href="tickets.php?action=add">Add Ticket</a></li>
+						<li><a href="tickets.php?action=search">Search for Ticket</a></li>
+					</ul>
+				</li>
 				<li><a href="manager.php">Managers</a></li>
 				<?php
 					if(isLoggedIn()){
