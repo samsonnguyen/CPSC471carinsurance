@@ -1,6 +1,6 @@
 <?php
-/*
- * Check if the use is logged in using session data
+/**
+ * Check if the user is logged in using session data
  */
 function isLoggedIn(){
 	if(isset($_SESSION['user'])){
@@ -10,6 +10,9 @@ function isLoggedIn(){
 	}
 }
 
+/**
+ * Reads the session and returns the permission
+ */
 function getUserPermissions(){
 	if (isset($_SESSION['permission'])){
 		return $_SESSION['permission'];
@@ -18,6 +21,12 @@ function getUserPermissions(){
 	}
 }
 
+/**
+ * Calculates an age of a person by comparing to
+ * the current date date should be in the format
+ * YYYY-MM-DD
+ * @param unknown_type $birthdate
+ */
 function getAge($birthdate){
 	$token="-./ ";
 	$p1 = strtok($birthdate,$token);
@@ -37,6 +46,11 @@ function getAge($birthdate){
 	return $age;
 }
 
+/**
+ * Converts a string into mysql compatible dates
+ * Enter description here ...
+ * @param unknown_type $idate
+ */
 function input2date($idate)
 {
 	$token="-./ ";
@@ -108,14 +122,21 @@ function input2date($idate)
 	return $date;
 }
 
+/**
+ * Converts a string with astericks(*) into mysql wildcard type strings.
+ * EXAMPLE: *2123123***23*dsd -> %2123123___23_dsd
+ * @param unknown_type $str
+ */
 function convertToLike($str){
-	if (substr($str,-1)=='*'){
-		$temp = substr_replace($str,'%', -1);
+	$tempStr = $str;
+	if (substr($str,-1)=='*'){//If the last character is an astericks change into %
+		$tempStr = substr_replace($tempStr,'%', -1);
 	}
-	if (substr($str,0,1)=='*'){
-		$temp = substr_replace($temp,'%', 0,1);
+	if (substr($tempStr,0,1)=='*'){//If the first character is an astericks change into %
+		$tempStr = substr_replace($tempStr,'%', 0,1);
 	}
-	$temp = str_replace('*','_',$temp);
-	return $temp;
+	//Convert the rest of the astericks into underscores
+	$tempStr = str_replace('*','_',$tempStr);
+	return $tempStr;
 }
 ?>
