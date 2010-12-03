@@ -36,15 +36,15 @@
 	<fieldset>
 	<legend>Search By Vehicle Information</legend>
 	<p>Use * for wildcards</p>
-    <div class="fm-req">
+    <div class="fm-opt">
       <label for="fm-year">Year:</label>
       <input name="fm-year" id="fm-year" type="text" />
     </div>
-    <div class="fm-req">
+    <div class="fm-opt">
       <label for="fm-make">Make:</label>
       <input name="fm-make" id="fm-make" type="text" />
     </div>
-    <div class="fm-req">
+    <div class="fm-opt">
       <label for="fm-model">Model:</label>
       <input name="fm-model" id="fm-model" type="text" />
     </div>

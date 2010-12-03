@@ -1,20 +1,10 @@
 <?php
 class Client{
-	/*
-	 * Add a new client TODO: NEED TO CHANGE THE DATABASE SCHEMA TO INCLUDE firstname, lastname, mname, address, postalcode, province 
-	 */
-	function addNewClient($FName, $MName, $LName, $Address, $City, $PostalCode,
-							$Province, $Phone, $Bdate, $License_No, $Gender, $Age, $Company, $Policy_No){
-		$sql = "INSERT INTO Client(FName,MName,LName,Adress,City,PostalCode,Province,Phone,Birthdate,License_No,
-									Gender,Age,Company,Policy_No) VALUES ('$FName','$MName','$LName',$Address','$City','$PostalCode','$Province','$Phone','$Bdate','$License_No','$Gender','$Age','$Company','$Policy_No')";
-		mysql_query($sql) or die(mysql_error());
-	}
-	
+	/**
+	 * Reads an array of keys and its values and inserts them into the database as a new Client.
+	 */	
 	function addNewClientByArray($array){
-		print "<BR/>";
-		
 		$keys = array_keys($array); //Return the keys of the array;
-		//print_r (count($keys));
 		$sql = "INSERT INTO Client ("; //Set the first part of the SQL query
 		for ($i=0;$i<count($keys);$i++){	
 			if ($i==(count($keys)-1)){//last value, do not include the comma
@@ -31,11 +21,11 @@ class Client{
 				$sql = $sql."'".$array[$keys[$i]]."',";
 			}
 		}
-		print $sql."<br />";
+		//print $sql."<br />";
 		mysql_query($sql) or die(mysql_error());
 	}
 	
-	/*
+	/**
 	 * Check if the client exists by client_id
 	 */
 	function clientExists($Client_ID){
@@ -46,12 +36,12 @@ class Client{
 		$count = mysql_num_rows($result);
 		if ($count==1){//Client exists
 			return true;
-		} else {
+		} else {//ID should be unique, therefore only one can be returned
 			return false;
 		}
 	}
 
-	/*
+	/**
 	 * Check if client exists by name
 	 */
 	function clientExistsByName($Name){
@@ -60,15 +50,15 @@ class Client{
 
 		// Mysql_num_row is counting table row
 		$count = mysql_num_rows($result);
-		if ($count>=1){//Client exists
+		if ($count>=1){//Client exists, might be multiple results
 			return true;
 		} else {
 			return false;
 		}
 	}
 	
-	/*
-	 * Prints out a simple list of clients with a table
+	/**
+	 * Prints out a simple list of clients with a table, we don't want to crowd the table with too much
 	 */
 	function listClients($offset,$limit){
 		$returnString = array();
@@ -83,15 +73,15 @@ class Client{
 		print "</table>";
 	}
 	
-	/*
-	 * Returns the number of Clients
+	/**
+	 * Returns the number of total # of Clients
 	 */
 	function totalClients(){
 		 $data = mysql_query("SELECT * FROM Client") or die(mysql_error());
 		 return $rows = mysql_num_rows($data); 
 	}
 	
-	/*
+	/**
 	 * Search clients by ID, return an array of the result 
 	 */
 	function searchbyId($clientid){
@@ -100,14 +90,28 @@ class Client{
 		$i = 0;
 		$toReturn;
 		while ($info = mysql_fetch_array($result,MYSQL_ASSOC)){ //Use assoc, because otherwise we'll get duplicates
-			$toReturn[$i] = $info;
+			$toReturn[$i] = $info; //Add the results into an array for us to read
 			$i++;
 		}
 		return $toReturn;
 	}
 	
-	function searchClient(){
-		
+	/**
+	 * Search for clients using any attribute in the array, uses LIKE in mysql for wildcards
+	 */
+	function searchByInfo($array){
+		$sql = "SELECT * FROM Client WHERE";
+		$keys = array_keys($array);
+		for ($i = 0; $i< count($keys); $i++){
+			$sql = $sql." ".$keys[$i]." LIKE '".$array[$keys[$i]]."'"; 
+		}
+		$result = mysql_query($sql) or die(mysql_error());
+		$i = 0;
+		while ($info = mysql_fetch_array($result,MYSQL_ASSOC)){//While more results
+			$toReturn[$i] = $info;
+			$i++;
+		}
+		return $toReturn;
 	}
 	
 	/**
@@ -116,7 +120,7 @@ class Client{
 	 * @param unknown_type $array
 	 * @param boolean $printoptions Set whether to display delete, update, etc functions
 	 */
-	function display2DArray($array,$printoptions){
+	function display2DArray($array,$printoptionsflag){
 		if($array==null){
 			print "No results were found!";
 		} else {
@@ -132,7 +136,7 @@ class Client{
 				for ($i=0;$i<(count($keys));$i++){	
 					print "<td>".$array[$j][$keys[$i]]."</td>\n";
 				}
-				if ($printoptions){
+				if ($printoptionsflag){
 					$this->printOptions($array[$j]['Client_ID']);
 				}
 				print "</tr>\n";
@@ -159,7 +163,10 @@ class Client{
 		return true;
 	}
 	
-	
+	/**
+	 * Prints a form containing the original values in the database for updating
+	 * @param unknown_type $clientid
+	 */
 	function printUpdateForm($clientid){
 		$sql = "SELECT * FROM Client WHERE Client_ID='$clientid'";
 		$result = mysql_query($sql) or die(mysql_error());
@@ -274,7 +281,7 @@ class Client{
 	} //CLOSE print update form
 	
 	/**
-	 * update the client information
+	 * update the client information using data contained in the array. The Array keys must be associative
 	 * @return unknown_type
 	 */
 	function updateClient($clientid, $array){
@@ -290,7 +297,7 @@ class Client{
 		$sql = $sql." WHERE Client_ID='$clientid'";
 		//print $sql."<br />\n";
 		mysql_query($sql) or die(mysql_error());
-		return true;
+		return true;//return true
 	}
 	
 }

@@ -5,11 +5,13 @@ require 'config.php';
 require $includesfolder.'functions.php';
 include $includesfolder.'header.php';
 
+//Check if the user and logged in and has permissions
 if (isLoggedIn() && (getUserPermissions()=='1')){
 	$vehicleinstance = new Vehicle();//Create new vehicle instance
 	if ($_GET['action']=='add'){
 		//Add vehicle
 		if (isset($_GET['form'])){
+			//Add data returned by the form
 			$newVehicleInfo['VIN'] = $_POST['fm-vin'];
 			$newVehicleInfo['Year'] = $_POST['fm-year'];
 			$newVehicleInfo['Make'] = $_POST['fm-make'];
@@ -29,10 +31,11 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 				print "Error occured";
 			}
 		} else {
-			// Display the add form
+			//Display the add vehicle form
 			include $includesfolder.'addvehicle.php';
 		}
 	} else if ($_GET['action']=='remove'){
+		//Remove the vehicle
 		$vehicleVIN=$_GET['vehicle'];
 		if ($vehicleVIN==null){
 			print "Error, vehicle cannot be null";
@@ -44,6 +47,7 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 			}
 		}
 	} else if ($_GET['action']=='update'){
+		//Update vehicle
 		$vehicleVIN= $_GET['vehicle'];
 		if ($vehicleVIN==null){
 			print "Error, vehicle cannot be null";
@@ -77,45 +81,39 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 	} else if ($_GET['action']=='search'){
 		if ($_GET['form']=='client'){
 			//Search by client
-			$vehicles = $vehicleinstance->searchVehicleByClient($_POST['fm-clientID']);
+			$vehicles = $vehicleinstance->searchByClient($_POST['fm-clientID']);
 			$vehicleinstance->display2DArray($vehicles, true);
 		} else if ($_GET['form']=='vin'){
 			//Search by vin
-			$vehicles = $vehicleinstance->searchVehicleByVIN(convertToLike($_POST['fm-vin']));
+			$vehicles = $vehicleinstance->searchByVIN(convertToLike($_POST['fm-vin']));
 			$vehicleinstance->display2DArray($vehicles, true);
 		} else if ($_GET['form']=='info'){
 			//search by information
-			$temp['year'] = $_POST['fm-year'];
-			$temp['make'] = $_POST['fm-make'];
-			$temp['model'] = $_POST['fm-model'];
-
-			/**
-			 * Perform wildcard changed for like format in mysql:
-			 * * => %, if * at the end
-			 * * => _, if not at the end 
-			 */
-			$currentDate = getdate();
+			$temp['Year'] = $_POST['fm-year'];
+			$temp['Make'] = $_POST['fm-make'];
+			$temp['Model'] = $_POST['fm-model'];
 			//Check year
-			if (strlen($temp['year']) != 4){
-				unset($temp['year']);
+			if (strlen($temp['Year']) != 4){
+				unset($temp['Year']);
 			} else {
-				$temp['year'] = convertToLike($temp['year']);
+				$temp['Year'] = convertToLike($temp['Year']);
 			}
 			//check make
-			if (strlen($temp['make']) < 1){ //empty
-				unset($temp['make']);
+			if (strlen($temp['Make']) < 1){ //empty
+				unset($temp['Make']);
 			} else {
-				$temp['make'] = convertToLike($temp['make']);
+				$temp['Make'] = convertToLike($temp['Make']);
 			}
 			//check model
-			if (strlen($temp['model']) < 1){ //empty
-				unset($temp['model']);
+			if (strlen($temp['Model']) < 1){ //empty
+				unset($temp['Model']);
 			} else {
-				$temp['model'] = convertToLike($temp['model']);
+				$temp['Model'] = convertToLike($temp['Model']);
 			}
-			$vehicles = $vehicleinstance->searchVehicleByInfo($temp);
+			$vehicles = $vehicleinstance->searchByInfo($temp);
 			$vehicleinstance->display2DArray($vehicles, true); //display the result
 		} else {
+			//No form data, we display a form
 			include $includesfolder."searchvehicle.php";
 		}
 	} else {
@@ -123,6 +121,7 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 		include $includesfolder."displayvehiclestats.php";
 	}
 } else {
+	//User is either not logged in, or has no permissions
 	echo 'Access denied';
 }
 

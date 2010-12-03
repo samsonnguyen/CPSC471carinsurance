@@ -2,17 +2,14 @@
 class Vehicle{
  	
 	/**
-	 * Add a new vehicle
-	 * Enter description here ...
+	 * Add a new vehicle using an associative array.
 	 * @param unknown_type $VIN
 	 * @param unknown_type $Year
 	 * @param unknown_type $License_Plate_No
 	 * @param unknown_type $Client_ID
 	 */
 	function addNewVehicle($array){
-		//print "<BR/>";
 		$keys = array_keys($array); //Return the keys of the array;
-		//print_r (count($keys));
 		$sql = "INSERT INTO Vehicle ("; //Set the first part of the SQL query
 		for ($i=0;$i<count($keys);$i++){	
 			if ($i==(count($keys)-1)){//last value, do not include the comma
@@ -34,18 +31,26 @@ class Vehicle{
 		return true;
 	}
 	
-	function searchVehicleByClient($clientid){
+	/**
+	 * Returns a search result using the client id
+	 * @param unknown_type $clientid
+	 */
+	function searchByClient($clientid){
 		$sql = "SELECT * FROM Vehicle WHERE Client_ID='$clientid'";
 		$result = mysql_query($sql) or die(mysql_error());
 		$i = 0;
-		while ($info = mysql_fetch_array($result,MYSQL_ASSOC)){
+		while ($info = mysql_fetch_array($result,MYSQL_ASSOC)){ //while more results
 			$toReturn[$i] = $info;
 			$i++;
 		}
 		return $toReturn;
 	}
 	
-	function searchVehicleByVIN($vin){
+	/**
+	 * Searches vehicles by VIN number, uses Like for wildcards
+	 * @param unknown_type $vin
+	 */
+	function searchByVIN($vin){
 		$sql = "SELECT * FROM Vehicle WHERE VIN LIKE '$vin'";
 		$result = mysql_query($sql) or die(mysql_error());
 		$i = 0;
@@ -53,10 +58,15 @@ class Vehicle{
 			$toReturn[$i] = $info;
 			$i++;
 		}
-		return $toReturn;
+		return $toReturn; //return 2D array
 	}
 	
-	function searchVehicleByInfo($array){
+	/**
+	 * Searches vehicles by any type of info contained in an associative array
+	 * Allows the use of wildcards
+	 * @param unknown_type $array
+	 */
+	function searchByInfo($array){
 		$sql = "SELECT * FROM Vehicle WHERE";
 		$keys = array_keys($array);
 		for ($i = 0; $i< count($keys); $i++){
@@ -65,11 +75,11 @@ class Vehicle{
 		//print $sql;
 		$result = mysql_query($sql) or die(mysql_error());
 		$i = 0;
-		while ($info = mysql_fetch_array($result,MYSQL_ASSOC)){
+		while ($info = mysql_fetch_array($result,MYSQL_ASSOC)){ //While more results
 			$toReturn[$i] = $info;
 			$i++;
 		}
-		return $toReturn;
+		return $toReturn; //return 2D array of results
 	}
 	
 	/**
@@ -78,7 +88,7 @@ class Vehicle{
 	 * @param unknown_type $array
 	 * @param boolean $printoptions Set whether to display delete, update, etc functions
 	 */
-	function display2DArray($array,$printoptions){
+	function display2DArray($array,$printoptionsflag){
 		if($array==null){
 			print "No vehicles were found!";
 		} else {
@@ -94,7 +104,7 @@ class Vehicle{
 				for ($i=0;$i<(count($keys));$i++){	
 					print "<td>".$array[$j][$keys[$i]]."</td>\n";
 				}
-				if ($printoptions){
+				if ($printoptionsflag){ //We want to print the options to delete, update, etc..
 					$this->printOptions($array[$j]['VIN']);
 				}
 				print "</tr>\n";
@@ -112,8 +122,13 @@ class Vehicle{
 		print "<td><a href=\"vehicle.php?action=remove&vehicle=$vehicleid\">X</a></td><td> <a href=\"vehicle.php?action=update&vehicle=$vehicleid\">Update</a></td>\n";
 	}
 	
+	/**
+	 * Outputs a form that contains values from the database, for use in updating existing vehicles
+	 * Enter description here ...
+	 * @param unknown_type $vehicleVIN
+	 */
 	function printUpdateForm($vehicleVIN){
-		$sql = "SELECT * FROM Vehicle WHERE VIN='$vehicleVIN'";
+		$sql = "SELECT * FROM Vehicle WHERE VIN='$vehicleVIN'"; //Get the vehicle
 		$result = mysql_query($sql) or die(mysql_error());
 		$info = mysql_fetch_array($result,MYSQL_ASSOC);
 ?>
@@ -204,10 +219,10 @@ class Vehicle{
   </form>
 </div>
 <?php 
-	} //CLOSE print update form
+	} //CLOSE print update form!!
 	
 	/**
-	 * update the client information
+	 * Updates vehicle data using an associative array
 	 * @return unknown_type
 	 */
 	function updateVehicle($vehicleVIN, $array){
@@ -227,7 +242,7 @@ class Vehicle{
 	}
 	
 	/**
-	 * Removes a vehicle from the database
+	 * Removes a vehicle from the database based on VIN
 	 */
 	function deleteVehicle($vehicleVIN){
 		$sql="DELETE FROM Vehicle WHERE VIN='$vehicleVIN'";
@@ -241,11 +256,13 @@ class Vehicle{
 	 */
 	function totalVehicles(){
 		$data = mysql_query("SELECT * FROM Vehicle") or die(mysql_error());
-		return $rows = mysql_num_rows($data); 
+		return mysql_num_rows($data); //count the number of results and return
 	}
 	
-	/*
-	 * Prints out a simple list of vehicles, sort by client id
+	/**
+	 * Prints out a simple list of vehicles, sort by client id and allow pagination, also display the option to update, delete, etc.
+	 * @param offset Being where in the results
+	 * @param limit Limit the number of results
 	 */
 	function listVehicles($offset,$limit){
 		$returnString = array();
