@@ -106,8 +106,24 @@ class Client{
 		return $toReturn;
 	}
 	
-	function searchClient(){
-		
+	/*
+	 * Search for clients using any attribute in the array
+	 */
+	function searchByInfo($array){
+		//print_r($array)."<br />\n";
+		$sql = "SELECT * FROM Client WHERE";
+		$keys = array_keys($array);
+		for ($i = 0; $i< count($keys); $i++){
+			$sql = $sql." ".$keys[$i]." LIKE '".$array[$keys[$i]]."'"; 
+		}
+		//print $sql;
+		$result = mysql_query($sql) or die(mysql_error());
+		$i = 0;
+		while ($info = mysql_fetch_array($result,MYSQL_ASSOC)){
+			$toReturn[$i] = $info;
+			$i++;
+		}
+		return $toReturn;
 	}
 	
 	/**

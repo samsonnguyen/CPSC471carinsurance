@@ -61,12 +61,67 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 			}
 		}
 	} else if ($_GET['action']=='search'){
-		//initiates form for searching
-		include $includesfolder.'searchclient.php';
-	} else if (isset($_GET['searchid'])){
-		//the search by id function option
-		$result = $clientinstance->searchbyId($_POST['fm-clientID']);
-		$clientinstance->display2DArray($result,true);
+		if ($_GET['form']=='clientid'){
+			//Search by clientid
+			$result = $clientinstance->searchbyId($_POST['fm-clientID']);
+			$clientinstance->display2DArray($result,true);
+		} else if ($_GET['form']=='info'){
+			//search by info
+			unset($temp);
+			$temp['FName'] = $_POST['fm-firstname'];
+			$temp['LName'] = $_POST['fm-lastname'];
+			$temp['License_No'] = $_POST['fm-license_no'];
+			$temp['City'] = $_POST['fm-city'];
+			$temp['Province'] = $_POST['fm-province'];
+			$temp['Policy_No'] = $_POST['fm-policy'];
+			$temp['Phone'] = $_POST['fm-phone'];
+			
+			//Check FName 
+			if ($temp['FName']==null || $temp['FName']==""){
+				unset($temp['FName']);
+			} else {
+				$temp['FName'] = convertToLike($temp['FName']);
+			}
+			//Check FName 
+			if ($temp['Policy_No']==null || $temp['Policy_No']==""){
+				unset($temp['Policy_No']);
+			} else {
+				$temp['Policy_No'] = convertToLike($temp['Policy_No']);
+			}
+			//Check LName
+			if ($temp['LName']==null || $temp['LName']==""){
+				unset($temp['LName']);
+			} else {
+				$temp['LName'] = convertToLike($temp['LName']);
+			}
+			//Check License_No
+			if ($temp['License_No']==null || $temp['License_No']==""){
+				unset($temp['License_No']);
+			} else {
+				$temp['License_No'] = convertToLike($temp['License_No']);
+			}
+			//Check City
+			if ($temp['City']==null || $temp['City']==""){
+				unset($temp['City']);
+			} else {
+				$temp['City'] = convertToLike($temp['City']);
+			}
+			//Check Phone
+			if ($temp['Phone']==null || $temp['Phone']==""){
+				unset($temp['Phone']);
+			} else {
+				$temp['Phone'] = convertToLike($temp['Phone']);
+			}
+			if ($temp['Province']==""){
+				unset($temp['Province']);
+			}
+			$clients = $clientinstance->searchByInfo($temp);
+			$clientinstance->display2DArray($clients, true);
+		} else {
+			//display search form
+			include $includesfolder.'searchclient.php';
+		}
+
 	} else if (isset($_GET['addclient'])){
 
 		//Add a new client, should be called only through a form

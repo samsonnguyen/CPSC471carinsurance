@@ -4,7 +4,7 @@
 
   	<!-- create a choice of whether to search by Id or by information -->
   
-   <form name="searchid" id="fm-form" method="post" action="client.php?searchid" >
+   <form name="searchid" id="fm-form" method="post" action="client.php?action=search&form=clientid" >
       <fieldset>
     <legend>Search By ID</legend>
 	<div class="fm-req">
@@ -12,35 +12,42 @@
       <input name="fm-clientID" id="fm-clientID" type="text" />
     </div>
 	</fieldset>
-	    <div id="fm-submit" class="fm-req">
+	    <div id="fm-submit" class="fm-opt">
       <input name="Search" value="Search" type="submit" />
 
     </div>
 	</form>
   
-  <form name="searchclient" id="fm-form" method="post" action="client.php?searchclient" >
+  <form name="searchclient" id="fm-form" method="post" action="client.php?action=search&form=info" >
 	<fieldset>
 	<legend>Search By Information</legend>
-    <div class="fm-req">
+	<p>Use * for wildcards</p>
+    <div class="fm-opt">
       <label for="fm-firstname">First name:</label>
       <input name="fm-firstname" id="fm-firstname" type="text" />
     </div>
 
-    <div class="fm-req">
+    <div class="fm-opt">
       <label for="fm-lastname">Last name:</label>
       <input name="fm-lastname" id="fm-lastname" type="text" />
     </div>
-    <div class="fm-req">
+    <div class="fm-opt">
     	<label for="fm-license_no">License Number:</label>
     	<input name="fm-license_no" id="fm-license_no" type="text" />
     </div>
-	
-    <div class="fm-req">
+	    <div class="fm-opt">
+    	<label for="fm-policy">Policy Number:</label>
+    	<input name="fm-policy" id="fm-policy" type="text" />
+    </div>
+    <div class="fm-opt">
       <label for="fm-city">City or Town:</label>
-
       <input id="fm-city" name="fm-city" type="text" />
     </div>
-    <div class="fm-req">
+        <div class="fm-opt">
+      <label for="fm-phone">Phone:</label>
+      <input id="fm-phone" name="fm-phone" type="text" />
+    </div>
+    <div class="fm-opt">
       <label for="fm-province">Province:</label>
       <select id="fm-province" name="fm-province">
         <option value="" selected="selected">Choose a province</option>

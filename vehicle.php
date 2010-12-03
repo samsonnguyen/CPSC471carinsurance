@@ -85,9 +85,9 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 			$vehicleinstance->display2DArray($vehicles, true);
 		} else if ($_GET['form']=='info'){
 			//search by information
-			$temp['year'] = $_POST['fm-year'];
-			$temp['make'] = $_POST['fm-make'];
-			$temp['model'] = $_POST['fm-model'];
+			$temp['Year'] = $_POST['fm-year'];
+			$temp['Make'] = $_POST['fm-make'];
+			$temp['Model'] = $_POST['fm-model'];
 
 			/**
 			 * Perform wildcard changed for like format in mysql:
@@ -96,22 +96,22 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 			 */
 			$currentDate = getdate();
 			//Check year
-			if (strlen($temp['year']) != 4){
-				unset($temp['year']);
+			if (strlen($temp['Year']) != 4){
+				unset($temp['Year']);
 			} else {
-				$temp['year'] = convertToLike($temp['year']);
+				$temp['Year'] = convertToLike($temp['Year']);
 			}
 			//check make
-			if (strlen($temp['make']) < 1){ //empty
-				unset($temp['make']);
+			if (strlen($temp['Make']) < 1){ //empty
+				unset($temp['Make']);
 			} else {
-				$temp['make'] = convertToLike($temp['make']);
+				$temp['Make'] = convertToLike($temp['Make']);
 			}
 			//check model
-			if (strlen($temp['model']) < 1){ //empty
-				unset($temp['model']);
+			if (strlen($temp['Model']) < 1){ //empty
+				unset($temp['Model']);
 			} else {
-				$temp['model'] = convertToLike($temp['model']);
+				$temp['Model'] = convertToLike($temp['Model']);
 			}
 			$vehicles = $vehicleinstance->searchVehicleByInfo($temp);
 			$vehicleinstance->display2DArray($vehicles, true); //display the result

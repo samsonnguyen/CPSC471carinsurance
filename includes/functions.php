@@ -109,13 +109,14 @@ function input2date($idate)
 }
 
 function convertToLike($str){
+	$tempStr = $str;
 	if (substr($str,-1)=='*'){
-		$temp = substr_replace($str,'%', -1);
+		$tempStr = substr_replace($tempStr,'%', -1);
 	}
-	if (substr($str,0,1)=='*'){
-		$temp = substr_replace($temp,'%', 0,1);
+	if (substr($tempStr,0,1)=='*'){
+		$tempStr = substr_replace($tempStr,'%', 0,1);
 	}
-	$temp = str_replace('*','_',$temp);
-	return $temp;
+	$tempStr = str_replace('*','_',$tempStr);
+	return $tempStr;
 }
 ?>
