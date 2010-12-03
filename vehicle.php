@@ -123,7 +123,7 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 		include $includesfolder."displayvehiclestats.php";
 	}
 } else {
-	echo 'Access denied';
+	print 'Access denied';
 }
 
 //content ends here, display the footer
