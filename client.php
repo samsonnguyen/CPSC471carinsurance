@@ -6,7 +6,7 @@ require 'class/vehicleclass.php';
 require $includesfolder.'functions.php';
 include $includesfolder.'header.php';
 
-
+//check if the user is logged in and has correct permissions
 if (isLoggedIn() && (getUserPermissions()=='1')){
 	$clientinstance = new Client(); //Create new client instance
 	$vehicleinstance = new Vehicle();//Create new vehicle instance
@@ -16,6 +16,7 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 	} else if ($_GET['action']=='remove'){
 		//remove client
 		$clientid = $_GET['client'];
+		//Check the clientID
 		if ($clientid==null || $clientid==0){
 			print "Error, client cannot be null";
 		} else {
@@ -26,6 +27,7 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 			}
 		}
 	} else if ($_GET['action']=='update'){
+		//We want to perform an update
 		$clientid = $_GET['client'];
 		if ($clientid==null || $clientid==0){
 			print "Error, client cannot be null";
@@ -53,14 +55,15 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 					print "Error occured, please check your input";
 				}
 			} else {
-				//We cant to display an update form and get information
+				//Display an update form and get information
 				$clientinstance->printUpdateForm($clientid);
-				$vehicles = $vehicleinstance->searchVehicleByClient($clientid);
+				$vehicles = $vehicleinstance->searchByClient($clientid);
 				$vehicleinstance->display2DArray($vehicles, true);
 				print "<br /><a href=\"vehicle.php?action=add&client=".$clientid."\">Add a new vehicle for this client</a><br />\n";
 			}
 		}
 	} else if ($_GET['action']=='search'){
+		//Search for clients
 		if ($_GET['form']=='clientid'){
 			//Search by clientid
 			$result = $clientinstance->searchbyId($_POST['fm-clientID']);
@@ -146,6 +149,7 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 		include $includesfolder.'displayclientstats.php';
 	}
 } else {
+	//user not logged in or has incorrect permissions
 	print 'Access denied';
 }
 
