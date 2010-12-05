@@ -3,6 +3,7 @@ require 'db.php';
 require 'config.php';
 require 'class/clientclass.php';
 require 'class/vehicleclass.php';
+require 'class/ticketclass.php';
 require $includesfolder.'functions.php';
 include $includesfolder.'header.php';
 
@@ -10,6 +11,7 @@ include $includesfolder.'header.php';
 if (isLoggedIn() && (getUserPermissions()=='1')){
 	$clientinstance = new Client(); //Create new client instance
 	$vehicleinstance = new Vehicle();//Create new vehicle instance
+	$ticketinstance = new Ticket();//Create new ticket instance
 	if ($_GET['action']=='add'){
 		//display add client form
 		include $includesfolder.'addclient.php';
@@ -60,6 +62,9 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 				$vehicles = $vehicleinstance->searchByClient($clientid);
 				$vehicleinstance->display2DArray($vehicles, true);
 				print "<br /><a href=\"vehicle.php?action=add&client=".$clientid."\">Add a new vehicle for this client</a><br />\n";
+				$tickets = $ticketinstance->searchByClient($clientid);
+				$ticketinstance->display2DArray($tickets, true);
+				print "<br /><a href=\"tickets.php?action=add&client=".$clientid."\">Add a ticket for this client</a><br />\n";
 			}
 		}
 	} else if ($_GET['action']=='search'){
