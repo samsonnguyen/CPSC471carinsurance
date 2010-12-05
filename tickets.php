@@ -10,23 +10,21 @@ include $includesfolder.'header.php';
 		$ticketinstance = new Ticket();	//create new ticket instance
 		if ($_GET['action']=='add'){
 			if (isset($_GET['form'])){
-			$newTicketInfo['Client_ID'] = $_POST['fm-clientid'];
-			$newTicketInfo['Infraction_No'] = $_POST['fm-infraction_no'];
-			$newTicketInfo['Officer_Name'] = $_POST['fm-officer_name'];
-			$newTicketInfo['Officer_No'] = $_POST['fm-officer_no'];
-			$newTicketInfo['Classification'] = $_POST['fm-classification'];
-			$newTicketInfo['Date'] = $_POST['fm-year'].$_POST['fm-month'].$_POST['fm-day'];
-			if ($ticketinstance->addNewTicket($newTicketInfo)){
-				print "Ticket ".$_POST['fm-Infraction_Number']." added successfully!\n";
+				$newTicketInfo['Client_ID'] = $_POST['fm-clientid'];
+				$newTicketInfo['Infraction_No'] = $_POST['fm-infraction_no'];
+				$newTicketInfo['Officer_Name'] = $_POST['fm-officer_name'];
+				$newTicketInfo['Officer_No'] = $_POST['fm-officer_no'];
+				$newTicketInfo['Classification'] = $_POST['fm-classification'];
+				$newTicketInfo['Date'] = $_POST['fm-year'].$_POST['fm-month'].$_POST['fm-day'];
+				if ($ticketinstance->addNewTicket($newTicketInfo)>0){
+					print "Ticket ".$_POST['fm-Infraction_Number']." added successfully!\n";
+				} else {
+					print "Error occured";
+				}
 			} else {
-				print "Error occured";
-			}
+				include $includesfolder.'addticket.php';
+			}	
 		}
-		else {
-			include $includesfolder.'addticket.php';
-
-		}
-	}
 		else if ($_GET['action']=='remove'){
 		//Remove the ticket
 		$infraction_no=$_GET['ticket'];

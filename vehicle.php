@@ -1,4 +1,3 @@
-
 <?php
 require 'db.php';
 require 'class/vehicleclass.php';

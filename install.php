@@ -28,6 +28,8 @@ mysql_query("CREATE TABLE Client
 		Age			INT,
 		Company		INT,
 		Policy_No	INT,
+		Years_Exp	INT	DEFAULT 0,
+		Training	BOOLEAN DEFAULT 0 NOT NULL,
 	PRIMARY KEY (Client_ID),
 	FOREIGN KEY (Company) REFERENCES Company(Commercial_License_No)
 		ON DELETE SET NULL			ON UPDATE CASCADE,

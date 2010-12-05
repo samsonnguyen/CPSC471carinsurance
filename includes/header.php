@@ -40,7 +40,12 @@
 					</ul>
 				</li>
 				<li><a href="premium.php"></a></li>
-				<li><a href="claims.php">Manage Claims</a></li>
+				<li><a href="claim.php">Manage Claims</a>
+					<ul>
+						<li><a href="claim.php?action=add">Add new claim</a></li>
+						<li><a href="claim.php?action=search">Search for Claims</a></li>
+					</ul>
+				</li>
 				<li><a href="tickets.php">Tickets</a>
 					<ul>
 						<li><a href="tickets.php?action=add">Add Ticket</a></li>
