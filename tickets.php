@@ -21,19 +21,13 @@ include $includesfolder.'header.php';
 			} else {
 				print "Error occured";
 			}
-			
-		}else {
+		}
+		else {
 			include $includesfolder.'addticket.php';
 
 		}
-
-
-		}else if($_GET['action']=='search'){
-			echo 'search ticket';
-		
-
-
-		}else if ($_GET['action']=='remove'){
+	}
+		else if ($_GET['action']=='remove'){
 		//Remove the ticket
 		$infraction_no=$_GET['ticket'];
 		if ($infraction_no==null){
@@ -61,7 +55,7 @@ include $includesfolder.'header.php';
 			$newTicketInfo['Officer_Name'] = $_POST['fm-officer_name'];
 			$newTicketInfo['Officer_No'] = $_POST['fm-officer_no'];
 			$newTicketInfo['Classification'] = $_POST['fm-classification'];
-			$newTicketInfo['Date'] = $_POST['fm-year'].$_POST['fm-month'].$_POST['fm-day'];
+			$newTicketInfo['Date'] = $_POST['fm-date'];
 				
 				if ($ticketinstance->updateTicket($infraction_no,$newTicketInfo)){
 					print "Ticket ".$infraction_no." successfully updated<br />\n";
@@ -75,15 +69,59 @@ include $includesfolder.'header.php';
 			}
 		}
 	}
-	
 
+	else if ($_GET['action']=='search'){
+		if ($_GET['form']=='client'){
+			//Search by client
+			$tickets = $ticketinstance->searchByClient($_POST['fm-clientID']);
+			$ticketinstance->display2DArray($tickets, true);
+		} else if ($_GET['form']=='infraction_no'){
+			//Search by infraction number
+			$tickets = $ticketinstance->searchByinfraction_no(convertToLike($_POST['fm-infraction_no']));
+			$ticketinstance->display2DArray($tickets, true);
+		}else if ($_GET['form']=='info'){
+			//search by information
+			$temp['Officer_Name'] = $_POST['fm-officer_name'];
+			$temp['Officer_No'] = $_POST['fm-officer_no'];
+			$temp['Classification'] = $_POST['fm-classification'];
+			$temp['Date'] = $_POST['fm-date'];
+			//Check year
+			if (strlen($temp['Officer_Name']) < 1){
+				unset($temp['Officer_Name']);
+			} else {
+				$temp['Officer_Name'] = convertToLike($temp['Officer_Name']);
+			}
+			//check make
+			if (strlen($temp['Officer_No']) < 1){ //empty
+				unset($temp['Officer_No']);
+			} else {
+				$temp['Officer_No'] = convertToLike($temp['Officer_No']);
+			}
+			//check model
+			if (strlen($temp['Classification']) < 1){ //empty
+				unset($temp['Classification']);
+			} else {
+				$temp['Classification'] = convertToLike($temp['Classification']);
+			}
+			if (strlen($temp['Date']) < 1){ //empty
+				unset($temp['Date']);
+			} else {
+				$temp['Date'] = convertToLike($temp['Date']);
+			}
+			$tickets = $ticketinstance->searchByInfo($temp);
+			$ticketinstance->display2DArray($tickets, true); //display the result
+		}
 		else {
+			//No form data, we display a form
+			include $includesfolder."searchticket.php";
+		}
+	}		
+	else {
 		//Home, display a list of tickets and some statistics
 		include $includesfolder."displayticketstats.php";
 		}
-	}
-
-	else {
+		
+		} else {
 	//User is either not logged in, or has no permissions
 	echo 'Access denied';
 	}
