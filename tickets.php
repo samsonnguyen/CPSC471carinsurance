@@ -77,7 +77,7 @@ include $includesfolder.'header.php';
 			$ticketinstance->display2DArray($tickets, true);
 		} else if ($_GET['form']=='infraction_no'){
 			//Search by infraction number
-			$tickets = $ticketinstance->searchByinfraction_no(convertToLike($_POST['fm-infraction_no']));
+			$tickets = $ticketinstance->searchByinfraction_no($_POST['fm-infraction_no']);
 			$ticketinstance->display2DArray($tickets, true);
 		}else if ($_GET['form']=='info'){
 			//search by information
@@ -85,24 +85,25 @@ include $includesfolder.'header.php';
 			$temp['Officer_No'] = $_POST['fm-officer_no'];
 			$temp['Classification'] = $_POST['fm-classification'];
 			$temp['Date'] = $_POST['fm-date'];
-			//Check year
+			//Check officer name
 			if (strlen($temp['Officer_Name']) < 1){
 				unset($temp['Officer_Name']);
 			} else {
 				$temp['Officer_Name'] = convertToLike($temp['Officer_Name']);
 			}
-			//check make
+			//check chech officer number
 			if (strlen($temp['Officer_No']) < 1){ //empty
 				unset($temp['Officer_No']);
 			} else {
 				$temp['Officer_No'] = convertToLike($temp['Officer_No']);
 			}
-			//check model
+			//check classification
 			if (strlen($temp['Classification']) < 1){ //empty
 				unset($temp['Classification']);
 			} else {
 				$temp['Classification'] = convertToLike($temp['Classification']);
 			}
+			//check date
 			if (strlen($temp['Date']) < 1){ //empty
 				unset($temp['Date']);
 			} else {

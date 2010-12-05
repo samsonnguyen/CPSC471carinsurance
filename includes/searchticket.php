@@ -24,7 +24,7 @@
 	<p>Use * for wildcards</p>
     <div class="fm-req">
       <label for="fm-infraction_no">Infraction Number:</label>
-      <input name="fm-ifraction_no" id="fm-infraction_no" type="text" />
+      <input name="fm-infraction_no" id="fm-infraction_no" type="text" />
     </div>
     </fieldset>  
     <div id="fm-submit" class="fm-req">

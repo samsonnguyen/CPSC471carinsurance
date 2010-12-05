@@ -36,23 +36,80 @@ class Ticket{
 
 		}
 
-		//search tickets by client
-		function searchByClient(){
-		echo 'stub';
-		}
 		
+		
+
+
 		//display result in an array
 		function display2DArray($array, $printoptionsflag){
-		echo 'stub';
+			if($array==null){
+			print "No tickets were found!";
+		} else {
+			print "Tickets<br/><table class=\"tickets\"><tr>";
+			$first = $array[0];
+			$keys = array_keys($first); //Return the keys of the array, use first element;
+			for ($i=0;$i<count($keys);$i++){
+				print "<td>".$keys[$i]."</td>\n";
+			}
+			print "</tr>";
+			for ($j=0;$j<count($array);$j++){
+				print "<tr>";
+				for ($i=0;$i<(count($keys));$i++){	
+					print "<td>".$array[$j][$keys[$i]]."</td>\n";
+				}
+				if ($printoptionsflag){ //We want to print the options to delete, update, etc..
+					$this->printOptions($array[$j]['Infraction_No']);
+				}
+				print "</tr>\n";
+			}
+			print "</table>\n";
 		}
+		}
+
+
+		//search ticket by client id
+		function searchByClient($clientid){
+		$sql = "SELECT * FROM Ticket WHERE Client_ID='$clientid'";
+		$result = mysql_query($sql) or die(mysql_error());
+		$i = 0;
+		while ($info = mysql_fetch_array($result,MYSQL_ASSOC)){ //while more results
+			$toReturn[$i] = $info;
+			$i++;
+		}
+		return $toReturn;
+		}
+
+
 		
 		//search tickets by infraction number
-		function searchByinfraction_no($infracton_no){
-		echo 'stub';
+		function searchByinfraction_no($infraction_no){
+		$sql = "SELECT * FROM Ticket WHERE Infraction_No='$infraction_no'";
+		$result = mysql_query($sql) or die(mysql_error());
+		$i = 0;
+		while ($info = mysql_fetch_array($result,MYSQL_ASSOC)){ //while more results
+			$toReturn[$i] = $info;
+			$i++;
+		}
+		return $toReturn;
 		}
 		
+
+		
+		//search client by information
 		function searchByInfo($array){
-		echo 'stub';
+		$sql = "SELECT * FROM Ticket WHERE";
+		$keys = array_keys($array);
+		for ($i = 0; $i< count($keys); $i++){
+			$sql = $sql." ".$keys[$i]." LIKE '".$array[$keys[$i]]."'"; 
+		}
+		//print $sql;
+		$result = mysql_query($sql) or die(mysql_error());
+		$i = 0;
+		while ($info = mysql_fetch_array($result,MYSQL_ASSOC)){ //While more results
+			$toReturn[$i] = $info;
+			$i++;
+		}
+		return $toReturn; //return 2D array of results
 		}
 		
 		
@@ -164,10 +221,18 @@ class Ticket{
 		print "</table>";
 		}
 		
+
+
+
+
+
 		//prints a link to the remove and edit options
 		function printOptions($infraction_no){
 		print "<td><a href=\"tickets.php?action=remove&ticket=$infraction_no\">X</a></td><td> <a href=\"tickets.php?action=update&ticket=$infraction_no\">Update</a></td>\n";
 		}
+
+
+
 
 		//counts the number of tickets in the database
 		function totalTickets(){
