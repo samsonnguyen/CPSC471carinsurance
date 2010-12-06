@@ -210,11 +210,17 @@ class Ticket{
 		while($info = mysql_fetch_array($result)){
 			Print "<tr><td>";
 			if (($info['Infraction_No']!=null) || ($info['Infraction_No']!=0)){
-				print "<a href=\"ticket.php?action=update&ticket=".$info['Infraction_No']."\">".$info['Infraction_No']."</a>";
+				print "<a href=\"tickets.php?action=update&ticket=".$info['Infraction_No']."\">".$info['Infraction_No']."</a>";
 			} else {
 				print $info['Infraction_No'];
 			}
-			print "</td><td>".$info['Client_ID']."</td><td>".$info['Officer_Name']."</td><td>".$info['Officer_No']."</td><td>".$info['Classification']."</td><td>".$info["Date"]."</td>";
+			print "</td><td>";
+			if (($info['Client_ID']!=null) || ($info['Client_ID']!=0)){
+				print "<a href=\"client.php?action=update&client=".$info['Client_ID']."\">".$info['Client_ID']."</a>";
+			} else {
+				print $info['Client_ID'];
+			}			
+			print "</td><td>".$info['Officer_Name']."</td><td>".$info['Officer_No']."</td><td>".$info['Classification']."</td><td>".$info["Date"]."</td>";
 			$this->printOptions($info['Infraction_No']);
 			print "</tr>";
 		}

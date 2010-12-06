@@ -74,10 +74,10 @@
     <div class="fm-req">
       <label for="fm-status">Status:</label>
 	  <select id="fm-status" name="fm-status">
-		<option value="01" selected>Pending</option>
-		<option value="02">Completed</option>
-		<option value="03">Filed</option>
-		<option value="04">Declined</option>
+		<option value="0" selected>Pending</option>
+		<option value="1">Completed</option>
+		<option value="2">Filed</option>
+		<option value="3">Declined</option>
       </select>
       </div>
 	
@@ -122,7 +122,7 @@
     </div>
     </fieldset>
     <fieldset>
-    <legend>Involved with Client</legend>
+    <legend>Client Involved with this Claim</legend>
     <div class="fm-req">
       <label for="fm-cl-clientid">Client ID:</label>
 	  <input id="fm-cl-clientid" name="fm-cl-clientid" type ="text" />

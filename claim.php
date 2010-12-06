@@ -56,9 +56,9 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 	} else if ($_GET['action']=='remove'){
 		//remove claim
 		$claimID = $_GET['claim'];
-		//Check the claimID
+		//Check the claim_no
 		if ($claimID==null || $claimID==0){
-			print "Error, Claim ID cannot be null";
+			print "Error, Claim Number cannot be null";
 		} else {
 			if ($claiminstance->deleteClaim($claimID)){
 				print "Claim deleted successfully!";
@@ -186,7 +186,7 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 		print "Client has been added<br />\n";
 	} else {
 		//Client home, display stats?
-		include $includesfolder.'displayclientstats.php';
+		include $includesfolder.'displayclaimstats.php';
 	}
 } else {
 	//user not logged in or has incorrect permissions
