@@ -37,7 +37,7 @@ print $offset." : ".$page_rows;
 $claiminstance->listClaims($offset,$page_rows);
 
 
- 
+
 
 
  
@@ -51,7 +51,7 @@ echo "<p>Page $pagenum of $last</p>";
 if ($pagenum == 1){
 	echo "<<-First <-Previous ";
 } else {
-	echo " <a href='{$_SERVER['PHP_SELF']}?pagenum=1'> <<-First</a> ";
+	echo " <a href='{$_SERVER['PHP_SELF']}?pagenum=1'><<-First</a> ";
 	echo " ";
  	$previous = $pagenum-1;
  	echo " <a href='{$_SERVER['PHP_SELF']}?pagenum=$previous'> <-Previous</a> ";

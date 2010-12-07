@@ -48,7 +48,7 @@
 	if ($pagenum == 1){
 	echo "<<-First <-Previous ";
 	} else {
-	echo " <a href='{$_SERVER['PHP_SELF']}?pagenum=1'> <<-First</a> ";
+	echo " <a href='{$_SERVER['PHP_SELF']}?pagenum=1'> |<-First</a> ";
 	echo " ";
  	$previous = $pagenum-1;
  	echo " <a href='{$_SERVER['PHP_SELF']}?pagenum=$previous'> <-Previous</a> ";
@@ -61,7 +61,7 @@
 	$next = $pagenum+1;
 	echo " <a href='{$_SERVER['PHP_SELF']}?pagenum=$next'>Next -></a> ";
 	echo " ";
-	echo " <a href='{$_SERVER['PHP_SELF']}?pagenum=$last'>Last ->></a> ";
+	echo " <a href='{$_SERVER['PHP_SELF']}?pagenum=$last'>Last ->|</a> ";
 	}
 	echo "</div>"
 

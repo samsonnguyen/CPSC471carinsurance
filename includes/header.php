@@ -19,13 +19,17 @@
 		<!-- menu starts here -->
 		<div class="menu">
 			<ul>
-				<li><a href="index.php">Home
+				<!-- Home -->
+				<li>
 				<?php
 					if(!isLoggedIn()){
-						echo '/Login';
+						echo '<a href="index.php">Home/Login</a>';
+					}
+					else {
+						echo '<a href="index.php">Home</a>';
 					}
 				?>
-				</a></li>
+				</li>
 				<!-- Clients -->
 				<li>
 				<?php

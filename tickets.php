@@ -1,7 +1,7 @@
 <?php
 require 'db.php';
 require 'config.php';
-require 'class/ticketclass.php';
+require $classfolder.'ticketclass.php';
 require $includesfolder.'functions.php';
 include $includesfolder.'header.php';
 
@@ -122,6 +122,6 @@ include $includesfolder.'header.php';
 		
 		} else {
 	//User is either not logged in, or has no permissions
-	print 'Access Denied.';
+	echo '<p><i><span style="color:red">Access Denied</span></i></p>'."\n";
 	}
 ?>

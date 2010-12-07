@@ -1,9 +1,9 @@
 <?php
 require 'db.php';
 require 'config.php';
-require 'class/clientclass.php';
-require 'class/vehicleclass.php';
-require 'class/ticketclass.php';
+require $classfolder.'clientclass.php';
+require $classfolder.'vehicleclass.php';
+require $classfolder.'ticketclass.php';
 require $includesfolder.'functions.php';
 include $includesfolder.'header.php';
 
@@ -155,7 +155,7 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 	}
 } else {
 	//user not logged in or has incorrect permissions
-	print 'Access Denied.';
+	echo '<p><i><span style="color:red">Access Denied</span></i></p>'."\n";
 }
 
 //content ends here, display the footer
