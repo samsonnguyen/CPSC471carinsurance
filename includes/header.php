@@ -171,7 +171,32 @@
 						</li>
 					</ul>
 				</li>
+				<!-- Policy -->
+				<!-- INCOMPLETE -->
+				<li>
+				<?php
+					if(isLoggedIn()) {
+						echo '<a href="policy.php">Policies</a>';
+					}
+					else {
+						echo '<a href="index.php?action=invalid">Policies</a>';
+					}				 
+				?>
+				</li>
+				<!-- Company -->
+				<!-- INCOMPLETE -->
+				<li>
+				<?php
+					if(isLoggedIn()) {
+						echo '<a href="company.php">Companies</a>';
+					}
+					else {
+						echo '<a href="index.php?action=invalid">Companies</a>';
+					}				 
+				?>
+				</li>
 				<!-- Managers -->
+				<!-- INCOMPLETE -->
 				<li>
 				<?php
 					if(isLoggedIn()) {
