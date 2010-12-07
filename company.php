@@ -1,6 +1,7 @@
 <?php
 require 'db.php';
 require 'config.php';
+require 'class/companyclass.php';
 require $includesfolder.'functions.php';
 include $includesfolder.'header.php';
 
