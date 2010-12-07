@@ -122,6 +122,6 @@ include $includesfolder.'header.php';
 		
 		} else {
 	//User is either not logged in, or has no permissions
-	echo 'Access denied';
+	print 'Access Denied.';
 	}
 ?>

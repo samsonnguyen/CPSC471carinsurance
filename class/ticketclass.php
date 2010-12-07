@@ -234,7 +234,7 @@ class Ticket{
 
 		//prints a link to the remove and edit options
 		function printOptions($infraction_no){
-		print "<td><a href=\"tickets.php?action=remove&ticket=$infraction_no\">X</a></td><td> <a href=\"tickets.php?action=update&ticket=$infraction_no\">Update</a></td>\n";
+		print "<td><a href=\"tickets.php?action=remove&ticket=$infraction_no\">X</a></td><td> <a href=\"tickets.php?action=update&ticket=$infraction_no\">Edit</a></td>\n";
 		}
 
 

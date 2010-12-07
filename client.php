@@ -155,7 +155,7 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 	}
 } else {
 	//user not logged in or has incorrect permissions
-	print 'Access denied';
+	print 'Access Denied.';
 }
 
 //content ends here, display the footer

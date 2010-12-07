@@ -122,7 +122,7 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 	}
 } else {
 	//User is either not logged in, or has no permissions
-	echo 'Access denied';
+	print 'Access Denied.';
 }
 
 //content ends here, display the footer

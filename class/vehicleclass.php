@@ -119,7 +119,7 @@ class Vehicle{
 	 * @return unknown_type
 	 */
 	function printOptions($vehicleid){
-		print "<td><a href=\"vehicle.php?action=remove&vehicle=$vehicleid\">X</a></td><td> <a href=\"vehicle.php?action=update&vehicle=$vehicleid\">Update</a></td>\n";
+		print "<td><a href=\"vehicle.php?action=remove&vehicle=$vehicleid\">X</a></td><td> <a href=\"vehicle.php?action=update&vehicle=$vehicleid\">Edit</a></td>\n";
 	}
 	
 	/**
