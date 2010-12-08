@@ -274,7 +274,7 @@ class Client{
     <legend>Driving History</legend>
     <div class="fm-req">
     	<label for="fm-yearsexp">Driving Experience (Years):</label>
-    	<input name="fm-yearsexp" id="fm-yearsexp" type="text" title="Enter Birthdate in yyy-mm-dd format" value="<?php print $info['Company'];?>"/>
+    	<input name="fm-yearsexp" id="fm-yearsexp" type="text" title="Enter Birthdate in yyy-mm-dd format" value="<?php print $info['Years_Exp'];?>"/>
     </div>
     <div class="fm-multi">
       <div class="fm-training">
