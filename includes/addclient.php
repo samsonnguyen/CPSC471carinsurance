@@ -91,6 +91,24 @@
     	<input id="fm-company" name="fm-company" type="text"></input>
     </div>
     </fieldset>
+    <fieldset>
+    <legend>Driving History</legend>
+    <div class="fm-req">
+    	<label for="fm-yearsexp">Driving Experience (Years):</label>
+    	<input name="fm-yearsexp" id="fm-yearsexp" type="text" title="Enter Birthdate in yyy-mm-dd format"/>
+    </div>
+    <div class="fm-multi">
+      <div class="fm-training">
+      	<span>Driver training</span>
+        <label for="fm-trainingno">
+        <input name="fm-training" type="radio" id="fm-trainingno" value="0" checked="checked" />
+        No</label>
+        <label for="fm-trainingyes">
+        <input id="fm-trainingyes" name="fm-training" type="radio" value="1" />
+        Yes</label>
+      </div>
+    </div>
+    </fieldset>
     <div id="fm-submit" class="fm-req">
       <input name="Submit" value="Submit" type="submit" />
 

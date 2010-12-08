@@ -1,5 +1,9 @@
 <?php
 class Claim{
+	/**
+	 * Add a new claim
+	 * @param unknown_type $array contains array of info
+	 */
 	function addNewClaim($array){
 		$keys = array_keys($array); //Return the keys of the array;
 		$sql = "INSERT INTO Claim (Claim_No, "; //Set the first part of the SQL query
@@ -26,6 +30,10 @@ class Claim{
 		return $claimid[0];//return the autoincrement value
 	}
 	
+	/**
+	 * Add a new third part
+	 * @param unknown_type $array
+	 */
 	function addNewThirdParty($array){
 		$keys = array_keys($array); //Return the keys of the array;
 		$sql = "INSERT INTO Third_Party ( "; //Set the first part of the SQL query
@@ -48,6 +56,13 @@ class Claim{
 		return true;
 	}
 	
+	/**
+	 * Add a mew Claims, array should have structure
+	 * 	array['Client_ID']
+	 * 	array['Claim_No'] = Claim number will always be unique in this table
+	 *  array['VIN'] 
+	 * @param unknown_type $array
+	 */
 	function addNewClaims($array){
 		$keys = array_keys($array); //Return the keys of the array;
 		$sql = "INSERT INTO Claims ( "; //Set the first part of the SQL query
@@ -70,13 +85,23 @@ class Claim{
 		return true;
 	}
 	
-	
+	/**
+	 * Deletes a claim.
+	 * Careful a Claim delete will cascade into Claims and thirdparty
+	 * @param unknown_type $claimID
+	 */
 	function deleteClaim($claimID){
 		$sql="DELETE FROM Claim WHERE Claim_No='$claimID'";
 		mysql_query($sql) or die(mysql_error());
 		return true;
 	}
 	
+	/**
+	 * List the claim + thirdparty + claims
+	 * Enter description here ...
+	 * @param unknown_type $offset
+	 * @param unknown_type $limit
+	 */
 	function listClaims($offset,$limit){
 		$sql = "SELECT * FROM Claim ORDER BY Claim_No ASC LIMIT $offset, $limit ";
 		print $sql;
@@ -136,9 +161,15 @@ class Claim{
 		print "</table>";
 	}
 	
+	/**
+	 * Gets total amount of claims
+	 * Enter description here ...
+	 */
 	function totalClaims(){
 		$data = mysql_query("SELECT * FROM Claim") or die(mysql_error());
 		return mysql_num_rows($data); //count the number of results and return
 	}
+	
+	
 }
 ?>

@@ -50,6 +50,8 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 				$newClientInfo['Age'] = getAge($_POST['fm-birthdate']);
 				$newClientInfo['Company'] = $_POST['fm-company'];
 				$newClientInfo['Policy_No'] = $_POST['fm-policy'];
+				$newClientInfo['Years_Exp'] = $_POST['fm-yearsexp'];
+				$newClientInfo['Training'] = $_POST['fm-training'];
 				if ($clientinstance->updateClient($clientid,$newClientInfo)){
 					print "Client ".$clientid." successfully updated<br />\n";
 					print "<a href=\"client.php?action=update&client=".$clientid."\">Return</a>\n";
@@ -147,6 +149,8 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 		$newClientInfo['Age'] = getAge($_POST['fm-birthdate']);
 		$newClientInfo['Company'] = $_POST['fm-company'];
 		$newClientInfo['Policy_No'] = $_POST['fm-policy'];
+		$newClientInfo['Years_Exp'] = $_POST['fm-yearsexp'];
+		$newClientInfo['Training'] = $_POST['fm-training'];
 		$clientinstance->addNewClientByArray($newClientInfo);
 		print "Client has been added<br />\n";
 	} else {
