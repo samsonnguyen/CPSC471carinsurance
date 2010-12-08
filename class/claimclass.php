@@ -7,7 +7,7 @@ class Claim{
 	function addNewClaim($array){
 		$keys = array_keys($array); //Return the keys of the array;
 		$sql = "INSERT INTO Claim (Claim_No, "; //Set the first part of the SQL query
-		for ($i=0;$i<count($keys);$i++){	
+		for ($i=0;$i<count($keys);$i++){
 			if ($i==(count($keys)-1)){//last value, do not include the comma
 				$sql = $sql.$keys[$i];
 			} else {
@@ -15,7 +15,7 @@ class Claim{
 			}
 		}
 		$sql = $sql.") VALUES (LAST_INSERT_ID(), ";
-		for ($i=0;$i<count($keys);$i++){	
+		for ($i=0;$i<count($keys);$i++){
 			if ($i==(count($keys)-1)){//last value, do not include the comma
 				$sql = $sql."'".$array[$keys[$i]]."');";
 			} else {
@@ -29,7 +29,7 @@ class Claim{
 		//print($claimid[0]);
 		return $claimid[0];//return the autoincrement value
 	}
-	
+
 	/**
 	 * Add a new third part
 	 * @param unknown_type $array
@@ -37,7 +37,7 @@ class Claim{
 	function addNewThirdParty($array){
 		$keys = array_keys($array); //Return the keys of the array;
 		$sql = "INSERT INTO Third_Party ( "; //Set the first part of the SQL query
-		for ($i=0;$i<count($keys);$i++){	
+		for ($i=0;$i<count($keys);$i++){
 			if ($i==(count($keys)-1)){//last value, do not include the comma
 				$sql = $sql.$keys[$i];
 			} else {
@@ -45,7 +45,7 @@ class Claim{
 			}
 		}
 		$sql = $sql.") VALUES ( ";
-		for ($i=0;$i<count($keys);$i++){	
+		for ($i=0;$i<count($keys);$i++){
 			if ($i==(count($keys)-1)){//last value, do not include the comma
 				$sql = $sql."'".$array[$keys[$i]]."');";
 			} else {
@@ -55,18 +55,18 @@ class Claim{
 		mysql_query($sql) or die(mysql_error());
 		return true;
 	}
-	
+
 	/**
 	 * Add a mew Claims, array should have structure
 	 * 	array['Client_ID']
 	 * 	array['Claim_No'] = Claim number will always be unique in this table
-	 *  array['VIN'] 
+	 *  array['VIN']
 	 * @param unknown_type $array
 	 */
 	function addNewClaims($array){
 		$keys = array_keys($array); //Return the keys of the array;
 		$sql = "INSERT INTO Claims ( "; //Set the first part of the SQL query
-		for ($i=0;$i<count($keys);$i++){	
+		for ($i=0;$i<count($keys);$i++){
 			if ($i==(count($keys)-1)){//last value, do not include the comma
 				$sql = $sql.$keys[$i];
 			} else {
@@ -74,7 +74,7 @@ class Claim{
 			}
 		}
 		$sql = $sql.") VALUES ( ";
-		for ($i=0;$i<count($keys);$i++){	
+		for ($i=0;$i<count($keys);$i++){
 			if ($i==(count($keys)-1)){//last value, do not include the comma
 				$sql = $sql."'".$array[$keys[$i]]."');";
 			} else {
@@ -84,7 +84,7 @@ class Claim{
 		mysql_query($sql) or die(mysql_error());
 		return true;
 	}
-	
+
 	/**
 	 * Deletes a claim.
 	 * Careful a Claim delete will cascade into Claims and thirdparty
@@ -95,7 +95,7 @@ class Claim{
 		mysql_query($sql) or die(mysql_error());
 		return true;
 	}
-	
+
 	/**
 	 * List the claim + thirdparty + claims
 	 * Enter description here ...
@@ -130,7 +130,7 @@ class Claim{
 					echo "Declined";
 					break;
 			}
-		
+
 			print "</td><td>".$info['Client_At_Fault']."</td>";
 			$sql = "SELECT Party_Name, Insurer_Name, Phone FROM Third_Party WHERE Claim_No='".$info['Claim_No']."';";
 			//print $sql;
@@ -147,20 +147,20 @@ class Claim{
 			print "<td>";
 			if ($claimsinfo['0']!=null || $claimsinfo['0']>0){
 				print "<a href=\"client.php?action=update&client=".$claimsinfo['0']."\">".$claimsinfo['0']."</a>";
-			} else {			
+			} else {
 				print $claimsinfo['0'];
 			}
 			print "</td><td>";
 			if ($claimsinfo['2']!=null){
 				print "<a href=\"vehicle.php?action=update&vehicle=".$claimsinfo['2']."\">".$claimsinfo['2']."</a>";
-			} else {			
+			} else {
 				print $claimsinfo['2'];
 			}
 			print "</tr>";
 		}
 		print "</table>";
 	}
-	
+
 	/**
 	 * Gets total amount of claims
 	 * Enter description here ...
@@ -169,7 +169,62 @@ class Claim{
 		$data = mysql_query("SELECT * FROM Claim") or die(mysql_error());
 		return mysql_num_rows($data); //count the number of results and return
 	}
-	
-	
+
+	/**
+	 * Returns the an array Claims_No of all claims that have clientID = $clientID
+	 * @param unknown_type $clientID
+	 */
+	function searchClaimsByClientID($clientID){
+		$sql = "SELECT Claim_No FROM Claims WHERE Client_ID='$clientID'";
+		$result = mysql_query($sql);
+		$i = 0;
+		$toReturn;
+		while ($info = mysql_fetch_array($result,MYSQL_NUM)){ //Use num, because otherwise we'll get duplicates
+			$toReturn[$i] = $info[0]; //Add the results into an array for us to read
+			$i++;
+		}
+		return $toReturn;
+	}
+
+	/**
+	 * Returns an array Claim_No of all claims that have VIN = $vin
+	 * @param unknown_type $vin
+	 */
+	function searchClaimsByVIN($vin){
+		$sql = "SELECT Claim_No FROM Claims WHERE VIN='$vin'";
+		$result = mysql_query($sql);
+		$i = 0;
+		$toReturn;
+		while ($info = mysql_fetch_array($result,MYSQL_NUM)){ //Use assoc, because otherwise we'll get duplicates
+			$toReturn[$i] = $info[0]; //Add the results into an array for us to read
+			$i++;
+		}
+		return $toReturn;
+	}
+
+	/**
+	 * Returns an array of claims that match the claimsno in the argument
+	 * Useful for multiple claims display
+	 */
+	function getClaims($claimNoArray){
+		$toReturn;
+		for ($i=0; $i<count($claimNoArray); $i++){ //for each claimNo
+			$sql = "SELECT * FROM Claim WHERE Claim_No='".$claimNoArray[$i]."'";
+			$result = mysql_query($sql);
+			$toReturn[$i] = mysql_fetch_array($resultm, MYSQL_ASSOC); //Only need one row, since the Claim_No should be unique
+		}
+		return $toReturn; //return the resulting array
+	}
+
+	/**
+	 * Return a single row from thirdpart with the Claim_No
+	 * @param unknown_type $claimNo
+	 */
+	function getThirdParty($claimNo){
+		$sql = "SELECT * FROM Third_Party WHERE Claim_No='$claimNo'";
+		$result = mysql_query($sql);
+		return mysql_fetch_array($result, MYSQL_ASSOC);
+	}
+
 }
 ?>
