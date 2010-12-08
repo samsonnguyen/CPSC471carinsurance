@@ -139,4 +139,15 @@ function convertToLike($str){
 	$tempStr = str_replace('*','_',$tempStr);
 	return $tempStr;
 }
+
+/**
+ * Prints permission's errors
+ */
+function printAccessDeniedMsg(){
+	if (!isLoggedIn()){
+		print "<span class=\"denied\">Please login for access</span>\n";
+	} else {
+		print "<span class=\"denied\">Access Denied</span>\n";
+	}
+}
 ?>

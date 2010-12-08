@@ -6,26 +6,26 @@ require $includesfolder.'functions.php';
 include $includesfolder.'header.php';
 
 
-	if (isLoggedIn() && (getUserPermissions()=='1')){
-		$ticketinstance = new Ticket();	//create new ticket instance
-		if ($_GET['action']=='add'){
-			if (isset($_GET['form'])){
-				$newTicketInfo['Client_ID'] = $_POST['fm-clientid'];
-				$newTicketInfo['Infraction_No'] = $_POST['fm-infraction_no'];
-				$newTicketInfo['Officer_Name'] = $_POST['fm-officer_name'];
-				$newTicketInfo['Officer_No'] = $_POST['fm-officer_no'];
-				$newTicketInfo['Classification'] = $_POST['fm-classification'];
-				$newTicketInfo['Date'] = $_POST['fm-year'].$_POST['fm-month'].$_POST['fm-day'];
-				if ($ticketinstance->addNewTicket($newTicketInfo)>0){
-					print "Ticket ".$_POST['fm-Infraction_Number']." added successfully!\n";
-				} else {
-					print "Error occured";
-				}
+if (isLoggedIn() && (getUserPermissions()=='1')){
+	$ticketinstance = new Ticket();	//create new ticket instance
+	if ($_GET['action']=='add'){
+		if (isset($_GET['form'])){
+			$newTicketInfo['Client_ID'] = $_POST['fm-clientid'];
+			$newTicketInfo['Infraction_No'] = $_POST['fm-infraction_no'];
+			$newTicketInfo['Officer_Name'] = $_POST['fm-officer_name'];
+			$newTicketInfo['Officer_No'] = $_POST['fm-officer_no'];
+			$newTicketInfo['Classification'] = $_POST['fm-classification'];
+			$newTicketInfo['Date'] = $_POST['fm-year'].$_POST['fm-month'].$_POST['fm-day'];
+			if ($ticketinstance->addNewTicket($newTicketInfo)>0){
+				print "Ticket ".$_POST['fm-Infraction_Number']." added successfully!\n";
 			} else {
-				include $includesfolder.'addticket.php';
-			}	
+				print "Error occured";
+			}
+		} else {
+			include $includesfolder.'addticket.php';
 		}
-		else if ($_GET['action']=='remove'){
+	}
+	else if ($_GET['action']=='remove'){
 		//Remove the ticket
 		$infraction_no=$_GET['ticket'];
 		if ($infraction_no==null){
@@ -37,10 +37,10 @@ include $includesfolder.'header.php';
 				print "ERROR: Ticket ".$infraction_no." could not be removed!";
 			}
 		}
-	
 
 
-		} else if ($_GET['action']=='update'){
+
+	} else if ($_GET['action']=='update'){
 		//Update ticket
 		$infraction_no= $_GET['ticket'];
 		if ($infraction_no==null){
@@ -48,13 +48,13 @@ include $includesfolder.'header.php';
 		} else {
 			if (isset($_GET['form'])){
 				//This is a return call from the form, we do an update on the database
-			$newTicketInfo['Client_ID'] = $_POST['fm-clientid'];
-			$newTicketInfo['Infraction_No'] = $_POST['fm-infraction_no'];
-			$newTicketInfo['Officer_Name'] = $_POST['fm-officer_name'];
-			$newTicketInfo['Officer_No'] = $_POST['fm-officer_no'];
-			$newTicketInfo['Classification'] = $_POST['fm-classification'];
-			$newTicketInfo['Date'] = $_POST['fm-date'];
-				
+				$newTicketInfo['Client_ID'] = $_POST['fm-clientid'];
+				$newTicketInfo['Infraction_No'] = $_POST['fm-infraction_no'];
+				$newTicketInfo['Officer_Name'] = $_POST['fm-officer_name'];
+				$newTicketInfo['Officer_No'] = $_POST['fm-officer_no'];
+				$newTicketInfo['Classification'] = $_POST['fm-classification'];
+				$newTicketInfo['Date'] = $_POST['fm-date'];
+
 				if ($ticketinstance->updateTicket($infraction_no,$newTicketInfo)){
 					print "Ticket ".$infraction_no." successfully updated<br />\n";
 					print "<a href=\"tickets.php?action=update&ticket=".$infraction_no."\">Return</a>\n";
@@ -114,14 +114,13 @@ include $includesfolder.'header.php';
 			//No form data, we display a form
 			include $includesfolder."searchticket.php";
 		}
-	}		
+	}
 	else {
 		//Home, display a list of tickets and some statistics
 		include $includesfolder."displayticketstats.php";
-		}
-		
-		} else {
-	//User is either not logged in, or has no permissions
-	echo '<p><i><span style="color:red">Access Denied</span></i></p>'."\n";
 	}
+} else {
+	//User is either not logged in, or has no permissions
+	printAccessDeniedMsg();
+}
 ?>

@@ -10,7 +10,7 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 	
 } else {
 	//user not logged in or has incorrect permissions
-	echo '<p><i><span style="color:red">Access Denied</span></i></p>'."\n";
+	printAccessDeniedMsg();
 }
 
 include $includesfolder.'footer.php';

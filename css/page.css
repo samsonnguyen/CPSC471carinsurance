@@ -292,4 +292,10 @@ table {
 td {
 	border: 1px solid #000;
 }
-	
+
+/** Denied errors **/
+.denied {
+	color: red;
+	font-style: italic;
+	text-decoration:underline;
+}

@@ -83,14 +83,14 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 			$temp['Province'] = $_POST['fm-province'];
 			$temp['Policy_No'] = $_POST['fm-policy'];
 			$temp['Phone'] = $_POST['fm-phone'];
-			
-			//Check FName 
+				
+			//Check FName
 			if ($temp['FName']==null || $temp['FName']==""){
 				unset($temp['FName']);
 			} else {
 				$temp['FName'] = convertToLike($temp['FName']);
 			}
-			//Check FName 
+			//Check FName
 			if ($temp['Policy_No']==null || $temp['Policy_No']==""){
 				unset($temp['Policy_No']);
 			} else {
@@ -155,7 +155,7 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 	}
 } else {
 	//user not logged in or has incorrect permissions
-	echo '<p><i><span style="color:red">Access Denied</span></i></p>'."\n";
+	printAccessDeniedMsg();
 }
 
 //content ends here, display the footer
