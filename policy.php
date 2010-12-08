@@ -20,7 +20,7 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 		
 	} */ else {
 		//Client home, display stats?
-//		include $includesfolder.'displayclientstats.php';
+		include $includesfolder.'displaypolicystats.php';
 	}
 	
 	

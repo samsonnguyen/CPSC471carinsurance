@@ -4,6 +4,7 @@ require 'config.php';
 require $classfolder.'clientclass.php';
 require $classfolder.'vehicleclass.php';
 require $classfolder.'ticketclass.php';
+require $classfolder.'policyclass.php';
 require $includesfolder.'functions.php';
 include $includesfolder.'header.php';
 
@@ -12,6 +13,7 @@ if (isLoggedIn() && (getUserPermissions()=='1')){
 	$clientinstance = new Client(); //Create new client instance
 	$vehicleinstance = new Vehicle();//Create new vehicle instance
 	$ticketinstance = new Ticket();//Create new ticket instance
+	$policyinstance = new Policy();//Create new ticket instance
 	if ($_GET['action']=='add'){
 		//display add client form
 		include $includesfolder.'addclient.php';

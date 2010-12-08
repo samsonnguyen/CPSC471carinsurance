@@ -1,5 +1,5 @@
 <?php 
-class policy {
+class Policy {
 	function addNewPrivatePolicy($array) {
 		$keys = array_keys($array); //Return the keys of the array;
 		$sql = "INSERT INTO Private_Policy (Policy_No, "; //Set the first part of the SQL query
@@ -63,15 +63,56 @@ class policy {
 		mysql_query($sql) or die(mysql_error());
 		return true;
 	}
+
+
+
 	
 	function listPrivatePolicy($offset,$limit){
 		// TODO Got to figure this one out still
+		print "PRIVATE";
+		$returnString = array();
+		$sql = "SELECT * FROM Private_Policy ORDER BY Policy_No ASC LIMIT $offset, $limit";
+		$result = mysql_query($sql);
+
+		print "<table class=\"policy\"><tr><td>Policy Number</td><td>Premium Rate</td><td>Coverage</td></tr>";
+
+		while($info = mysql_fetch_array($result)){
+			Print "<tr><td>";
+			if($info['Policy_No']!=null)
+				print $info['Policy_No'];
+			
+			print "</td><td>".$info['Premium_Rate']."</td><td>".$info['Coverage']."</td>";
+			print "</tr>";
+		}
+		print "</table>";
 	}
 	
+
+
+
 	function listCompanyPolicy($offset,$limit){
 		// TODO Got to figure this one out still
-	}
+		print "COMPANY";
+		$returnString = array();
+		$sql = "SELECT * FROM Company_Policy ORDER BY Policy_No ASC LIMIT $offset, $limit";
+		$result = mysql_query($sql);
+
+		print "<table class=\"policy\"><tr><td>Policy Number</td><td>Premium Rate</td><td>Coverage</td><td>Num of EMployees</tr>";
+
+		while($info = mysql_fetch_array($result)){
+			Print "<tr><td>";
+			if($info['Policy_No']!=null)
+				print $info['Policy_No'];
+			
+			print "</td><td>".$info['Premium_Rate']."</td><td>".$info['Coverage']."</td><td>".$info['#-of_employees']."</td>";
+			print "</tr>";
+		}
+		print "</table>";
+	}
 	
+
+
+
 	function totalPolicies(){
 		$data = mysql_query("SELECT * FROM Private_Policy") or die(mysql_error());
 		$data2 = mysql_query("SELECT * FROM Company_Policy") or die(mysql_error());
@@ -87,5 +128,7 @@ class policy {
 		$data = mysql_query("SELECT * FROM Company_Policy") or die(mysql_error());
 		return mysql_num_rows($data); //count the number of results and return
 	}
+	
+
 } //CLOSE policy class
 ?>
