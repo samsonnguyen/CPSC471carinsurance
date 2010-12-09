@@ -93,6 +93,10 @@ class Claim{
 	function deleteClaim($claimID){
 		$sql="DELETE FROM Claim WHERE Claim_No='$claimID'";
 		mysql_query($sql) or die(mysql_error());
+		$sql="DELETE FROM Claims WHERE Claim_No='$claimID'";
+		mysql_query($sql) or die(mysql_error());
+		$sql="DELETE FROM Third_Party WHERE Claim_No='$claimID'";
+		mysql_query($sql) or die(mysql_error());
 		return true;
 	}
 
@@ -156,6 +160,7 @@ class Claim{
 			} else {
 				print $claimsinfo['2'];
 			}
+			$this->printOptions($info['Claim_No']);//print the delete and edit links
 			print "</tr>";
 		}
 		print "</table>";
@@ -168,6 +173,15 @@ class Claim{
 	function totalClaims(){
 		$data = mysql_query("SELECT * FROM Claim") or die(mysql_error());
 		return mysql_num_rows($data); //count the number of results and return
+	}
+	
+	/**
+	 * prints the option to delete and edit a claim/thirdparty/claims
+	 * 
+	 */
+	function printOptions($claimID){
+		print "<td><a href=\"claim.php?action=remove&claim=".$claimID."\">x</a></td>\n";
+		print "<td><a href=\"claim.php?action=update&claim=".$claimID."\">Edit</a></td>\n";
 	}
 
 	/**
@@ -185,7 +199,106 @@ class Claim{
 		}
 		return $toReturn;
 	}
+	
+	/**
+	 * Displays the form for editing the claim/thirdparty/claims
+	 * Enter description here ...
+	 * @param unknown_type $claimID
+	 */
+	function printUpdateForm($claimID){
+		$sql = "SELECT * FROM Claim WHERE Claim_No='$claimID';";
+		$result = mysql_query($sql);
+		if (is_resource($result)){
+			$claim = mysql_fetch_array($result, MYSQL_ASSOC); //Assume only one row
+		}
+		$sql = "SELECT * FROM Third_Party WHERE Claim_No='$claimID';";
+		$result = mysql_query($sql);
+		if (is_resource($result)){
+			$thirdparty = mysql_fetch_array($result, MYSQL_ASSOC); //Assume only one row
+		}
+		$sql = "SELECT * FROM Claims WHERE Claim_No='$claimID';";
+		$result = mysql_query($sql);
+		if (is_resource($result)){
+			$claims = mysql_fetch_array($result, MYSQL_ASSOC); //Assume only one row
+		}
+		include 'includes/editclaim.php';
+	}
 
+	/**
+	 * Updates a claim with $claimID
+	 * @param unknown_type $claimID
+	 * @param unknown_type $array
+	 */
+	function updateClaim($claimID,$array){
+		$sql="UPDATE Claim SET ";
+		$keys = array_keys($array); //Return the keys of the array, use first element;
+		for ($i=0;$i<count($keys);$i++){
+			if ($i==(count($keys)-1)){ //last value, omit the comma
+				$sql = $sql.$keys[$i]."='".$array[$keys[$i]]."'";
+			} else {
+				$sql = $sql.$keys[$i]."='".$array[$keys[$i]]."', ";
+			}
+		}
+		$sql = $sql." WHERE Claim_No='$claimID'";
+		mysql_query($sql) or die(mysql_error());
+		return true;//return true
+	}
+	/**
+	 * Updates a thirdparty with $claimID
+	 * @param unknown_type $claimID
+	 * @param unknown_type $array
+	 */
+	function updateThirdParty($claimID,$array){
+		$sql="UPDATE Third_Party SET ";
+		$keys = array_keys($array); //Return the keys of the array, use first element;
+		for ($i=0;$i<count($keys);$i++){
+			if ($i==(count($keys)-1)){ //last value, omit the comma
+				$sql = $sql.$keys[$i]."='".$array[$keys[$i]]."'";
+			} else {
+				$sql = $sql.$keys[$i]."='".$array[$keys[$i]]."', ";
+			}
+		}
+		$sql = $sql." WHERE Claim_No='$claimID'";
+		mysql_query($sql) or die(mysql_error());
+		return true;//return true
+	}
+	/**
+	 * Updates a claims with $claimID
+	 * @param unknown_type $claimID
+	 * @param unknown_type $array
+	 */
+	function updateClaims($claimID,$array){
+		$sql="UPDATE Claims SET ";
+		$keys = array_keys($array); //Return the keys of the array, use first element;
+		for ($i=0;$i<count($keys);$i++){
+			if ($i==(count($keys)-1)){ //last value, omit the comma
+				$sql = $sql.$keys[$i]."='".$array[$keys[$i]]."'";
+			} else {
+				$sql = $sql.$keys[$i]."='".$array[$keys[$i]]."', ";
+			}
+		}
+		$sql = $sql." WHERE Claim_No='$claimID'";
+		mysql_query($sql) or die(mysql_error());
+		return true;//return true
+	}
+	
+	/**
+	 * Updates claim, claims and thirdparty. Return true is all updates are successful
+	 * @param unknown_type $claimID
+	 * @param unknown_type $newClaimInfo
+	 * @param unknown_type $newThirdParty
+	 * @param unknown_type $newClaims
+	 */
+	function updateAll($claimID, $newClaimInfo, $newThirdParty, $newClaims){
+		if ($this->updateClaim($claimID,$newClaimInfo) &&
+			$this->updateThirdParty($claimID, $newThirdParty) &&
+			$this->updateClaims($claimID, $newClaims)){
+				return true;
+		} else {
+			return false;
+		}
+	}
+	
 	/**
 	 * Returns an array Claim_No of all claims that have VIN = $vin
 	 * @param unknown_type $vin
