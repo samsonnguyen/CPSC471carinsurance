@@ -52,18 +52,8 @@
 						<li><a href="tickets.php?action=search">Search for Ticket</a></li>
 					</ul>
 				</li>
-				<li><a href="policy.php">Policy</a>
-					<ul>
-						<li><a href="policy.php?action=add">Add Policy</a></li>
-						<li><a href="policy.php?action=search">Search for Policy</a></li>
-					</ul>
-				</li>
-				<li><a href="company.php">Company</a>
-					<ul>
-						<li><a href="company.php?action=add">Add Company</a></li>
-						<li><a href="company.php?action=search">Search for Company</a></li>
-					</ul>
-				</li>
+				<li><a href="policy.php">Policy</a></li>
+				<li><a href="company.php">Company</a></li>
 				<li><a href="manager.php">Managers</a>
 					<ul>
 						<li><a href="manager.php?action=add">Add Employee</a></li>
