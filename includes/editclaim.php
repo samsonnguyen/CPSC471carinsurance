@@ -146,10 +146,10 @@
       <div class="fm-atfault">
       	<span>Is the Client at fault?</span>
         <label for="fm-atfaultyes">
-        <input name="fm-atfault" type="radio" id="fm-atfaultyes" value="1" <?php if($claim['At_Fault']==1){print "checked ";}?>/>
+        <input name="fm-atfault" type="radio" id="fm-atfaultyes" value="1" <?php if($claim['Client_At_Fault']==1){print "checked ";}?>/>
         Yes</label>
         <label for="fm-atfaultno">
-        <input id="fm-atfaultno" name="fm-atfault" type="radio" value="0" <?php if($claim['At_Fault']==0){print "checked ";}?>/>
+        <input id="fm-atfaultno" name="fm-atfault" type="radio" value="0" <?php if($claim['Client_At_Fault']==0){print "checked ";}?>/>
         No</label>
       </div>
     </div>

@@ -106,8 +106,8 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 		//Search for clients
 		if ($_GET['form']=='clientid'){
 			//Search by clientid
-			$result = $clientinstance->searchbyId($_POST['fm-clientID']);
-			$clientinstance->display2DArray($result,true);
+			$result = $claiminstance->searchbyId($_POST['fm-clientID']);
+			$claiminstance->displayClaim($result,true);
 		} else if ($_GET['form']=='info'){
 			//search by info
 			unset($temp);
@@ -162,7 +162,7 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 			$clientinstance->display2DArray($clients, true);
 		} else {
 			//display search form
-			include $includesfolder.'searchclient.php';
+			include $includesfolder.'searchclaim.php';
 		}
 
 	} else if (isset($_GET['addclient'])){
