@@ -8,7 +8,7 @@
     <div class="fm-req">
       <label for="fm-clientid"><a href="client.php?action=update&client=<?php print $info['Client_ID']?>">Client ID:</a></label>
       <input id="fm-clientid" name="fm-clientid" type="text"
-      <?php print "value=\"".$info['Client_ID']."\"";?>/>
+      <?php print "value=\"".$info['Client_ID']."\"";?> disabled />
     </div>
     <div class="fm-req">
 
