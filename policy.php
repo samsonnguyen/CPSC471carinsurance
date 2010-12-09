@@ -9,13 +9,13 @@ include $includesfolder.'header.php';
 if (isLoggedIn() && (getUserPermissions()>='1')){
 	$policyinstance = new Policy();
 	if ($_GET['action']=='add'){
-		
+		include $includesfolder.'addpolicy.php';
 	} else if ($_GET['action']=='remove'){
 		
 	} else if ($_GET['action']=='update'){
 		
 	} else if ($_GET['action']=='search'){
-		
+		include $includesfolder.'searchpolicy.php';
 	} /* else if (isset($_GET['addclient'])){
 		
 	} */ else {
