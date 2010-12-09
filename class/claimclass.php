@@ -319,7 +319,7 @@ class Claim{
 	 * Returns an array of claims that match the claimsno in the argument
 	 * Useful for multiple claims display
 	 */
-	function getClaims($claimNoArray){
+	function getClaim($claimNoArray){
 		$toReturn;
 		for ($i=0; $i<count($claimNoArray); $i++){ //for each claimNo
 			$sql = "SELECT * FROM Claim WHERE Claim_No='".$claimNoArray[$i]."'";
@@ -338,6 +338,72 @@ class Claim{
 		$result = mysql_query($sql);
 		return mysql_fetch_array($result, MYSQL_ASSOC);
 	}
+	
+	/**
+	 * Search for claim no, with a join on Claim_No and Claim_No==$claimid
+	 */
+	function searchByClaimNo($claimid){
+		$sql = "SELECT * FROM Claim, Third_Party, Claims WHERE Claim.Claim_No=Third_Party.Claim_No
+				AND Claim.Claim_No=Claims.Claim_No AND Claim.Claim_No='$claimid'";
+		$result = mysql_query($sql) or die(mysql_error());
+		$i = 0; //index
+		while ($info = mysql_fetch_array($result,MYSQL_ASSOC)){//While more results
+			$toReturn[$i] = $info;
+			$i++;
+		}
+		return $toReturn;
+	}
+	
+	/**
+	 * Search for claim no, with a join on Claim_No and Claim_No==$claimid
+	 */
+	function searchByInfo($array){
+		$sql = "SELECT * FROM Claim, Third_Party, Claims WHERE Claim.Claim_No=Third_Party.Claim_No
+				AND Claim.Claim_No=Claims.Claim_No";
+		$keys = array_keys($array);
+		for ($i = 0; $i< count($keys); $i++){
+			$sql = $sql." AND ".$keys[$i]." LIKE '".$array[$keys[$i]]."'";
+		}
+		//print $sql;
+		$result = mysql_query($sql) or die(mysql_error());
+		$i = 0; //index
+		while ($info = mysql_fetch_array($result,MYSQL_ASSOC)){//While more results
+			$toReturn[$i] = $info;
+			$i++;
+		}
+		return $toReturn;
+	}
 
+	
+	/**
+	 * function that formats an array into a table.
+	 * this should work for all 2D arrays.
+	 * @param unknown_type $array
+	 * @param boolean $printoptions Set whether to display delete, update, etc functions
+	 */
+	function display2DArray($array,$printoptionsflag){
+		if($array==null){
+			print "No results were found!";
+		} else {
+			print "<table class=\"claims\"><tr>";
+			$first = $array[0];
+			$keys = array_keys($first); //Return the keys of the array, use first element;
+			for ($i=0;$i<count($keys);$i++){
+				print "<td>".$keys[$i]."</td>\n";
+			}
+			print "</tr>";
+			for ($j=0;$j<count($array);$j++){
+				print "<tr>";
+				for ($i=0;$i<(count($keys));$i++){	
+					print "<td>".$array[$j][$keys[$i]]."</td>\n";
+				}
+				if ($printoptionsflag){
+					$this->printOptions($array[$j]['Claim_No']);
+				}
+				print "</tr>\n";
+			}
+			print "</table>\n";
+		}
+	}
 }
 ?>

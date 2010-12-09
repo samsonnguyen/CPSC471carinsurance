@@ -103,7 +103,11 @@ class Client{
 		$sql = "SELECT * FROM Client WHERE";
 		$keys = array_keys($array);
 		for ($i = 0; $i< count($keys); $i++){
-			$sql = $sql." ".$keys[$i]." LIKE '".$array[$keys[$i]]."'"; 
+						if ($i==0){
+				$sql = $sql." ".$keys[$i]." LIKE '".$array[$keys[$i]]."'";
+			} else {
+				$sql = $sql." AND ".$keys[$i]." LIKE '".$array[$keys[$i]]."'";
+			} 
 		}
 		$result = mysql_query($sql) or die(mysql_error());
 		$i = 0;

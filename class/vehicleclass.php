@@ -70,7 +70,11 @@ class Vehicle{
 		$sql = "SELECT * FROM Vehicle WHERE";
 		$keys = array_keys($array);
 		for ($i = 0; $i< count($keys); $i++){
-			$sql = $sql." ".$keys[$i]." LIKE '".$array[$keys[$i]]."'"; 
+			if ($i==0){
+				$sql = $sql." ".$keys[$i]." LIKE '".$array[$keys[$i]]."'";
+			} else {
+				$sql = $sql." AND ".$keys[$i]." LIKE '".$array[$keys[$i]]."'";
+			} 
 		}
 		//print $sql;
 		$result = mysql_query($sql) or die(mysql_error());

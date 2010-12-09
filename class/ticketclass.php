@@ -140,8 +140,6 @@ class Ticket{
 		return true;
 		}
 		
-		
-		
 		//prints the form for update
 		function printUpdateForm($infraction_no){
 		$sql = "SELECT * FROM Ticket WHERE Infraction_No='$infraction_no'"; //Get the vehicle
@@ -150,8 +148,6 @@ class Ticket{
 		include 'includes/editticket.php';
 		}
 		
-
-
 		//list the tickets in a table format
 		/**
 	 	* Prints out a simple list of tickets, sort by infraction number, also display the option to update, 		 	  delete, etc.

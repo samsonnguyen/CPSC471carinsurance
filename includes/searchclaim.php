@@ -3,7 +3,7 @@
   <!-- p id="fm-intro" required for 'hide optional fields' function -->
   <p id="fm-intro">Fields in <strong>bold</strong> are required.</p>
 
-  <form name="searchclaim" id="fm-form" method="post" action="claim.php?action=search&claimno" >
+  <form name="searchclaim" id="fm-form" method="post" action="claim.php?action=search&form=claimno" >
     <fieldset>
     	<legend>Search By Claim Number</legend>
 	 	<div class="fm-req">
@@ -15,7 +15,7 @@
       <input name="Search" value="Search" type="submit" />
     </div>
 	</form>
-      <form name="searchclaim" id="fm-form" method="post" action="claim.php?action=search&thirdparty" >
+      <form name="searchclaim" id="fm-form" method="post" action="claim.php?action=search&form=thirdparty" >
     <fieldset>
     	<legend>Search By Third Party Info</legend>
     	<p>Use * for wildcards</p>
@@ -40,7 +40,7 @@
       <input name="Search" value="Search" type="submit" />
     </div>
 	</form>
-	      <form name="searchclaim" id="fm-form" method="post" action="claim.php?action=search&client" >
+	      <form name="searchclaim" id="fm-form" method="post" action="claim.php?action=search&form=client" >
     <fieldset>
     	<legend>Search By Client</legend>
     	<p>Use * for wildcards</p>
