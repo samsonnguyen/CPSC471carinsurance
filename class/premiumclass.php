@@ -1,5 +1,7 @@
 <?php
 class premiumClass{
+
+	public static $base_price=0;
 	
 	/**
 	 * find all the tickets, and history of the client
@@ -32,5 +34,14 @@ class premiumClass{
 	function batchPremiumUpdate(){
 		
 	}
+	
+	public static function setBasePrice($price){
+	self::$base_price = $price; // sets the base price for premiums;
+	}
+
+	public static function getBasePrice(){
+	return self::$base_price; // returns the base price for premiums;
+	}
+
 }
 ?>

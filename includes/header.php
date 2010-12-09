@@ -58,6 +58,7 @@
 					<ul>
 						<li><a href="manager.php?action=add">Add Employee</a></li>
 						<li><a href="manager.php?action=search">Search for Employee</a></li>
+						<li><a href="manager.php?action=setbase">Set Base Price</a></li>
 					</ul>
 				</li>
 				<?php
