@@ -108,7 +108,7 @@ class Claim{
 	 */
 	function listClaims($offset,$limit){
 		$sql = "SELECT * FROM Claim ORDER BY Claim_No ASC LIMIT $offset, $limit ";
-		print $sql;
+		//print $sql;
 		$data_p = mysql_query($sql);
 		print "<table class=\"claim\"><tr><td class=\"td_claim\">Claim_No</td><td class=\"td_claim\">Amount</td>
 		<td class=\"td_claim\">Date</td><td>Status</td><td class=\"td_claim\">At Fault</td><td class=\"thirdparty\">Name</td><td class=\"thirdparty\">Insurer</td><td class=\"thirdparty\">Phone</td><td class=\"claims\">Client ID</td><td class=\"claims\">VIN</td></tr>";
