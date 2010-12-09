@@ -6,7 +6,7 @@ require $includesfolder.'functions.php';
 include $includesfolder.'header.php';
 
 
-if (isLoggedIn() && (getUserPermissions()=='1')){
+if (isLoggedIn() && (getUserPermissions()>='1')){
 	$ticketinstance = new Ticket();	//create new ticket instance
 	if ($_GET['action']=='add'){
 		if (isset($_GET['form'])){

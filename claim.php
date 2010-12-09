@@ -6,7 +6,7 @@ require $includesfolder.'functions.php';
 include $includesfolder.'header.php';
 
 //check if the user is logged in and has correct permissions
-if (isLoggedIn() && (getUserPermissions()=='1')){
+if (isLoggedIn() && (getUserPermissions()>='1')){
 	$claiminstance = new Claim();//Create new vehicle instance
 	if ($_GET['action']=='add'){
 		//Add new claim

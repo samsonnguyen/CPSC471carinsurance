@@ -54,7 +54,12 @@
 				</li>
 				<li><a href="policy.php">Policy</a></li>
 				<li><a href="company.php">Company</a></li>
-				<li><a href="manager.php">Managers</a></li>
+				<li><a href="manager.php">Managers</a>
+					<ul>
+						<li><a href="manager.php?action=add">Add Employee</a></li>
+						<li><a href="manager.php?action=search">Search for Employee</a></li>
+					</ul>
+				</li>
 				<?php
 					if(isLoggedIn()){
 						echo '<li><a href="logout.php">Logout</a></li>';

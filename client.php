@@ -9,7 +9,7 @@ require $includesfolder.'functions.php';
 include $includesfolder.'header.php';
 
 //check if the user is logged in and has correct permissions
-if (isLoggedIn() && (getUserPermissions()=='1')){
+if (isLoggedIn() && (getUserPermissions()>='1')){
 	$clientinstance = new Client(); //Create new client instance
 	$vehicleinstance = new Vehicle();//Create new vehicle instance
 	$ticketinstance = new Ticket();//Create new ticket instance

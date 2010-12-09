@@ -10,8 +10,8 @@
 	$pagenum = 1;
 }
 
-//Count number of tickets
-	$rows = $ticketinstance->totalTickets();
+//Count number of employees
+	$rows = $managerinstance->totalEmployees();
 //This is the number of results displayed per page 
 	$page_rows = 20; 
 
@@ -31,7 +31,7 @@
 
 
 //Display the table of tickets
-	$ticketinstance->listTickets($offset,$page_rows);
+	$managerinstance->listEmployees($offset,$page_rows);
 
 
  

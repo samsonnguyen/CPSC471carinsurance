@@ -6,7 +6,7 @@ require $classfolder.'companyclass.php';
 require $includesfolder.'functions.php';
 include $includesfolder.'header.php';
 
-if (isLoggedIn() && (getUserPermissions()=='1')){
+if (isLoggedIn() && (getUserPermissions()>='1')){
 	$policyinstance = new Policy();
 	if ($_GET['action']=='add'){
 		

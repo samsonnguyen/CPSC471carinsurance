@@ -6,7 +6,7 @@ require $includesfolder.'functions.php';
 include $includesfolder.'header.php';
 
 //Check if the user and logged in and has permissions
-if (isLoggedIn() && (getUserPermissions()=='1')){
+if (isLoggedIn() && (getUserPermissions()>='1')){
 	$vehicleinstance = new Vehicle();//Create new vehicle instance
 	if ($_GET['action']=='add'){
 		//Add vehicle
