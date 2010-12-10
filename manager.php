@@ -5,7 +5,7 @@ require $classfolder.'managerclass.php';
 require $classfolder.'premiumclass.php';
 require $includesfolder.'functions.php';
 include $includesfolder.'header.php';
-
+//test change
 if (isLoggedIn() && (getUserPermissions()=='2')){
 		$managerinstance = new Manager();	//create new manager instance
 		$premiuminstance = new premiumClass();
