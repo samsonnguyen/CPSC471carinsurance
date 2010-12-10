@@ -32,7 +32,7 @@ if ($pagenum < 1){
 //This sets the range to display in our query 
 $offset = ($pagenum - 1) * $page_rows; 
 
-print $offset." : ".$page_rows;
+//print $offset." : ".$page_rows;
 //Display the table of clients
 $claiminstance->listClaims($offset,$page_rows);
 

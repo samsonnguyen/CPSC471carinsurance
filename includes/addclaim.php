@@ -125,11 +125,19 @@
     <legend>Client Involved with this Claim</legend>
     <div class="fm-req">
       <label for="fm-cl-clientid">Client ID:</label>
-	  <input id="fm-cl-clientid" name="fm-cl-clientid" type ="text" />
+	  <input id="fm-cl-clientid" name="fm-cl-clientid" type ="text" 
+	  <?php if(isset($_GET['clientid'])){
+	  	print "value=\"".$_GET['clientid']."\" ";
+	  }?>
+	  />
     </div>
         <div class="fm-req">
       <label for="fm-cl-vin">Vehicle VIN:</label>
-	  <input id="fm-cl-vin" name="fm-cl-vin" type ="text" />
+	  <input id="fm-cl-vin" name="fm-cl-vin" type ="text"
+	  <?php if(isset($_GET['vehicle'])){
+	  	print "value=\"".$_GET['vehicle']."\" ";
+	  }?> 
+	  />
     </div>
     </fieldset>
     <div class="fm-multi">

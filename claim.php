@@ -74,95 +74,75 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 		} else {
 			if (isset($_GET['form'])){
 				//This is a return call from the form, we do an update on the database
-				$newClientInfo['FName'] = $_POST['fm-firstname'];
-				$newClientInfo['MName'] = $_POST['fm-middlename'];
-				$newClientInfo['LName'] = $_POST['fm-lastname'];
-				$newClientInfo['Address'] = $_POST['fm-addr'];
-				$newClientInfo['City'] = $_POST['fm-city'];
-				$newClientInfo['PostalCode'] = $_POST['fm-postalcode'];
-				$newClientInfo['Province'] = $_POST['fm-province'];
-				$newClientInfo['Phone'] = $_POST['fm-telephone'];
-				$newClientInfo['Birthdate'] = $_POST['fm-birthdate'];
-				$newClientInfo['License_No'] = $_POST['fm-license_no'];
-				$newClientInfo['Gender'] = $_POST['fm-gender'];
-				$newClientInfo['Age'] = getAge($_POST['fm-birthdate']);
-				$newClientInfo['Company'] = $_POST['fm-company'];
-				$newClientInfo['Policy_No'] = $_POST['fm-policy'];
-				if ($claiminstance->updateClaim($claimID,$newClientInfo)){
-					print "Client ".$claimID." successfully updated<br />\n";
-					print "<a href=\"client.php?action=update&client=".$claimID."\">Return</a>\n";
+				$claimID = $_POST['fm-claimid'];
+				$newClaimInfo['Amount'] = $_POST['fm-amount'];
+				$newClaimInfo['Date'] = $_POST['fm-year'].$_POST['fm-month'].$_POST['fm-day'];
+				$newClaimInfo['Description'] = $_POST['fm-description'];
+				$newClaimInfo['Status'] = $_POST['fm-status'];
+				$newClaimInfo['Client_At_Fault'] = $_POST['fm-atfault'];
+				$newThirdParty['Party_Name'] = $_POST['fm-tp-name'];
+				$newThirdParty['Insurer_Name'] = $_POST['fm-tp-insurer'];
+				$newThirdParty['Phone'] = $_POST['fm-tp-phone'];
+				$newThirdParty['Address'] = $_POST['fm-tp-address'];
+				$newThirdParty['Insurer_Rep'] = $_POST['fm-tp-rep'];
+				$newThirdParty['Vehicle_Year'] = $_POST['fm-tp-year'];
+				$newThirdParty['Vehicle_Make'] = $_POST['fm-tp-make'];
+				$newThirdParty['Vehicle_Model'] = $_POST['fm-tp-model'];
+				$newThirdParty['Party_License_No'] = $_POST['fm-tp-license'];
+				$newClaims['Client_ID']=$_POST['fm-cl-clientid'];
+				$newClaims['VIN']=$_POST['fm-cl-vin'];
+				if ($claiminstance->updateClaim($claimID,$newClaimInfo, $newThirdParty, $newClaims)){
+					print "Claim ".$claimID." successfully updated<br />\n";
+					print "<a href=\"claim.php?action=update&claim=".$claimID."\">Return</a>\n";
 				} else {
 					print "Error occured, please check your input";
 				}
 			} else {
 				//Display an update form and get information
-				$clientinstance->printUpdateForm($clientid);
-				$vehicles = $vehicleinstance->searchByClient($clientid);
-				$vehicleinstance->display2DArray($vehicles, true);
-				print "<br /><a href=\"vehicle.php?action=add&client=".$clientid."\">Add a new vehicle for this client</a><br />\n";
+				$claiminstance->printUpdateForm($claimID);
 			}
 		}
 	} else if ($_GET['action']=='search'){
 		//Search for clients
-		if ($_GET['form']=='clientid'){
+		if ($_GET['form']=='claimno'){
 			//Search by clientid
-			$result = $clientinstance->searchbyId($_POST['fm-clientID']);
-			$clientinstance->display2DArray($result,true);
-		} else if ($_GET['form']=='info'){
-			//search by info
+			$result = $claiminstance->searchbyClaimNo($_POST['fm-claimid']);
+			$claiminstance->display2DArray($result,true); //
+		} else if ($_GET['form']=='thirdparty'){
+			//search by third party info
 			unset($temp);
-			$temp['FName'] = $_POST['fm-firstname'];
-			$temp['LName'] = $_POST['fm-lastname'];
-			$temp['License_No'] = $_POST['fm-license_no'];
-			$temp['City'] = $_POST['fm-city'];
-			$temp['Province'] = $_POST['fm-province'];
-			$temp['Policy_No'] = $_POST['fm-policy'];
-			$temp['Phone'] = $_POST['fm-phone'];
-			
-			//Check FName 
-			if ($temp['FName']==null || $temp['FName']==""){
-				unset($temp['FName']);
-			} else {
-				$temp['FName'] = convertToLike($temp['FName']);
+			if ($_POST['fm-tp-name']!=null || $_POST['fm-tp-name']!="")
+				$temp['Party_Name'] = $_POST['fm-tp-name'];
+			if ($_POST['fm-tp-insurer']!=null || $_POST['fm-tp-insurer']!="")
+				$temp['Insurer_Name'] = $_POST['fm-tp-insurer'];
+			if ($_POST['fm-tp-model']!=null || $_POST['fm-tp-model']!="")
+				$temp['Vehicle_Model'] = $_POST['fm-tp-model'];
+			if ($_POST['fm-tp-license']!=null || $_POST['fm-tp-license']!="")
+				$temp['Party_License_No'] = $_POST['fm-tp-license'];
+			$keys = array_keys($temp);		
+			for ($i=0;$i<count($keys);$i++){
+				//find and convert all astericks into mysql like format
+				$temp[$keys[$i]] = convertToLike($temp[$keys[$i]]); 
 			}
-			//Check FName 
-			if ($temp['Policy_No']==null || $temp['Policy_No']==""){
-				unset($temp['Policy_No']);
-			} else {
-				$temp['Policy_No'] = convertToLike($temp['Policy_No']);
+			$claims = $claiminstance->searchByInfo($temp);
+			$claiminstance->display2DArray($claims, true);
+		} else if ($_GET['form']=='client'){
+			//search by client info
+			unset($temp);
+			if ($_POST['fm-cl-clientid']!=null || $_POST['fm-cl-clientid']!="")
+				$temp['Client_ID'] = $_POST['fm-cl-clientid'];
+			if ($_POST['fm-cl-vin']!=null || $_POST['fm-cl-vin']!="")
+				$temp['VIN'] = $_POST['fm-cl-vin'];
+			$keys = array_keys($temp);		
+			for ($i=0;$i<count($keys);$i++){
+				//find and convert all astericks into mysql like format
+				$temp[$keys[$i]] = convertToLike($temp[$keys[$i]]); 
 			}
-			//Check LName
-			if ($temp['LName']==null || $temp['LName']==""){
-				unset($temp['LName']);
-			} else {
-				$temp['LName'] = convertToLike($temp['LName']);
-			}
-			//Check License_No
-			if ($temp['License_No']==null || $temp['License_No']==""){
-				unset($temp['License_No']);
-			} else {
-				$temp['License_No'] = convertToLike($temp['License_No']);
-			}
-			//Check City
-			if ($temp['City']==null || $temp['City']==""){
-				unset($temp['City']);
-			} else {
-				$temp['City'] = convertToLike($temp['City']);
-			}
-			//Check Phone
-			if ($temp['Phone']==null || $temp['Phone']==""){
-				unset($temp['Phone']);
-			} else {
-				$temp['Phone'] = convertToLike($temp['Phone']);
-			}
-			if ($temp['Province']==""){
-				unset($temp['Province']);
-			}
-			$clients = $clientinstance->searchByInfo($temp);
-			$clientinstance->display2DArray($clients, true);
+			$claims = $claiminstance->searchByInfo($temp);
+			$claiminstance->display2DArray($claims, true);
 		} else {
 			//display search form
-			include $includesfolder.'searchclient.php';
+			include $includesfolder.'searchclaim.php';
 		}
 
 	} else if (isset($_GET['addclient'])){

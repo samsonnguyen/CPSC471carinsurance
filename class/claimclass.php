@@ -93,6 +93,10 @@ class Claim{
 	function deleteClaim($claimID){
 		$sql="DELETE FROM Claim WHERE Claim_No='$claimID'";
 		mysql_query($sql) or die(mysql_error());
+		$sql="DELETE FROM Claims WHERE Claim_No='$claimID'";
+		mysql_query($sql) or die(mysql_error());
+		$sql="DELETE FROM Third_Party WHERE Claim_No='$claimID'";
+		mysql_query($sql) or die(mysql_error());
 		return true;
 	}
 
@@ -104,7 +108,7 @@ class Claim{
 	 */
 	function listClaims($offset,$limit){
 		$sql = "SELECT * FROM Claim ORDER BY Claim_No ASC LIMIT $offset, $limit ";
-		print $sql;
+		//print $sql;
 		$data_p = mysql_query($sql);
 		print "<table class=\"claim\"><tr><td class=\"td_claim\">Claim_No</td><td class=\"td_claim\">Amount</td>
 		<td class=\"td_claim\">Date</td><td>Status</td><td class=\"td_claim\">At Fault</td><td class=\"thirdparty\">Name</td><td class=\"thirdparty\">Insurer</td><td class=\"thirdparty\">Phone</td><td class=\"claims\">Client ID</td><td class=\"claims\">VIN</td></tr>";
@@ -156,6 +160,7 @@ class Claim{
 			} else {
 				print $claimsinfo['2'];
 			}
+			$this->printOptions($info['Claim_No']);//print the delete and edit links
 			print "</tr>";
 		}
 		print "</table>";
@@ -168,6 +173,15 @@ class Claim{
 	function totalClaims(){
 		$data = mysql_query("SELECT * FROM Claim") or die(mysql_error());
 		return mysql_num_rows($data); //count the number of results and return
+	}
+	
+	/**
+	 * prints the option to delete and edit a claim/thirdparty/claims
+	 * 
+	 */
+	function printOptions($claimID){
+		print "<td><a href=\"claim.php?action=remove&claim=".$claimID."\">x</a></td>\n";
+		print "<td><a href=\"claim.php?action=update&claim=".$claimID."\">Edit</a></td>\n";
 	}
 
 	/**
@@ -185,7 +199,106 @@ class Claim{
 		}
 		return $toReturn;
 	}
+	
+	/**
+	 * Displays the form for editing the claim/thirdparty/claims
+	 * Enter description here ...
+	 * @param unknown_type $claimID
+	 */
+	function printUpdateForm($claimID){
+		$sql = "SELECT * FROM Claim WHERE Claim_No='$claimID';";
+		$result = mysql_query($sql);
+		if (is_resource($result)){
+			$claim = mysql_fetch_array($result, MYSQL_ASSOC); //Assume only one row
+		}
+		$sql = "SELECT * FROM Third_Party WHERE Claim_No='$claimID';";
+		$result = mysql_query($sql);
+		if (is_resource($result)){
+			$thirdparty = mysql_fetch_array($result, MYSQL_ASSOC); //Assume only one row
+		}
+		$sql = "SELECT * FROM Claims WHERE Claim_No='$claimID';";
+		$result = mysql_query($sql);
+		if (is_resource($result)){
+			$claims = mysql_fetch_array($result, MYSQL_ASSOC); //Assume only one row
+		}
+		include 'includes/editclaim.php';
+	}
 
+	/**
+	 * Updates a claim with $claimID
+	 * @param unknown_type $claimID
+	 * @param unknown_type $array
+	 */
+	function updateClaim($claimID,$array){
+		$sql="UPDATE Claim SET ";
+		$keys = array_keys($array); //Return the keys of the array, use first element;
+		for ($i=0;$i<count($keys);$i++){
+			if ($i==(count($keys)-1)){ //last value, omit the comma
+				$sql = $sql.$keys[$i]."='".$array[$keys[$i]]."'";
+			} else {
+				$sql = $sql.$keys[$i]."='".$array[$keys[$i]]."', ";
+			}
+		}
+		$sql = $sql." WHERE Claim_No='$claimID'";
+		mysql_query($sql) or die(mysql_error());
+		return true;//return true
+	}
+	/**
+	 * Updates a thirdparty with $claimID
+	 * @param unknown_type $claimID
+	 * @param unknown_type $array
+	 */
+	function updateThirdParty($claimID,$array){
+		$sql="UPDATE Third_Party SET ";
+		$keys = array_keys($array); //Return the keys of the array, use first element;
+		for ($i=0;$i<count($keys);$i++){
+			if ($i==(count($keys)-1)){ //last value, omit the comma
+				$sql = $sql.$keys[$i]."='".$array[$keys[$i]]."'";
+			} else {
+				$sql = $sql.$keys[$i]."='".$array[$keys[$i]]."', ";
+			}
+		}
+		$sql = $sql." WHERE Claim_No='$claimID'";
+		mysql_query($sql) or die(mysql_error());
+		return true;//return true
+	}
+	/**
+	 * Updates a claims with $claimID
+	 * @param unknown_type $claimID
+	 * @param unknown_type $array
+	 */
+	function updateClaims($claimID,$array){
+		$sql="UPDATE Claims SET ";
+		$keys = array_keys($array); //Return the keys of the array, use first element;
+		for ($i=0;$i<count($keys);$i++){
+			if ($i==(count($keys)-1)){ //last value, omit the comma
+				$sql = $sql.$keys[$i]."='".$array[$keys[$i]]."'";
+			} else {
+				$sql = $sql.$keys[$i]."='".$array[$keys[$i]]."', ";
+			}
+		}
+		$sql = $sql." WHERE Claim_No='$claimID'";
+		mysql_query($sql) or die(mysql_error());
+		return true;//return true
+	}
+	
+	/**
+	 * Updates claim, claims and thirdparty. Return true is all updates are successful
+	 * @param unknown_type $claimID
+	 * @param unknown_type $newClaimInfo
+	 * @param unknown_type $newThirdParty
+	 * @param unknown_type $newClaims
+	 */
+	function updateAll($claimID, $newClaimInfo, $newThirdParty, $newClaims){
+		if ($this->updateClaim($claimID,$newClaimInfo) &&
+			$this->updateThirdParty($claimID, $newThirdParty) &&
+			$this->updateClaims($claimID, $newClaims)){
+				return true;
+		} else {
+			return false;
+		}
+	}
+	
 	/**
 	 * Returns an array Claim_No of all claims that have VIN = $vin
 	 * @param unknown_type $vin
@@ -206,7 +319,7 @@ class Claim{
 	 * Returns an array of claims that match the claimsno in the argument
 	 * Useful for multiple claims display
 	 */
-	function getClaims($claimNoArray){
+	function getClaim($claimNoArray){
 		$toReturn;
 		for ($i=0; $i<count($claimNoArray); $i++){ //for each claimNo
 			$sql = "SELECT * FROM Claim WHERE Claim_No='".$claimNoArray[$i]."'";
@@ -225,6 +338,72 @@ class Claim{
 		$result = mysql_query($sql);
 		return mysql_fetch_array($result, MYSQL_ASSOC);
 	}
+	
+	/**
+	 * Search for claim no, with a join on Claim_No and Claim_No==$claimid
+	 */
+	function searchByClaimNo($claimid){
+		$sql = "SELECT * FROM Claim, Third_Party, Claims WHERE Claim.Claim_No=Third_Party.Claim_No
+				AND Claim.Claim_No=Claims.Claim_No AND Claim.Claim_No='$claimid'";
+		$result = mysql_query($sql) or die(mysql_error());
+		$i = 0; //index
+		while ($info = mysql_fetch_array($result,MYSQL_ASSOC)){//While more results
+			$toReturn[$i] = $info;
+			$i++;
+		}
+		return $toReturn;
+	}
+	
+	/**
+	 * Search for claim no, with a join on Claim_No and Claim_No==$claimid
+	 */
+	function searchByInfo($array){
+		$sql = "SELECT * FROM Claim, Third_Party, Claims WHERE Claim.Claim_No=Third_Party.Claim_No
+				AND Claim.Claim_No=Claims.Claim_No";
+		$keys = array_keys($array);
+		for ($i = 0; $i< count($keys); $i++){
+			$sql = $sql." AND ".$keys[$i]." LIKE '".$array[$keys[$i]]."'";
+		}
+		//print $sql;
+		$result = mysql_query($sql) or die(mysql_error());
+		$i = 0; //index
+		while ($info = mysql_fetch_array($result,MYSQL_ASSOC)){//While more results
+			$toReturn[$i] = $info;
+			$i++;
+		}
+		return $toReturn;
+	}
 
+	
+	/**
+	 * function that formats an array into a table.
+	 * this should work for all 2D arrays.
+	 * @param unknown_type $array
+	 * @param boolean $printoptions Set whether to display delete, update, etc functions
+	 */
+	function display2DArray($array,$printoptionsflag){
+		if($array==null){
+			print "No results were found!";
+		} else {
+			print "<table class=\"claims\"><tr>";
+			$first = $array[0];
+			$keys = array_keys($first); //Return the keys of the array, use first element;
+			for ($i=0;$i<count($keys);$i++){
+				print "<td>".$keys[$i]."</td>\n";
+			}
+			print "</tr>";
+			for ($j=0;$j<count($array);$j++){
+				print "<tr>";
+				for ($i=0;$i<(count($keys));$i++){	
+					print "<td>".$array[$j][$keys[$i]]."</td>\n";
+				}
+				if ($printoptionsflag){
+					$this->printOptions($array[$j]['Claim_No']);
+				}
+				print "</tr>\n";
+			}
+			print "</table>\n";
+		}
+	}
 }
 ?>
