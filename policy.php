@@ -11,9 +11,9 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 	if ($_GET['action']=='add'){
 		include $includesfolder.'addpolicy.php';
 	} else if ($_GET['action']=='remove'){
-		
+		//TODO
 	} else if ($_GET['action']=='update'){
-		
+		//TODO		
 	} else if ($_GET['action']=='search'){
 		include $includesfolder.'searchpolicy.php';
 	} else if (isset($_GET['addprivatepolicy'])){
