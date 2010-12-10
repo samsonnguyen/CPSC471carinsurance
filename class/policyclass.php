@@ -64,9 +64,6 @@ class Policy {
 		return true;
 	}
 
-
-
-	
 	function listPrivatePolicy($offset,$limit){
 		// TODO Got to figure this one out still
 		print "PRIVATE";
@@ -87,9 +84,6 @@ class Policy {
 		print "</table>";
 	}
 	
-
-
-
 	function listCompanyPolicy($offset,$limit){
 		// TODO Got to figure this one out still
 		print "COMPANY";
@@ -109,10 +103,6 @@ class Policy {
 		}
 		print "</table>";
 	}
-	
-
-
-
 	function totalPolicies(){
 		$data = mysql_query("SELECT * FROM Private_Policy") or die(mysql_error());
 		$data2 = mysql_query("SELECT * FROM Company_Policy") or die(mysql_error());
@@ -128,7 +118,5 @@ class Policy {
 		$data = mysql_query("SELECT * FROM Company_Policy") or die(mysql_error());
 		return mysql_num_rows($data); //count the number of results and return
 	}
-	
-
 } //CLOSE policy class
 ?>
