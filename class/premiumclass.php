@@ -1,6 +1,20 @@
 <?php
-//Constants
+//CONSTANTS FOR CLIENT RISK
 define(FILENAME, "baseprice.txt");
+define(CLIENT_AGE_MULTIPLE, 100); //For every 5 year after 16 subtract this
+define(CLIENT_YEARS_MULTIPLE, 30); //For every year of driving exp, decrease risk by this
+define(CLIENT_TRAINING, 50); //ONE TIME reduction of this if the client had training
+define(TICKET_A_MULTIPLE,100); //Light offence
+define(TICKET_B_MULTIPLE,200);
+define(TICKET_C_MULTIPLE,400);
+define(TICKET_D_MULTIPLE,800); //Serious offence
+//CONSTANTS FOR VEHICLE RISK
+define(VEHICLE_MILEAGE_MULTIPLE, 20); //For every mile daily driven, increase risk by this
+define(VEHICLE_YEAR_MULTIPLE, 30); //For every year after 1980, increase risk by this
+define(VEHICLE_VALUE_MULTIPLE, 100); //For every $1000 in value, increase by this
+//CONSTANTS FOR PREMIUM CALCULATION
+define(COMPANY_EMP_MULTIPLE, 1000); //UNIT in DOLLARS, for every employee covered in the policy, increase by this amount
+define(COVERAGE_MULTIPLE, 10000); //UNIT IN DOLLARS, as coverage increases by 1, 
 
 
 class premiumClass{
@@ -29,7 +43,7 @@ class premiumClass{
 		$client = mysql_fetch_assoc($result);
 		//AGE Calculation, for every 5 years after 16, subtract 100 points
 		$age = $client['Age'];
-		$risk = $risk-((age/5)*100);
+		$risk = $risk-((age/5)*CLIENT_AGE_MULTIPLE);
 		//If gender is male, we add some risk
 		if ($client['Gender']=='m'){
 			$risk = $risk + 100;
@@ -47,26 +61,26 @@ class premiumClass{
 			if (getAge($ticket[$i]['Date']) < 4){
 				switch ($ticket[$i]['Classification']){
 					case 'A':
-						$risk = $risk + 100;
+						$risk = $risk + TICKET_A_MULTIPLE;
 						break;
 					case 'B':
-						$risk = $risk + 200;
+						$risk = $risk + TICKET_B_MULTIPLE;
 						break;
 					case 'C':
-						$risk = $risk + 400;
+						$risk = $risk + TICKET_C_MULTIPLE;
 						break;
 					case 'D':
-						$risk = $risk + 800;
+						$risk = $risk + TICKET_D_MULTIPLE;
 						break;
 				} //end switch-case			
 			} //end if
 		} //end for loop
 		
 		//Driving experience calculation {for every year of previous driving experience, decrease risk
-		$risk = $risk - ($client['Year_Exp']*30);
+		$risk = $risk - ($client['Year_Exp']*CLIENT_YEARS_MULTIPLE);
 		
 		//Driver training, if client passed driving school one time reduction.
-		$risk = $risk - 50;
+		$risk = $risk - CLIENT_TRAINING;
 		
 		return $risk;//return
 	}
@@ -76,6 +90,17 @@ class premiumClass{
 	 * calculate the premium 
 	 */
 	function calculatePremium($policy_no){
+		$base = $this->base_price;
+		$sql = "(SELECT Coverage, #_Of_Employees FROM CompanyPolicy) UNION (SELECT Coverage FROM PrivatePolicy) WHERE Policy_No='$policy_no'";;
+		$result = mysql_query($sql) or die(mysql_error());
+		$policy = mysql_fetch_assoc($result);
+		$premium = $this->base_price; //set this as the base price
+		$premium = $premium + (($policy['Coverage']/100)*COVERAGE_MULTIPLE); //Linear increase as coverage increases. Coverage should be like a percentage
+		if (isset($policy['#_Of_Employees'])){
+			//This policy is a company policy
+			$premium = $premium + $policy['#_Of_Employees']*COMPANY_EMP_MULTIPLE;
+		}
+		return $premium;
 		
 	}
 	
@@ -90,14 +115,14 @@ class premiumClass{
 		$result = mysql_query($sql) or die(mysql_error());
 		$vehicle = mysql_fetch_assoc($result); //should be only one result
 		//Calculate with daily miles
-		$risk = $risk + $vehicle['Ave_Daily_Miles']*50;
+		$risk = $risk + $vehicle['Ave_Daily_Miles']*VEHICLE_MILEAGE_MULTIPLE;
 		//Calculate with years
 		if ($vehicle['Year']>1980){
-			$risk = $risk + ($vehicle['Year']-1980)*50;
+			$risk = $risk + ($vehicle['Year']-1980)*VEHICLE_YEAR_MULTIPLE;
 		}
 		//For every $1000 increase risk by 100
 		if ($vehicle['Value']>1000){
-			$risk = $risk + (($vehicle['Value']/1000)*100);
+			$risk = $risk + (($vehicle['Value']/1000)*VEHICLE_VALUE_MULTIPLE);
 		}
 		return $risk;
 		
