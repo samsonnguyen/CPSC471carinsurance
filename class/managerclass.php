@@ -1,7 +1,6 @@
 <?php
 class Manager{
 
-<<<<<<< HEAD
 
 		function PrintBasePriceForm($price){
 		?>
@@ -30,10 +29,8 @@ class Manager{
 
 
 
+
 		function addNewEmployee($array) {
-=======
-		function addNewEmployee($array) {
->>>>>>> origin/backup
 		$keys = array_keys($array); //Return the keys of the array;
 		$sql = "INSERT INTO Employees ("; //Set the first part of the SQL query
 		for ($i=0;$i<count($keys);$i++){	
@@ -52,7 +49,7 @@ class Manager{
 			}
 		}
 		//print $sql."<br />";
-<<<<<<< HEAD
+
 		mysql_query($sql) or die(mysql_error());
 		return true;
 	}
@@ -199,12 +196,6 @@ class Manager{
 
 
 
-
-=======
-		mysql_query($sql) or die(mysql_error());
-		return true;
-	}
->>>>>>> origin/backup
 
 
 		function listEmployees($offset,$limit){
