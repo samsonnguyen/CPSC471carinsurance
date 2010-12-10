@@ -27,6 +27,7 @@ class Policy {
 	}
 	
 	function addNewCompanyPolicy($array) {
+		// FIXME Not sure why this isn't working!
 		$keys = array_keys($array); //Return the keys of the array;
 		$sql = "INSERT INTO Company_Policy (Policy_No, "; //Set the first part of the SQL query
 		for ($i=0; $i<count($keys); $i++) {	
@@ -97,7 +98,7 @@ class Policy {
 		$sql = "SELECT * FROM Company_Policy ORDER BY Policy_No ASC LIMIT $offset, $limit";
 		$result = mysql_query($sql);
 
-		print "<table class=\"policy\"><tr><td>Policy Number</td><td>Premium Rate</td><td>Coverage</td><td>Num of EMployees</tr>";
+		print "<table class=\"policy\"><tr><td>Policy Number</td><td>Premium Rate</td><td>Coverage</td><td>Num of Employees</tr>";
 
 		while($info = mysql_fetch_array($result)){
 			Print "<tr><td>";

@@ -23,7 +23,7 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 		$policyinstance->addNewPrivatePolicy($newPolicyInfo);
 		print "Policy has been added<br />\n";
 	} else if (isset($_GET['addcompanypolicy'])){
-		//Add a new private policy, should be called only through a form
+		//Add a new company policy, should be called only through a form
 		$newPolicyInfo['Premium_Rate'] = $_POST['fm-premium'];
 		$newPolicyInfo['Coverage'] = $_POST['fm-coverage'];
 		$newPolicyInfo['#_of_Employees'] = $_POST['fm-numofemp'];

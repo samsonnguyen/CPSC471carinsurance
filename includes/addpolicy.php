@@ -2,7 +2,7 @@
 	<!-- p id="fm-intro" required for 'hide optional fields' function -->
 	<p id="fm-intro">Fields in <strong>bold</strong> are required.</p>
 	
-	<form name"=addprivatepolicy" id="fm-form" method="post" action="policy.php?addprivatepolicy">
+<form name"=addprivatepolicy" id="fm-form" method="post" action="policy.php?addprivatepolicy">
 		<fieldset>
 		<legend>Private Policy</legend>
 		<div class="fm-req">
