@@ -1,14 +1,18 @@
 <?php
+//Constants
+define(FILENAME, "baseprice.txt");
+
+
 class premiumClass{
-	public static $filename = "baseprice.txt";
+	//Local Variables
 	private $base_price=0; //Malik, dont use static variables
-	
+
 	/**
 	 * Read from the file upon class construction, Alternative way is to use the database to store this information
 	 * For now I have decided to use the price since the base price is in a way independant of the data in the database.
 	 */
 	function __construct(){
-		$f = fopen($filename, "r"); //write to a text file
+		$f = fopen(FILENAME, "r"); //write to a text file
 		$this->base_price = fgets($f); //set the base price
 		fclose($f); 
 	}
@@ -97,7 +101,7 @@ class premiumClass{
 	 * @param unknown_type $price
 	 */
 	public function setBasePrice($price){
-		$f = fopen($filename, "w"); //write to a text file
+		$f = fopen(FILENAME, "w"); //write to a text file
 		fwrite($f, $price); 
 		fclose($f); 
 		$this->$base_price = $price; // sets the base price for premiums;
