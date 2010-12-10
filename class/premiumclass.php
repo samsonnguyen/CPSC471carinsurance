@@ -5,7 +5,7 @@ define(FILENAME, "baseprice.txt");
 
 class premiumClass{
 	//Local Variables
-	private $base_price=0; //Malik, dont use static variables
+	var $base_price=0; //Malik, dont use static variables
 
 	/**
 	 * Read from the file upon class construction, Alternative way is to use the database to store this information
@@ -81,8 +81,25 @@ class premiumClass{
 	
 	/**
 	 * for vehicle vin, calculate it's risk based on ave_daily_miles, type, and value
+	 * 0 Risk for a year<1980 passenger car, driven daily 0 miles, and value under $1000
 	 */
 	function calculateVehicleRisk($vin){
+		//Get vehicle
+		$risk = 0;//Initiate risk value
+		$sql = "SELECT Year, Value, Type, Ave_Daily_Miles FROM Vehicle WHERE VIN='$vin'";
+		$result = mysql_query($sql) or die(mysql_error());
+		$vehicle = mysql_fetch_assoc($result); //should be only one result
+		//Calculate with daily miles
+		$risk = $risk + $vehicle['Ave_Daily_Miles']*50;
+		//Calculate with years
+		if ($vehicle['Year']>1980){
+			$risk = $risk + ($vehicle['Year']-1980)*50;
+		}
+		//For every $1000 increase risk by 100
+		if ($vehicle['Value']>1000){
+			$risk = $risk + (($vehicle['Value']/1000)*100);
+		}
+		return $risk;
 		
 	}
 	
@@ -104,11 +121,11 @@ class premiumClass{
 		$f = fopen(FILENAME, "w"); //write to a text file
 		fwrite($f, $price); 
 		fclose($f); 
-		$this->$base_price = $price; // sets the base price for premiums;
+		$this->base_price = $price; // sets the base price for premiums;
 	}
 
 	public function getBasePrice(){
-		return $this->$base_price; // returns the base price for premiums;
+		return $this->base_price; // returns the base price for premiums;
 	}
 
 }
