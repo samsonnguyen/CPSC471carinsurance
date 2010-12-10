@@ -2,7 +2,7 @@
 class Policy {
 	function addNewPrivatePolicy($array) {
 		$keys = array_keys($array); //Return the keys of the array;
-		$sql = "INSERT INTO Private_Policy (Policy_No, "; //Set the first part of the SQL query
+		$sql = "INSERT INTO 'Private_Policy' (Policy_No, "; //Set the first part of the SQL query
 		for ($i=0; $i<count($keys); $i++) {	
 			if ($i==(count($keys)-1)){//last value, do not include the comma
 				$sql = $sql.$keys[$i];
@@ -18,12 +18,12 @@ class Policy {
 				$sql = $sql."'".$array[$keys[$i]]."',";
 			}
 		}
+		print($sql);
 		mysql_query($sql) or die(mysql_error());
 		//Retrieve the newly inserted Policy_ID
 		$policyid = mysql_query("SELECT LAST_INSERT_ID();") or die(mysql_error()); //This will get the last insert's ID
-		$policyid = mysql_fetch_row($claimid);
-		//print($claimid[0]);
-		return $claimid[0];//return the autoincrement value
+		$policyid = mysql_fetch_row($policyid);
+		return $policyid[0];//return the autoincrement value
 	}
 	
 	function addNewCompanyPolicy($array) {
@@ -44,12 +44,12 @@ class Policy {
 				$sql = $sql."'".$array[$keys[$i]]."',";
 			}
 		}
+		print($sql);
 		mysql_query($sql) or die(mysql_error());
 		//Retrieve the newly inserted Policy_ID
 		$policyid = mysql_query("SELECT LAST_INSERT_ID();") or die(mysql_error()); //This will get the last insert's ID
-		$policyid = mysql_fetch_row($claimid);
-		//print($claimid[0]);
-		return $claimid[0];//return the autoincrement value
+		$policyid = mysql_fetch_row($policyid);
+		return $policyid[0];//return the autoincrement value
 	}
 	
 	function deletePrivatePolicy($policyID){
