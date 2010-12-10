@@ -8,7 +8,7 @@
 		    <legend>Employee Login Information</legend>
 	    <div class="fm-req">
       <label for="fm-username">Username:</label>
-      <input id="fm-username" name="fm-username" type="text"
+      <input id="fm-username" name="fm-username" type="text" />
     </div>
     <div class="fm-req">
       <label for="fm-password">Password:</label>
