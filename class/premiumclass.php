@@ -1,7 +1,7 @@
 <?php
 class premiumClass{
 
-	public static $base_price=0;
+	private $base_price=0; //Malik, dont use static variables
 	
 	/**
 	 * find all the tickets, and history of the client
@@ -80,12 +80,12 @@ class premiumClass{
 		
 	}
 	
-	public static function setBasePrice($price){
-	self::$base_price = $price; // sets the base price for premiums;
+	public function setBasePrice($price){
+		$this->$base_price = $price; // sets the base price for premiums;
 	}
 
-	public static function getBasePrice(){
-	return self::$base_price; // returns the base price for premiums;
+	public function getBasePrice(){
+		return $this->$base_price; // returns the base price for premiums;
 	}
 
 }
