@@ -92,14 +92,14 @@ class Policy {
 		$sql = "SELECT * FROM Company_Policy ORDER BY Policy_No ASC LIMIT $offset, $limit";
 		$result = mysql_query($sql);
 
-		print "<table class=\"policy\"><tr><td>Policy Number</td><td>Premium Rate</td><td>Coverage</td><td>Num of EMployees</tr>";
+		print "<table class=\"policy\"><tr><td>Policy Number</td><td>Premium Rate</td><td>Coverage</td><td>Num of Employees</tr>";
 
 		while($info = mysql_fetch_array($result)){
 			Print "<tr><td>";
 			if($info['Policy_No']!=null)
 				print $info['Policy_No'];
 			
-			print "</td><td>".$info['Premium_Rate']."</td><td>".$info['Coverage']."</td><td>".$info['#-of_employees']."</td>";
+			print "</td><td>".$info['Premium_Rate']."</td><td>".$info['Coverage']."</td><td>".$info['#_of_Employees']."</td>";
 			print "</tr>";
 		}
 		print "</table>";

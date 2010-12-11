@@ -23,12 +23,12 @@
 		<fieldset>
 		<legend>Company Policy</legend>
 				 <div class="fm-req">
-      		<label for="fm-premium">Premium Rate:</label>
-      		<input name="fm-premium" id="fm-premium" type="text" />
+      		<label for="fm-premiumc">Premium Rate:</label>
+      		<input name="fm-premiumc" id="fm-premiumc" type="text" />
     	</div>
     	<div class="fm-req">
-      		<label for="fm-coverage">Coverage:</label>
-      		<input name="fm-coverage" id="fm-coverage" type="text" />
+      		<label for="fm-coveragec">Coverage:</label>
+      		<input name="fm-coveragec" id="fm-coveragec" type="text" />
     	</div>
     	<div class="fm-opt">
       		<label for="fm-numofemp"># of Employees:</label>
