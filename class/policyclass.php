@@ -2,12 +2,12 @@
 class Policy {
 	function addNewPrivatePolicy($array) {
 		$keys = array_keys($array); //Return the keys of the array;
-		$sql = "INSERT INTO Private_Policy (Policy_No, "; //Set the first part of the SQL query
+		$sql = "INSERT INTO `Private_Policy` (`Policy_No`, "; //Set the first part of the SQL query
 		for ($i=0; $i<count($keys); $i++) {	
 			if ($i==(count($keys)-1)){//last value, do not include the comma
-				$sql = $sql.$keys[$i];
+				$sql = $sql."`".$keys[$i]."`";
 			} else {
-				$sql = $sql.$keys[$i].",";
+				$sql = $sql."`".$keys[$i]."`,";
 			}
 		}
 		$sql = $sql.") VALUES (LAST_INSERT_ID(), ";
@@ -18,6 +18,7 @@ class Policy {
 				$sql = $sql."'".$array[$keys[$i]]."',";
 			}
 		}
+		//INSERT INTO Private_Policy (Policy_No, Premium_Rate,Coverage) VALUES (LAST_INSERT_ID(), '4321','1');Policy has been added
 		mysql_query($sql) or die(mysql_error());
 		//Retrieve the newly inserted Policy_ID
 		$policyid = mysql_query("SELECT LAST_INSERT_ID();") or die(mysql_error()); //This will get the last insert's ID
@@ -28,12 +29,12 @@ class Policy {
 	
 	function addNewCompanyPolicy($array) {
 		$keys = array_keys($array); //Return the keys of the array;
-		$sql = "INSERT INTO Company_Policy (Policy_No, "; //Set the first part of the SQL query
+		$sql = "INSERT INTO `Company_Policy` (`Policy_No`, "; //Set the first part of the SQL query
 		for ($i=0; $i<count($keys); $i++) {	
 			if ($i==(count($keys)-1)){//last value, do not include the comma
-				$sql = $sql.$keys[$i];
+				$sql = $sql."`".$keys[$i]."`";
 			} else {
-				$sql = $sql.$keys[$i].",";
+				$sql = $sql."`".$keys[$i]."`,";
 			}
 		}
 		$sql = $sql.") VALUES (LAST_INSERT_ID(), ";
@@ -44,6 +45,7 @@ class Policy {
 				$sql = $sql."'".$array[$keys[$i]]."',";
 			}
 		}
+		//INSERT INTO Company_Policy (Policy_No, Premium_Rate,Coverage,#_of_Employees) VALUES (LAST_INSERT_ID(), '4321','1','43');You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
 		mysql_query($sql) or die(mysql_error());
 		//Retrieve the newly inserted Policy_ID
 		$policyid = mysql_query("SELECT LAST_INSERT_ID();") or die(mysql_error()); //This will get the last insert's ID

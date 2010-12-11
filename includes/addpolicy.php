@@ -19,7 +19,7 @@
     	</div>
 	</form>
 	
-	<form name="addcompanypolicy" id="fm-form" method="post" action="policy.php?addcompanypolicy">
+	<form name="addcompanypolicy" id="fm-form2" method="post" action="policy.php?addcompanypolicy">
 		<fieldset>
 		<legend>Company Policy</legend>
 				 <div class="fm-req">
