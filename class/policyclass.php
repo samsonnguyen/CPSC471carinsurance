@@ -24,6 +24,7 @@ class Policy {
 		$policyid = mysql_fetch_row($policyid);
 		//print($claimid[0]);
 		return $policyid[0];//return the autoincrement value
+		
 	}
 	
 	function addNewCompanyPolicy($array) {
