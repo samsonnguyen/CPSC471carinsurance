@@ -11,7 +11,19 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 	if ($_GET['action']=='add'){
 		include $includesfolder.'addpolicy.php';
 	} else if ($_GET['action']=='remove'){
-		
+/*		//remove policy
+		$policyid = $_GET['policy'];
+		//Check the policyID
+		if ($policyid==null || $policyid==0){
+			print "Error, policy cannot be null";
+		} else {
+			// TODO change before testing
+			if ($policyinstance->deleteClient($policyid)){
+				print "Policy deleted successfully!";
+			} else {
+				print "Policy cannot be deleted";
+			}
+		}*/
 	} else if ($_GET['action']=='update'){
 		
 	} else if ($_GET['action']=='search'){

@@ -67,19 +67,15 @@ class Policy {
 	}
 
 	function listPrivatePolicy($offset,$limit){
-		// TODO Got to figure this one out still
-		print "PRIVATE";
+		echo "<legend>PRIVATE</legend>";
 		$returnString = array();
 		$sql = "SELECT * FROM Private_Policy ORDER BY Policy_No ASC LIMIT $offset, $limit";
 		$result = mysql_query($sql);
-
 		print "<table class=\"policy\"><tr><td>Policy Number</td><td>Premium Rate</td><td>Coverage</td></tr>";
-
 		while($info = mysql_fetch_array($result)){
 			Print "<tr><td>";
 			if($info['Policy_No']!=null)
 				print $info['Policy_No'];
-			
 			print "</td><td>".$info['Premium_Rate']."</td><td>".$info['Coverage']."</td>";
 			print "</tr>";
 		}
@@ -87,19 +83,15 @@ class Policy {
 	}
 	
 	function listCompanyPolicy($offset,$limit){
-		// TODO Got to figure this one out still
-		print "COMPANY";
+		echo "<legend>COMPANY</legend>";
 		$returnString = array();
 		$sql = "SELECT * FROM Company_Policy ORDER BY Policy_No ASC LIMIT $offset, $limit";
 		$result = mysql_query($sql);
-
-		print "<table class=\"policy\"><tr><td>Policy Number</td><td>Premium Rate</td><td>Coverage</td><td>Num of Employees</tr>";
-
+		print "<table class=\"policy\"><tr><td>Policy Number</td><td>Premium Rate</td><td>Coverage</td><td># of Employees</tr>";
 		while($info = mysql_fetch_array($result)){
 			Print "<tr><td>";
 			if($info['Policy_No']!=null)
 				print $info['Policy_No'];
-			
 			print "</td><td>".$info['Premium_Rate']."</td><td>".$info['Coverage']."</td><td>".$info['#_of_Employees']."</td>";
 			print "</tr>";
 		}
