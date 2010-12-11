@@ -145,9 +145,9 @@ function convertToLike($str){
  */
 function printAccessDeniedMsg(){
 	if (!isLoggedIn()){
-		print "<span class=\"denied\">Please login for access</span>\n";
+		print "<a href='index.php'><span class='denied'>Please login for access</span></a>\n";
 	} else {
-		print "<span class=\"denied\">Access Denied</span>\n";
+		print "<span class='denied'>Access Denied</span>\n";
 	}
 }
 ?>
