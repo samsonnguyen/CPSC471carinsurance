@@ -16,9 +16,20 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 		
 	} else if ($_GET['action']=='search'){
 		include $includesfolder.'searchpolicy.php';
-	} /* else if (isset($_GET['addclient'])){
-		
-	} */ else {
+	} else if (isset($_GET['addprivatepolicy'])){
+		//Add a new private policy, should be called only through a form
+		$newPolicyInfo['Premium_Rate'] = $_POST['fm-premium'];
+		$newPolicyInfo['Coverage'] = $_POST['fm-coverage'];
+		$policyinstance->addNewPrivatePolicy($newPolicyInfo);
+		print "Policy has been added<br />\n";
+	} else if (isset($_GET['addcompanypolicy'])){
+		//Add a new company policy, should be called only through a form
+		$newPolicyInfo['Premium_Rate'] = $_POST['fm-premium'];
+		$newPolicyInfo['Coverage'] = $_POST['fm-coverage'];
+		$newPolicyInfo['#_of_Employees'] = $_POST['fm-numofemp'];
+		$policyinstance->addNewCompanyPolicy($newPolicyInfo);
+		print "Policy has been added<br />\n";
+	} else {
 		//Client home, display stats?
 		include $includesfolder.'displaypolicystats.php';
 	}
