@@ -1,5 +1,5 @@
 <div id="container">
-  <!-- p id="fm-intro" required for 'hide optional fields' function -->
+<!--   p id="fm-intro" required for 'hide optional fields' function -->
   <p id="fm-intro">Fields in <strong>bold</strong> are required.</p>
 
   <form name="addclient" id="fm-form" method="post" action="client.php?addclient" >

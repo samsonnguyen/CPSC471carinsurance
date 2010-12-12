@@ -111,7 +111,7 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 		$policyinstance->addNewCompanyPolicy($newPolicyInfo);
 		print "Policy has been added<br />\n";
 	} else {
-		//Client home, display stats?
+		//Policy home, display stats?
 		include $includesfolder.'displaypolicystats.php';
 	}
 } else {

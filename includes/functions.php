@@ -152,7 +152,7 @@ function printAccessDeniedMsg(){
 }
 
 /**
- * Reads the session and returns the permission
+ * Prints out the variable and puts in a linebreak after
  */
 function println($str){
 	print($str."<br/>");

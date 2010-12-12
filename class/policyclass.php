@@ -64,11 +64,6 @@ class Policy {
 		return true;
 	}
 	
-	/**
-	 * Returns the an array Policy_No of all claims that have Policy_No = $policyid
-	 * @param unknown_type $policyid
-	 */
-	// FIXME NON-FUNCTIONAL DO NOT CALL
 	function searchPrivatePolicy($policyid, $policyrate, $policycover){
 		$flag = 0;
 		$sql = "SELECT * FROM `Private_Policy` WHERE ";
@@ -147,24 +142,15 @@ class Policy {
 		}  
 		
 		if($flag == '0') { // Nothing was entered
-			$sql = "SELECT * FROM `Private_Policy`";;
+			$sql = "SELECT * FROM `Private_Policy`";
 		}
-/*		$result = mysql_query($sql);
-		$i = 0;
-		$toReturn;
-		while ($info = mysql_fetch_array($result,MYSQL_NUM)){ //Use num, because otherwise we'll get duplicates
-			$toReturn[$i] = $info[0]; //Add the results into an array for us to read
-			$i++;
-		}
-		return $toReturn;*/
 		return mysql_query($sql);
 	}
 	
-	/**
-	 * Returns the an array Claims_No of all claims that have clientID = $clientID
-	 * @param unknown_type $clientID
-	 */
-	// FIXME NON-FUNCTIONAL DO NOT CALL
+	function getAllCompanyPolicy(){
+		return mysql_query("SELECT * FROM `Company_Policy`");
+	}
+	
 	function searchCompanyPolicy($policyid, $policyrate, $policycover, $policyemp){
 		$flag = 0;
 		$sql = "SELECT * FROM `Company_Policy` WHERE ";
@@ -288,7 +274,7 @@ class Policy {
 		}		
 		
 		if($flag == '0') { // Nothing was entered
-			$sql = "SELECT * FROM `Company_Policy`";;
+			$sql = "SELECT * FROM `Company_Policy`";
 		}
 		return mysql_query($sql);
 	}

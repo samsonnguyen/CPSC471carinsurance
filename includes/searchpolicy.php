@@ -1,9 +1,9 @@
 <div id="container">
 	<!-- p id="fm-intro" required for 'hide optional fields' function -->
-	<p id="fm-intro"><strong>Blanks</strong> will be <strong>ignored</strong> during search.</p>
+	<p id="fm-intro"><strong>Blanks</strong> will be <strong>excluded</strong> during search.</p>
 
 	<!-- Search by Policy Number -->
-	<form name="searchpolicy" id="fm-form" method="post" action="policy.php?action=search&query=1">
+	<form name="searchpolicy" id="fm-form" method="post" action="policy.php?action=search&query=true">
 		<fieldset>
 			<legend>Search Policy Type</legend>
 			<div class="fm-multi">
