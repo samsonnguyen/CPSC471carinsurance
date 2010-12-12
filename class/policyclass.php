@@ -72,11 +72,14 @@ class Policy {
 		$type = 1; // PRIVATE
 		$sql = "SELECT * FROM Private_Policy ORDER BY Policy_No ASC LIMIT $offset, $limit";
 		$result = mysql_query($sql);
-		print "<table class=\"policy\"><tr><td>Policy Number</td><td>Premium Rate</td><td>Coverage</td></tr>";
+		print "<table class=\"policy\"><tr><td><b>Policy Number</b></td><td><b>Premium Rate</b></td><td><b>Coverage</b></td></tr>";
 		while($info = mysql_fetch_array($result)){
 			Print "<tr><td>";
-			if($info['Policy_No']!=null)
+			if (($info['Policy_No']!=null) || ($info['Policy_No']!=0)){
+				print "<a href='policy.php?action=update&policy=".$info['Policy_No']."&type=1'>".$info['Policy_No']."</a>\n";
+			} else {
 				print $info['Policy_No'];
+			}
 			print "</td><td>".$info['Premium_Rate']."</td><td>".$info['Coverage']."</td>";
 			$this->printOptions($info['Policy_No'],$type);
 			print "</tr>";
@@ -90,11 +93,14 @@ class Policy {
 		$type = 0; // PUBLIC
 		$sql = "SELECT * FROM Company_Policy ORDER BY Policy_No ASC LIMIT $offset, $limit";
 		$result = mysql_query($sql);
-		print "<table class=\"policy\"><tr><td>Policy Number</td><td>Premium Rate</td><td>Coverage</td><td># of Employees</tr>";
+		print "<table class=\"policy\"><tr><td><b>Policy Number</b></td><td><b>Premium Rate</b></td><td><b>Coverage</b></td><td><b>Num of Employees</b></tr>";
 		while($info = mysql_fetch_array($result)){
 			Print "<tr><td>";
-			if($info['Policy_No']!=null)
+			if (($info['Policy_No']!=null) || ($info['Policy_No']!=0)){
+				print "<a href='policy.php?action=update&policy=".$info['Policy_No']."&type=0'>".$info['Policy_No']."</a>\n";
+			} else {
 				print $info['Policy_No'];
+			}
 			print "</td><td>".$info['Premium_Rate']."</td><td>".$info['Coverage']."</td><td>".$info['Num_of_Employees']."</td>";
 			$this->printOptions($info['Policy_No'],$type);
 			print "</tr>";
@@ -128,7 +134,6 @@ class Policy {
 			print("Error, Undefined type: ".$type."!");
 			return false;
 		}
-		print($sql."<br />\n");
 		$result = mysql_query($sql) or die(mysql_error());
 		$info = mysql_fetch_array($result,MYSQL_ASSOC);
 		include 'includes/editpolicy.php';
@@ -149,10 +154,10 @@ class Policy {
 			return false;
 		}
 		
-		/*if($this->policyExists($policyid, $type) == false) {
+		if($this->policyExists($policyid, $type) == false) {
 			print("Error, Policy doesn't exist!");
 			return false;
-		}*/
+		}
 		$keys = array_keys($array); //Return the keys of the array, use first element;
 		for ($i=0; $i<count($keys); $i++){
 			if ($i==(count($keys)-1)){ //last value, omit the comma
@@ -163,7 +168,6 @@ class Policy {
 		}
 		$sql = $sql." WHERE Policy_No='$policyid'";
 		//print $sql."<br />\n";
-		print($sql."<br />\n");
 		mysql_query($sql) or die(mysql_error());
 		return true;//return true
 	}
@@ -175,9 +179,9 @@ class Policy {
 		if($type != 0 && $type != 1)
 			return false;
 		if($type == 0)
-			$sql = "SELECT * FROM `Company_Policy` WHERE Policy_ID='$Policy_ID'";
+			$sql = "SELECT * FROM `Company_Policy` WHERE Policy_No='$Policy_ID'";
 		else
-			$sql = "SELECT * FROM `Private_Policy` WHERE Policy_ID='$Policy_ID'";
+			$sql = "SELECT * FROM `Private_Policy` WHERE Policy_No='$Policy_ID'";
 		$result = mysql_query($sql);
 		// Mysql_num_row is counting table row
 		$count = mysql_num_rows($result);

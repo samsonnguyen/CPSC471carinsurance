@@ -57,7 +57,7 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 					$newPolicyInfo['Num_of_Employees'] = $_POST['fm-numofemp'];
 				if ($policyinstance->updatePolicy($policyid,$newPolicyInfo,$type)){
 					print "Policy ".$policyid." successfully updated<br />\n";
-					print "<a href='policy.php?action=update&policy=".$policyid."&type=".$type."'>Return</a>\n";
+					print "<a href='policy.php?action=update&policy=".$policyid."&type=".$type."'>Return to Edit Page</a>\n";
 				} else {
 					print "Error occured, please check your input";
 				}
