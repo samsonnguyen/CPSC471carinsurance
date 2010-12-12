@@ -1,5 +1,8 @@
 <?php
 class Client{
+	var $error = null;//set initial error to null
+	var $errorIndex = 0;
+	
 	/**
 	 * Reads an array of keys and its values and inserts them into the database as a new Client.
 	 */	
@@ -198,5 +201,61 @@ class Client{
 		return true;//return true
 	}
 	
+	/**
+	 * Validate form data, returns true if all 
+	 */
+	function validateData($array){
+		$errorFlag=true;
+		if (trim($array['FName'])==''){
+			$this->appendErrorMsg("First Name is required");
+			$errorFlag = false;
+		}
+		if (trim($array['LName'])==''){
+			$this->appendErrorMsg("Last Name is required");
+			$errorFlag = false;
+		}
+		if (trim($array['License_No'])==''){
+			$this->appendErrorMsg("License number is required");
+			$errorFlag = false;
+		}
+		if (trim($array['Birthdate'])==''){
+			$this->appendErrorMsg("Birthdate cannot be blank");
+			$errorFlag = false;
+		} else if (!preg_match("/^[0-9]{4,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2}$/", $array['Birthdate'])){
+			$this->appendErrorMsg("Date should be in the format yyyy-mm-dd");
+			$errorFlag = false;
+		}
+		if (trim($array['PostalCode'])==''){
+			$this->appendErrorMsg("Postal Code is required");
+			$errorFlag = false;
+		} else if (!preg_match("/^[A-Z]{1}\d{1}[A-Z]{1}\s\d{1}[A-Z]{1}\d{1}$/",$array['PostalCode'])){
+			$this->appendErrorMsg("Postal Code should be in the format A1B 2C3");
+		}
+		if (trim($array['Phone'])==''){
+			$this->appendErrorMsg("Phone number is required");
+			$errorFlag = false;
+		} else if (!preg_match("/^[0-9]{3,3}[-][0-9]{3,3}[-][0-9]{4,4}$/",$array['Phone'])){
+			$this->appendErrorMsg("Phone number must be in the format xxx-xxx-xxxx");
+			$errorFlag = false;
+		}
+		if (!preg_match("/^[0-9]{1,}$/", $array['Years_Exp'])){
+			$this->appendErrorMsg("Please input the number of Years of Experience");
+			$errorFlag = false;
+		}
+		return $errorFlag;
+	}
+	
+	function appendErrorMsg($string){
+		$this->error[$this->errorIndex] = $string;
+		$this->errorIndex++;
+	}
+	
+	function displayError(){
+		print "<div class=\"validationerror\">";
+		for ($i=0;$i<count($this->error);$i++){
+			 println($this->error[$i]);
+		}
+		print "</div>";		
+	}
 }
 ?>

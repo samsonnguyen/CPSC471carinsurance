@@ -299,3 +299,11 @@ td {
 	font-style: italic;
 	text-decoration:underline;
 }
+.validationerror {
+	background-color: #f8afaf;
+	width:90%%;
+	border: 1px solid #ff0000;
+	color: #fff;
+	padding: 10px;
+	margin: 0 auto;
+}

@@ -153,8 +153,13 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 		$newClientInfo['Policy_No'] = $_POST['fm-policy'];
 		$newClientInfo['Years_Exp'] = $_POST['fm-yearsexp'];
 		$newClientInfo['Training'] = $_POST['fm-training'];
-		$clientinstance->addNewClientByArray($newClientInfo);
-		print "Client has been added<br />\n";
+		if ($clientinstance->validateData($newClientInfo)){//ERROR CHECK
+			$clientinstance->addNewClientByArray($newClientInfo);
+			print "Client has been added<br />\n";
+		} else {
+			$clientinstance->displayError();
+			include $includesfolder.'addclient.php'; //redisplay the form
+		}
 	} else {
 		//Client home, display stats?
 		include $includesfolder.'displayclientstats.php';
