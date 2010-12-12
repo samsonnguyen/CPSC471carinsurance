@@ -45,39 +45,7 @@
 <fieldset><legend>Policy Information</legend>
 <div class="fm-req"><label for="fm-policy">Policy:</label> <select
 	id="fm-policy" name="fm-policy">
-	<?php 
-	require $classfolder.'policyclass.php';
-		$policyinstance = new Policy();
-		$companypolicies = $policyinstance->getAllCompanyPolicy(); //Get all company policies
-		$temp;
-		
-		if($companypolicies != null){
-			while($info = mysql_fetch_array($companypolicies)){
-				echo("<option value=\"");
-				if (($info['Policy_No']!=null) && ($info['Policy_No']!=0)){
-					echo($info['Policy_No']."\"> [ ");
-					for($i = floor(log10($info['Policy_No']) + 1);$i < 6;$i++) { print("0"); }
-					echo($info['Policy_No']." ]");
-					echo(" Premium Rate: ");
-					for($i = floor(log10($info['Premium_Rate']) + 1);$i < 6;$i++) { print("0"); }
-					echo($info['Premium_Rate']);
-					echo(" Coverage: ");
-					if($info['Coverage'] < 10) echo("0");
-					echo($info['Coverage']);
-					echo(" Employees: ");
-					for($i = floor(log10($info['Num_of_Employees']) + 1);$i < 5;$i++) { print("0"); }
-					echo($info['Num_of_Employees']);
-					echo("</option>");
-				} else {
-					echo("-1\">");
-					echo("ERROR");
-					echo("</option>");
-				}
-			}
-		} else {
-			echo("<option value=\"\" selected=\"selected\">None Exist</option>");
-		}
-	?>
+	<?php Policy::getAllCompanyPolicy(); ?>
 </select></div>
 </fieldset>
 

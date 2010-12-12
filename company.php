@@ -2,11 +2,13 @@
 require 'db.php';
 require 'config.php';
 require $classfolder.'companyclass.php';
+require $classfolder.'policyclass.php';
 require $includesfolder.'functions.php';
 include $includesfolder.'header.php';
 
 if (isLoggedIn() && (getUserPermissions()>='1')){
 	$companyinstance = new Company();
+	$policyinstance = new Policy();
 	if ($_GET['action']=='add'){
 		include $includesfolder.'addcompany.php';
 	} else{

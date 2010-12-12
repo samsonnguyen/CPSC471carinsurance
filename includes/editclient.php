@@ -86,15 +86,17 @@
     </fieldset>
     <fieldset>
     <legend>Policy Information</legend>
-    <div class="fm-req">
-    	<label for="fm-policy">Policy Number</label>
-    	<input id="fm-policy" name="fm-policy" type="text" value="<?php print $info['Policy_No'];?>"/>
-    </div>
+   <div class="fm-opt"><label for="fm-policy">Private Policy:</label> <select
+	id="fm-policy" name="fm-policy">
+	<?php Policy::getAllPrivatePolicy($info['Policy_No']); ?>
+	</select></div>
+	<b>OR</b><br/>
     <div class="fm-opt">
-    	<label for="fm-company">Company</label>
-    	<input id="fm-company" name="fm-company" type="text" value="<?php print $info['Company'];?>"/>
+    	<label for="fm-company">Company:</label>
+    	<input id="fm-company" name="fm-company" type="text" value="<?php print $info['Company'];?>"></input><i> (Leave blank for private policy)</i>
     </div>
     </fieldset>
+    
         <fieldset>
     <legend>Driving History</legend>
     <div class="fm-req">

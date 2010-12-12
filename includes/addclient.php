@@ -82,13 +82,14 @@
     </fieldset>
     <fieldset>
     <legend>Policy Information</legend>
-    <div class="fm-req">
-    	<label for="fm-policy">Policy Number</label>
-    	<input id="fm-policy" name="fm-policy" type="text"></input>
-    </div>
+ 	<div class="fm-opt"><label for="fm-policy">Private Policy:</label> <select
+	id="fm-policy" name="fm-policy">
+	<?php Policy::getAllPrivatePolicy(); ?>
+	</select></div>
+	<b>OR</b><br/>
     <div class="fm-opt">
-    	<label for="fm-company">Company</label>
-    	<input id="fm-company" name="fm-company" type="text"></input>
+    	<label for="fm-company">Company:</label>
+    	<input id="fm-company" name="fm-company" type="text"></input><i> (Leave blank for private policy)</i>
     </div>
     </fieldset>
     <fieldset>
