@@ -73,7 +73,30 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 			}	
 		}
 	} elseif ($_GET['action']=='search'){
-		include $includesfolder.'searchpolicy.php';
+		if($_GET['query'] != null) {
+			// This means we have something to search for!
+			// WARNING: This search is nasty!
+			$searchType = $_POST['fm-type'];
+			$policyid = $_POST['fm-policyid'];
+			$policyrate['min'] = $_POST['fm-minrate'];
+			$policyrate['max'] = $_POST['fm-maxrate'];
+			$policycover['min'] = $_POST['fm-mincover'];
+			$policycover['max'] = $_POST['fm-maxcover'];
+			$policyemp['min'] = $_POST['fm-minnumofemp'];
+			$policyemp['max'] = $_POST['fm-maxnumofemp'];
+			
+			if($searchType == 'p' || $searchType == 'b') {
+				$privatepolicies = $policyinstance->searchPrivatePolicy($policyid, $policyrate, $policycover);
+				$policyinstance->display2DArray($privatepolicies, true);
+			}
+			if($searchType == 'c' || $searchType == 'b') {
+				$companypolicies = $policyinstance->searchCompanyPolicy($policyid, $policyrate, $policycover, $policyemp);
+				$policyinstance->display2DArray($companypolicies, true);
+			}
+		} else {
+			// Not searching for something?
+			include $includesfolder.'searchpolicy.php';
+		}
 	} elseif (isset($_GET['addprivatepolicy'])){
 		//Add a new private policy, should be called only through a form
 		$newPolicyInfo['Premium_Rate'] = $_POST['fm-premium'];

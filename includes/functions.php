@@ -150,4 +150,11 @@ function printAccessDeniedMsg(){
 		print "<span class='denied'>Access Denied</span>\n";
 	}
 }
+
+/**
+ * Reads the session and returns the permission
+ */
+function println($str){
+	print($str."<br/>");
+}
 ?>

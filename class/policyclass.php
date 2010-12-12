@@ -71,8 +71,28 @@ class Policy {
 	 * @param unknown_type $policyid
 	 */
 	// FIXME NON-FUNCTIONAL DO NOT CALL
-	function searchPrivatePolicy($policyid){
-		$sql = "SELECT Claim_No FROM Claims WHERE Client_ID='$policyid'";
+	function searchPrivatePolicy($policyid, $policyrate, $policycover){
+		if($policyid == null) {
+			println("nopolicyid");
+			//this code
+		} 
+		if($policyrate['min'] == null) {
+			println("nopolicyratemin");
+			//this code
+		}
+		if($policyrate['max'] == null) {
+			println("nopolicyratemax");
+			//this code
+		}  
+		if($policycover['min'] == '-1') {
+			println("nopolicycovermin");
+			//this code
+		}
+		if($policycover['max'] == '-1') {
+			println("nopolicycovermax");
+			//this code
+		}  
+/*		$sql = "SELECT Claim_No FROM Claims WHERE Client_ID='$policyid'";
 		$result = mysql_query($sql);
 		$i = 0;
 		$toReturn;
@@ -80,7 +100,7 @@ class Policy {
 			$toReturn[$i] = $info[0]; //Add the results into an array for us to read
 			$i++;
 		}
-		return $toReturn;
+		return $toReturn;*/
 	}
 	
 	/**
@@ -88,8 +108,36 @@ class Policy {
 	 * @param unknown_type $clientID
 	 */
 	// FIXME NON-FUNCTIONAL DO NOT CALL
-	function searchPrivatePolicy($clientID){
-		$sql = "SELECT Claim_No FROM Claims WHERE Client_ID='$clientID'";
+	function searchCompanyPolicy($policyid, $policyrate, $policycover, $policyemp){
+		if($policyid == null || $policyid == 0) {
+			println("nopolicyid");
+			//this code
+		} 
+		if($policyrate['min'] == null) {
+			println("nopolicyratemin");
+			//this code
+		}
+		if($policyrate['max'] == null) {
+			println("nopolicyratemax");
+			//this code
+		}  
+		if($policycover['min'] == '-1') {
+			println("nopolicycovermin");
+			//this code
+		}
+		if($policycover['max'] == '-1') {
+			println("nopolicycovermax");
+			//this code
+		}  
+		if($policyemp['min'] == null) {
+			println("nopolicyempmin");
+			//this code
+		}
+		if($policyemp['max'] == null) {
+			println("nopolicyempmax");
+			//this code
+		}  
+	/*	$sql = "SELECT Claim_No FROM Claims WHERE Client_ID='$clientID'";
 		$result = mysql_query($sql);
 		$i = 0;
 		$toReturn;
@@ -97,9 +145,40 @@ class Policy {
 			$toReturn[$i] = $info[0]; //Add the results into an array for us to read
 			$i++;
 		}
-		return $toReturn;
+		return $toReturn; */
 	}
 
+	/**
+	 * function that formats an array into a table.
+	 * this should work for all 2D arrays.
+	 * @param unknown_type $array
+	 * @param boolean $printoptions Set whether to display delete, update, etc functions
+	 */
+	function display2DArray($array,$printoptionsflag){
+		if($array==null){
+			print "No results were found!<br />";
+		} else {
+			print "<table class=\"claims\"><tr>";
+			$first = $array[0];
+			$keys = array_keys($first); //Return the keys of the array, use first element;
+			for ($i=0;$i<count($keys);$i++){
+				print "<td>".$keys[$i]."</td>\n";
+			}
+			print "</tr>";
+			for ($j=0;$j<count($array);$j++){
+				print "<tr>";
+				for ($i=0;$i<(count($keys));$i++){	
+					print "<td>".$array[$j][$keys[$i]]."</td>\n";
+				}
+				if ($printoptionsflag){
+					$this->printOptions($array[$j]['Claim_No']);
+				}
+				print "</tr>\n";
+			}
+			print "</table>\n";
+		}
+	}
+	
 	function listPrivatePolicy($offset,$limit){
 		echo "<legend>PRIVATE</legend>";
 		$returnString = array();

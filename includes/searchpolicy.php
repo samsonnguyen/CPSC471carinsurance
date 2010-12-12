@@ -3,7 +3,7 @@
 	<p id="fm-intro"><strong>Blanks</strong> will be <strong>ignored</strong> during search.</p>
 
 	<!-- Search by Policy Number -->
-	<form name="searchpolicy" id="fm-form" method="post" action="policy.php?action=search">
+	<form name="searchpolicy" id="fm-form" method="post" action="policy.php?action=search&query=1">
 		<fieldset>
 			<legend>Search Policy Type</legend>
 			<div class="fm-multi">
@@ -21,7 +21,7 @@
 		<fieldset>
 			<legend>Search Policy Information</legend>
 			<div class="fm-opt">
-				<label for="fm-policyid">Claim Number:</label>
+				<label for="fm-policyid">Policy Number:</label>
 				<input id="fm-policyid" name="fm-policyid" type="text" />
 			</div>
 			<div class="fm-opt">
@@ -50,8 +50,8 @@
 	     		</select>
    			</div>
    			<div class="fm-opt">
-	      		<label for="fm-mincover">Max Coverage:</label>
-	      		<select id="fm-mincover" name="fm-mincover">
+	      		<label for="fm-maxcover">Max Coverage:</label>
+	      		<select id="fm-maxcover" name="fm-maxcover">
 	      			<option value='-1'> </option>
 		        	<option value='0'>0 (Lowest Coverage)</option>
 		        	<option value='1'>1</option>
