@@ -54,11 +54,23 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 				$newClientInfo['Policy_No'] = $_POST['fm-policy'];
 				$newClientInfo['Years_Exp'] = $_POST['fm-yearsexp'];
 				$newClientInfo['Training'] = $_POST['fm-training'];
-				if ($clientinstance->updateClient($clientid,$newClientInfo)){
-					print "Client ".$clientid." successfully updated<br />\n";
-					print "<a href=\"client.php?action=update&client=".$clientid."\">Return</a>\n";
+				if ($clientinstance->validateData($newClientInfo)){//ERROR CHECK
+					if ($clientinstance->updateClient($clientid,$newClientInfo)){
+						print "Client ".$clientid." successfully updated<br />\n";
+						print "<a href=\"client.php?action=update&client=".$clientid."\">Return</a>\n";
+					} else{
+						print "An error occured while updating, please check your inputs";
+					}
 				} else {
-					print "Error occured, please check your input";
+					//Error validating the input
+					$clientinstance->displayError();
+					$clientinstance->printUpdateForm($clientid);
+					$vehicles = $vehicleinstance->searchByClient($clientid);
+					$vehicleinstance->display2DArray($vehicles, true);
+					print "<br /><a href=\"vehicle.php?action=add&client=".$clientid."\">Add a new vehicle for this client</a><br />\n";
+					$tickets = $ticketinstance->searchByClient($clientid);
+					$ticketinstance->display2DArray($tickets, true);
+					print "<br /><a href=\"tickets.php?action=add&client=".$clientid."\">Add a ticket for this client</a><br />\n";
 				}
 			} else {
 				//Display an update form and get information
