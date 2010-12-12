@@ -65,6 +65,40 @@ class Policy {
 		mysql_query($sql) or die(mysql_error());
 		return true;
 	}
+	
+	/**
+	 * Returns the an array Policy_No of all claims that have Policy_No = $policyid
+	 * @param unknown_type $policyid
+	 */
+	// FIXME NON-FUNCTIONAL DO NOT CALL
+	function searchPrivatePolicy($policyid){
+		$sql = "SELECT Claim_No FROM Claims WHERE Client_ID='$policyid'";
+		$result = mysql_query($sql);
+		$i = 0;
+		$toReturn;
+		while ($info = mysql_fetch_array($result,MYSQL_NUM)){ //Use num, because otherwise we'll get duplicates
+			$toReturn[$i] = $info[0]; //Add the results into an array for us to read
+			$i++;
+		}
+		return $toReturn;
+	}
+	
+	/**
+	 * Returns the an array Claims_No of all claims that have clientID = $clientID
+	 * @param unknown_type $clientID
+	 */
+	// FIXME NON-FUNCTIONAL DO NOT CALL
+	function searchPrivatePolicy($clientID){
+		$sql = "SELECT Claim_No FROM Claims WHERE Client_ID='$clientID'";
+		$result = mysql_query($sql);
+		$i = 0;
+		$toReturn;
+		while ($info = mysql_fetch_array($result,MYSQL_NUM)){ //Use num, because otherwise we'll get duplicates
+			$toReturn[$i] = $info[0]; //Add the results into an array for us to read
+			$i++;
+		}
+		return $toReturn;
+	}
 
 	function listPrivatePolicy($offset,$limit){
 		echo "<legend>PRIVATE</legend>";
