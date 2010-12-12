@@ -87,11 +87,11 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 			
 			if($searchType == 'p' || $searchType == 'b') {
 				$privatepolicies = $policyinstance->searchPrivatePolicy($policyid, $policyrate, $policycover);
-				$policyinstance->display2DArray($privatepolicies, true);
+				$policyinstance->display2DArray($privatepolicies, 1);
 			}
 			if($searchType == 'c' || $searchType == 'b') {
 				$companypolicies = $policyinstance->searchCompanyPolicy($policyid, $policyrate, $policycover, $policyemp);
-				$policyinstance->display2DArray($companypolicies, true);
+				$policyinstance->display2DArray($companypolicies, 0);
 			}
 		} else {
 			// Not searching for something?

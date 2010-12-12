@@ -18,7 +18,6 @@ class Policy {
 				$sql = $sql."'".$array[$keys[$i]]."',";
 			}
 		}
-		//INSERT INTO Private_Policy (Policy_No, Premium_Rate,Coverage) VALUES (LAST_INSERT_ID(), '4321','1');Policy has been added
 		mysql_query($sql) or die(mysql_error());
 		//Retrieve the newly inserted Policy_ID
 		$policyid = mysql_query("SELECT LAST_INSERT_ID();") or die(mysql_error()); //This will get the last insert's ID
@@ -45,7 +44,6 @@ class Policy {
 				$sql = $sql."'".$array[$keys[$i]]."',";
 			}
 		}
-		//INSERT INTO Company_Policy (Policy_No, Premium_Rate,Coverage,Num_of_Employees) VALUES (LAST_INSERT_ID(), '4321','1','43');You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
 		mysql_query($sql) or die(mysql_error());
 		//Retrieve the newly inserted Policy_ID
 		$policyid = mysql_query("SELECT LAST_INSERT_ID();") or die(mysql_error()); //This will get the last insert's ID
@@ -72,28 +70,86 @@ class Policy {
 	 */
 	// FIXME NON-FUNCTIONAL DO NOT CALL
 	function searchPrivatePolicy($policyid, $policyrate, $policycover){
-		if($policyid == null) {
-			println("nopolicyid");
-			//this code
+		$flag = 0;
+		$sql = "SELECT * FROM `Private_Policy` WHERE ";
+		if($policyid != null) {
+			$sql = $sql."Policy_No='$policyid' ";
+			$flag = 1;
 		} 
-		if($policyrate['min'] == null) {
-			println("nopolicyratemin");
-			//this code
+		
+		if($policyrate['min'] != null && $policyrate['max'] != null) {
+			if($flag == '1')
+				$sql = $sql."&& ";
+				
+			if($policyrate['min'] <= '0') {
+				println("Error: Policy Min Rate less than zero");
+				return null;
+			}				
+			if($policyrate['max'] <= '0') {
+				println("Error: Policy Max Rate less than zero");
+				return null;
+			}	
+			
+			if($policyrate['min']==$policyrate['max']) {
+				$sql = $sql."Premium_Rate='".$policyrate['min']."' ";
+			} elseif ($policyrate['min']>$policyrate['max']){
+				println("Error: Policy Rate Max less than Policy Rate Min");
+				return null;
+			} else {
+				$sql = $sql."Premium_Rate BETWEEN '".$policyrate['min']."' AND ".$policyrate['max']."' ";
+			}
+			$flag = 1;
+		} elseif($policyrate['min'] != null) {
+			if($flag == '1')
+				$sql = $sql."&& ";
+				
+			if($policyrate['min'] <= '0') {
+				println("Error: Policy Min Rate less than zero");
+				return null;
+			}
+			$sql = $sql."Premium_Rate>='".$policyrate['min']."' ";
+			$flag = 1;
+		} elseif($policyrate['max'] != null) {
+			if($flag == '1')
+				$sql = $sql."&& ";
+				
+			if($policyrate['max'] <= '0') {
+				println("Error: Policy Max Rate less than zero");
+				return null;
+			}
+			$sql = $sql."Premium_Rate<='".$policyrate['max']."' ";
+			$flag = 1;
 		}
-		if($policyrate['max'] == null) {
-			println("nopolicyratemax");
-			//this code
+		
+		if($policycover['min'] != '-1' && $policycover['max'] != '-1') {
+			if($flag == '1')
+				$sql = $sql."&& ";
+			if($policycover['min']==$policycover['max']) {
+				$sql = $sql."Coverage='".$policycover['min']."' ";
+			} elseif ($policycover['min']>$policycover['max']){
+				println("Error: Policy Cover Max less than Policy Cover Min");
+				return null;
+			} else {
+				$sql = $sql."Coverage BETWEEN '".$policycover['min']."' AND ".$policycover['max']."' ";
+			}
+			$flag = 1;
+		} elseif($policycover['min'] != '-1') {
+			if($flag == '1')
+				$sql = $sql."&& ";
+			
+			$sql = $sql."Coverage>='".$policycover['min']."' ";
+			$flag = 1;
+		} elseif($policycover['max'] != '-1') {
+			if($flag == '1')
+				$sql = $sql."&& ";
+			$sql = $sql."Coverage<='".$policycover['max']."' ";
+			$flag = 1;
 		}  
-		if($policycover['min'] == '-1') {
-			println("nopolicycovermin");
-			//this code
+		
+		if($flag == '0') { // Nothing was entered
+			$sql = "SELECT * FROM `Private_Policy`";;
 		}
-		if($policycover['max'] == '-1') {
-			println("nopolicycovermax");
-			//this code
-		}  
-/*		$sql = "SELECT Claim_No FROM Claims WHERE Client_ID='$policyid'";
-		$result = mysql_query($sql);
+/*		$result = mysql_query($sql);
 		$i = 0;
 		$toReturn;
 		while ($info = mysql_fetch_array($result,MYSQL_NUM)){ //Use num, because otherwise we'll get duplicates
@@ -101,6 +157,7 @@ class Policy {
 			$i++;
 		}
 		return $toReturn;*/
+		return mysql_query($sql);
 	}
 	
 	/**
@@ -109,43 +166,131 @@ class Policy {
 	 */
 	// FIXME NON-FUNCTIONAL DO NOT CALL
 	function searchCompanyPolicy($policyid, $policyrate, $policycover, $policyemp){
-		if($policyid == null || $policyid == 0) {
-			println("nopolicyid");
-			//this code
+		$flag = 0;
+		$sql = "SELECT * FROM `Company_Policy` WHERE ";
+		if($policyid != null) {
+			$sql = $sql."Policy_No='$policyid' ";
+			$flag = 1;
 		} 
-		if($policyrate['min'] == null) {
-			println("nopolicyratemin");
-			//this code
+		
+		if($policyrate['min'] != null && $policyrate['max'] != null) {
+			if($flag == '1')
+				$sql = $sql."&& ";
+				
+			if($policyrate['min'] <= '0') {
+				println("Error: Policy Min Rate less than zero");
+				return null;
+			}				
+			if($policyrate['max'] <= '0') {
+				println("Error: Policy Max Rate less than zero");
+				return null;
+			}	
+			
+			if($policyrate['min']==$policyrate['max']) {
+				$sql = $sql."Premium_Rate='".$policyrate['min']."' ";
+			} elseif ($policyrate['min']>$policyrate['max']){
+				println("Error: Policy Rate Max less than Policy Rate Min");
+				return null;
+			} else {
+				$sql = $sql."Premium_Rate BETWEEN '".$policyrate['min']."' AND ".$policyrate['max']."' ";
+			}
+			$flag = 1;
+		} elseif($policyrate['min'] != null) {
+			if($flag == '1')
+				$sql = $sql."&& ";
+				
+			if($policyrate['min'] <= '0') {
+				println("Error: Policy Min Rate less than zero");
+				return null;
+			}
+			$sql = $sql."Premium_Rate>='".$policyrate['min']."' ";
+			$flag = 1;
+		} elseif($policyrate['max'] != null) {
+			if($flag == '1')
+				$sql = $sql."&& ";
+				
+			if($policyrate['max'] <= '0') {
+				println("Error: Policy Max Rate less than zero");
+				return null;
+			}
+			$sql = $sql."Premium_Rate<='".$policyrate['max']."' ";
+			$flag = 1;
 		}
-		if($policyrate['max'] == null) {
-			println("nopolicyratemax");
-			//this code
+		
+		if($policycover['min'] != '-1' && $policycover['max'] != '-1') {
+			if($flag == '1')
+				$sql = $sql."&& ";
+			if($policycover['min']==$policycover['max']) {
+				$sql = $sql."Coverage='".$policycover['min']."' ";
+			} elseif ($policycover['min']>$policycover['max']){
+				println("Error: Policy Cover Max less than Policy Cover Min");
+				return null;
+			} else {
+				$sql = $sql."Coverage BETWEEN '".$policycover['min']."' AND ".$policycover['max']."' ";
+			}
+			$flag = 1;
+		} elseif($policycover['min'] != '-1') {
+			if($flag == '1')
+				$sql = $sql."&& ";
+			
+			$sql = $sql."Coverage>='".$policycover['min']."' ";
+			$flag = 1;
+		} elseif($policycover['max'] != '-1') {
+			if($flag == '1')
+				$sql = $sql."&& ";
+			$sql = $sql."Coverage<='".$policycover['max']."' ";
+			$flag = 1;
 		}  
-		if($policycover['min'] == '-1') {
-			println("nopolicycovermin");
-			//this code
+		
+	
+		if($policyemp['min'] != null && $policyemp['max'] != null) {
+			if($flag == '1')
+				$sql = $sql."&& ";
+				
+			if($policyemp['min'] <= '0') {
+				println("Error: Policy Min emp less than zero");
+				return null;
+			}				
+			if($policyemp['max'] <= '0') {
+				println("Error: Policy Max emp less than zero");
+				return null;
+			}	
+			
+			if($policyemp['min']==$policyemp['max']) {
+				$sql = $sql."Num_of_Employees='".$policyemp['min']."' ";
+			} elseif ($policyemp['min']>$policyemp['max']){
+				println("Error: Policy emp Max less than Policy emp Min");
+				return null;
+			} else {
+				$sql = $sql."Num_of_Employees BETWEEN '".$policyemp['min']."' AND ".$policyemp['max']."' ";
+			}
+			$flag = 1;
+		} elseif($policyemp['min'] != null) {
+			if($flag == '1')
+				$sql = $sql."&& ";
+				
+			if($policyemp['min'] <= '0') {
+				println("Error: Policy Min emp less than zero");
+				return null;
+			}
+			$sql = $sql."Num_of_Employees>='".$policyemp['min']."' ";
+			$flag = 1;
+		} elseif($policyemp['max'] != null) {
+			if($flag == '1')
+				$sql = $sql."&& ";
+				
+			if($policyemp['max'] <= '0') {
+				println("Error: Policy Max emp less than zero");
+				return null;
+			}
+			$sql = $sql."Num_of_Employees<='".$policyemp['max']."' ";
+			$flag = 1;
+		}		
+		
+		if($flag == '0') { // Nothing was entered
+			$sql = "SELECT * FROM `Company_Policy`";;
 		}
-		if($policycover['max'] == '-1') {
-			println("nopolicycovermax");
-			//this code
-		}  
-		if($policyemp['min'] == null) {
-			println("nopolicyempmin");
-			//this code
-		}
-		if($policyemp['max'] == null) {
-			println("nopolicyempmax");
-			//this code
-		}  
-	/*	$sql = "SELECT Claim_No FROM Claims WHERE Client_ID='$clientID'";
-		$result = mysql_query($sql);
-		$i = 0;
-		$toReturn;
-		while ($info = mysql_fetch_array($result,MYSQL_NUM)){ //Use num, because otherwise we'll get duplicates
-			$toReturn[$i] = $info[0]; //Add the results into an array for us to read
-			$i++;
-		}
-		return $toReturn; */
+		return mysql_query($sql);
 	}
 
 	/**
@@ -154,28 +299,36 @@ class Policy {
 	 * @param unknown_type $array
 	 * @param boolean $printoptions Set whether to display delete, update, etc functions
 	 */
-	function display2DArray($array,$printoptionsflag){
-		if($array==null){
+	function display2DArray($result, $type){
+		if($result==null){
 			print "No results were found!<br />";
 		} else {
-			print "<table class=\"claims\"><tr>";
-			$first = $array[0];
-			$keys = array_keys($first); //Return the keys of the array, use first element;
-			for ($i=0;$i<count($keys);$i++){
-				print "<td>".$keys[$i]."</td>\n";
+			if($type == 1) {
+				print("<legend>Private Policy</legend>");
+			} elseif ($type == 0) {
+				print("<legend>Company Policy</legend>");
 			}
-			print "</tr>";
-			for ($j=0;$j<count($array);$j++){
-				print "<tr>";
-				for ($i=0;$i<(count($keys));$i++){	
-					print "<td>".$array[$j][$keys[$i]]."</td>\n";
-				}
-				if ($printoptionsflag){
-					$this->printOptions($array[$j]['Claim_No']);
-				}
-				print "</tr>\n";
+			print "<table class=\"policy\"><tr><td><b>Policy Number</b></td><td><b>Premium Rate</b></td><td><b>Coverage</b></td>";
+			if($type == 1) {
+				print("</tr>");
+			} else {
+				print("<td><b>Num of Employees</b></td></tr>");
 			}
-			print "</table>\n";
+			while($info = mysql_fetch_array($result)){
+				Print "<tr><td>";
+				if (($info['Policy_No']!=null) || ($info['Policy_No']!=0)){
+					print "<a href='policy.php?action=update&policy=".$info['Policy_No']."&type=1'>".$info['Policy_No']."</a>\n";
+				} else {
+					print $info['Policy_No'];
+				}
+				print "</td><td>".$info['Premium_Rate']."</td><td>".$info['Coverage']."</td>";
+				if($type == 0) {
+					print("<td>".$info['Num_of_Employees']."</td>");
+				}
+				$this->printOptions($info['Policy_No'],$type);
+				print "</tr>";
+			}
+			print "</table>";
 		}
 	}
 	
