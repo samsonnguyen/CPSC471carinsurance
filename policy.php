@@ -10,7 +10,7 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 	$policyinstance = new Policy();
 	if ($_GET['action']=='add'){
 		include $includesfolder.'addpolicy.php';
-	} else if ($_GET['action']=='remove'){
+	} elseif ($_GET['action']=='remove'){
 		//Get type and policy
 		$type = $_GET['type'];
 		$policyid = $_GET['policy'];	
@@ -18,7 +18,7 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 		//Check the policyID
 		if ($policyid == null || $policyid==0){
 			print "Error, policy cannot be null. (".$policyid.")";
-		} else if($type == null) {
+		} elseif($type == null) {
 			print "Error, policy type is undefined";	
 		} else {
 			if($type == 1) { // Private
@@ -28,7 +28,7 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 					print "Private Policy cannot be deleted";
 				}
 			}
-			else if($type == 0) { // Public
+			elseif($type == 0) { // Public
 				if ($policyinstance->deleteCompanyPolicy($policyid)){
 					print "Company Policy deleted successfully!";
 				} else {
@@ -39,29 +39,58 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 				print "Policy type is unknown.";
 			}
 		}
-	} else if ($_GET['action']=='update'){
-		
-	} else if ($_GET['action']=='search'){
+	} elseif ($_GET['action']=='update') {
+		//Get type and policy
+		$type = $_GET['type'];
+		$policyid = $_GET['policy'];
+		//We want to perform an update
+		if ($policyid == null || $policyid==0){
+			print "Error, policy cannot be null. (".$policyid.")";
+		} elseif($type == null) {
+			print "Error, policy type is undefined";	
+		} else {
+			if (isset($_GET['form'])){
+				//This is a return call from the form, we do an update on the database
+				$newPolicyInfo['Premium_Rate'] = $_POST['fm-premium'];
+				$newPolicyInfo['Coverage'] = $_POST['fm-coverage'];
+				if($type == 0) // Company
+					$newPolicyInfo['Num_of_Employees'] = $_POST['fm-numofemp'];
+				if ($policyinstance->updatePolicy($policyid,$newPolicyInfo,$type)){
+					print "Policy ".$policyid." successfully updated<br />\n";
+					print "<a href='policy.php?action=update&policy=".$policyid."&type=".$type."'>Return</a>\n";
+				} else {
+					print "Error occured, please check your input";
+				}
+			} else {
+				//Display an update form and get information
+				$policyinstance->printUpdateForm($policyid,$type);
+//				$vehicles = $vehicleinstance->searchByClient($clientid);
+//				$vehicleinstance->display2DArray($vehicles, true);
+//				print "<br /><a href=\"vehicle.php?action=add&client=".$clientid."\">Add a new vehicle for this client</a><br />\n";
+//				$tickets = $ticketinstance->searchByClient($clientid);
+//				$ticketinstance->display2DArray($tickets, true);
+//				print "<br /><a href=\"tickets.php?action=add&client=".$clientid."\">Add a ticket for this client</a><br />\n";
+			}	
+		}
+	} elseif ($_GET['action']=='search'){
 		include $includesfolder.'searchpolicy.php';
-	} else if (isset($_GET['addprivatepolicy'])){
+	} elseif (isset($_GET['addprivatepolicy'])){
 		//Add a new private policy, should be called only through a form
 		$newPolicyInfo['Premium_Rate'] = $_POST['fm-premium'];
 		$newPolicyInfo['Coverage'] = $_POST['fm-coverage'];
 		$policyinstance->addNewPrivatePolicy($newPolicyInfo);
 		print "Policy has been added<br />\n";
-	} else if (isset($_GET['addcompanypolicy'])){
+	} elseif (isset($_GET['addcompanypolicy'])){
 		//Add a new company policy, should be called only through a form
 		$newPolicyInfo['Premium_Rate'] = $_POST['fm-premiumc'];
 		$newPolicyInfo['Coverage'] = $_POST['fm-coveragec'];
-		$newPolicyInfo['#_of_Employees'] = $_POST['fm-numofemp'];
+		$newPolicyInfo['Num_of_Employees'] = $_POST['fm-numofemp'];
 		$policyinstance->addNewCompanyPolicy($newPolicyInfo);
 		print "Policy has been added<br />\n";
 	} else {
 		//Client home, display stats?
 		include $includesfolder.'displaypolicystats.php';
 	}
-	
-	
 } else {
 	//user not logged in or has incorrect permissions
 	printAccessDeniedMsg();

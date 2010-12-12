@@ -54,7 +54,7 @@ mysql_query("CREATE TABLE Company_Policy
 	(	Policy_No 		INT	NOT	NULL AUTO_INCREMENT,
 		Premium_Rate	INT	NOT NULL,
 		Coverage		INT,
-		#_Of_Employees	INT,	
+		Num_of_Employees	INT,	
 	PRIMARY KEY (Policy_No));")
 or die(mysql_error());
 

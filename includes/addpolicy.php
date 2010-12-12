@@ -9,10 +9,22 @@
       		<label for="fm-premium">Premium Rate:</label>
       		<input name="fm-premium" id="fm-premium" type="text" />
     	</div>
-    	 <div class="fm-req">
+    	<div class="fm-req">
       		<label for="fm-coverage">Coverage:</label>
-      		<input name="fm-coverage" id="fm-coverage" type="text" />
-    	</div>
+      		<select id="fm-coverage" name="fm-coverage">
+	        	<option value='0'>0 (Lowest Coverage)</option>
+	        	<option value='1'>1</option>
+	        	<option value='2'>2</option>
+	        	<option value='3'>3</option>
+	        	<option value='4'>4</option>
+	        	<option value='5'>5</option>
+	        	<option value='6'>6</option>
+	        	<option value='7'>7</option>
+	        	<option value='8'>8</option>
+	        	<option value='9'>9</option>
+	        	<option value='10'>10 (Highest Coverage)</option>
+     		</select>
+   		</div>
 		</fieldset>
 		<div id="fm-submit" class="fm-req">
 			<input name="Submit" value="Submit" type="submit" />
@@ -27,9 +39,21 @@
       		<input name="fm-premiumc" id="fm-premiumc" type="text" />
     	</div>
     	<div class="fm-req">
-      		<label for="fm-coveragec">Coverage:</label>
-      		<input name="fm-coveragec" id="fm-coveragec" type="text" />
-    	</div>
+      		<label for="fm-coverage">Coverage:</label>
+      		<select id="fm-coverage" name="fm-coverage">
+	        	<option value='0'>0 (Lowest Coverage)</option>
+	        	<option value='1'>1</option>
+	        	<option value='2'>2</option>
+	        	<option value='3'>3</option>
+	        	<option value='4'>4</option>
+	        	<option value='5'>5</option>
+	        	<option value='6'>6</option>
+	        	<option value='7'>7</option>
+	        	<option value='8'>8</option>
+	        	<option value='9'>9</option>
+	        	<option value='10'>10 (Highest Coverage)</option>
+     		</select>
+   		</div>
     	<div class="fm-opt">
       		<label for="fm-numofemp"># of Employees:</label>
       		<input name="fm-numofemp" id="fm-numofemp" type="text" />

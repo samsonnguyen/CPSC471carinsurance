@@ -45,7 +45,7 @@ class Policy {
 				$sql = $sql."'".$array[$keys[$i]]."',";
 			}
 		}
-		//INSERT INTO Company_Policy (Policy_No, Premium_Rate,Coverage,#_of_Employees) VALUES (LAST_INSERT_ID(), '4321','1','43');You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+		//INSERT INTO Company_Policy (Policy_No, Premium_Rate,Coverage,Num_of_Employees) VALUES (LAST_INSERT_ID(), '4321','1','43');You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
 		mysql_query($sql) or die(mysql_error());
 		//Retrieve the newly inserted Policy_ID
 		$policyid = mysql_query("SELECT LAST_INSERT_ID();") or die(mysql_error()); //This will get the last insert's ID
@@ -95,7 +95,7 @@ class Policy {
 			Print "<tr><td>";
 			if($info['Policy_No']!=null)
 				print $info['Policy_No'];
-			print "</td><td>".$info['Premium_Rate']."</td><td>".$info['Coverage']."</td><td>".$info['#_of_Employees']."</td>";
+			print "</td><td>".$info['Premium_Rate']."</td><td>".$info['Coverage']."</td><td>".$info['Num_of_Employees']."</td>";
 			$this->printOptions($info['Policy_No'],$type);
 			print "</tr>";
 		}
@@ -115,34 +115,77 @@ class Policy {
 	
 	/**
 	 * Prints a form containing the original values in the database for updating
+	 * type = 1 for private, type = 0 for company
 	 * @param unknown_type $policyid
+	 * @param int $type
 	 */
-	function printUpdateForm($policyid){
-		$sql = "SELECT * FROM Client WHERE Client_ID='$policyid'";
+	function printUpdateForm($policyid,$type){
+		if($type == 1)
+			$sql = "SELECT * FROM `Private_Policy` WHERE Policy_No='$policyid'";
+		elseif($type == 0) 
+			$sql = "SELECT * FROM `Company_Policy` WHERE Policy_No='$policyid'";
+		else {
+			print("Error, Undefined type: ".$type."!");
+			return false;
+		}
+		print($sql."<br />\n");
 		$result = mysql_query($sql) or die(mysql_error());
 		$info = mysql_fetch_array($result,MYSQL_ASSOC);
 		include 'includes/editpolicy.php';
 	} //CLOSE print update form
 	
 	/**
-	 * update the client information using data contained in the array. The Array keys must be associative
+	 * update the Policy information using data contained in the array and the policy type. The Array keys must be associative
 	 * @return unknown_type
 	 */
-	/*function updateClient($clientid, $array){
-		$sql="UPDATE Client SET ";
+	
+	function updatePolicy($policyid, $array, $type){
+		if($type == 1) // Private
+			$sql="UPDATE `Private_Policy` SET ";
+		elseif($type == 0) // Company
+			$sql="UPDATE `Company_Policy` SET ";
+		else{
+			print("Error, Undefined type: ".$type."!");
+			return false;
+		}
+		
+		/*if($this->policyExists($policyid, $type) == false) {
+			print("Error, Policy doesn't exist!");
+			return false;
+		}*/
 		$keys = array_keys($array); //Return the keys of the array, use first element;
-		for ($i=0;$i<count($keys);$i++){
+		for ($i=0; $i<count($keys); $i++){
 			if ($i==(count($keys)-1)){ //last value, omit the comma
 				$sql = $sql.$keys[$i]."='".$array[$keys[$i]]."'";
 			} else {
 				$sql = $sql.$keys[$i]."='".$array[$keys[$i]]."', ";
 			}
 		}
-		$sql = $sql." WHERE Client_ID='$clientid'";
+		$sql = $sql." WHERE Policy_No='$policyid'";
 		//print $sql."<br />\n";
+		print($sql."<br />\n");
 		mysql_query($sql) or die(mysql_error());
 		return true;//return true
-	}*/
+	}
+	
+	/**
+	 * Check if the policy exists by Policy_ID and Type
+	 */
+	function policyExists($Policy_ID,$type){
+		if($type != 0 && $type != 1)
+			return false;
+		if($type == 0)
+			$sql = "SELECT * FROM `Company_Policy` WHERE Policy_ID='$Policy_ID'";
+		else
+			$sql = "SELECT * FROM `Private_Policy` WHERE Policy_ID='$Policy_ID'";
+		$result = mysql_query($sql);
+		// Mysql_num_row is counting table row
+		$count = mysql_num_rows($result);
+		if ($count == 1){//Client exists
+			return true;
+		}//ID should be unique, therefore only one can be returned
+		return false;
+	}
 	function totalPolicies(){
 		$data = mysql_query("SELECT * FROM Private_Policy") or die(mysql_error());
 		$data2 = mysql_query("SELECT * FROM Company_Policy") or die(mysql_error());
