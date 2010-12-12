@@ -11,19 +11,34 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 	if ($_GET['action']=='add'){
 		include $includesfolder.'addpolicy.php';
 	} else if ($_GET['action']=='remove'){
-/*		//remove policy
-		$policyid = $_GET['policy'];
+		//Get type and policy
+		$type = $_GET['type'];
+		$policyid = $_GET['policy'];	
+				
 		//Check the policyID
-		if ($policyid==null || $policyid==0){
-			print "Error, policy cannot be null";
+		if ($policyid == null || $policyid==0){
+			print "Error, policy cannot be null. (".$policyid.")";
+		} else if($type == null) {
+			print "Error, policy type is undefined";	
 		} else {
-			// TODO change before testing
-			if ($policyinstance->deleteClient($policyid)){
-				print "Policy deleted successfully!";
-			} else {
-				print "Policy cannot be deleted";
+			if($type == 1) { // Private
+				if ($policyinstance->deletePrivatePolicy($policyid)){
+					print "Private Policy deleted successfully!";
+				} else {
+					print "Private Policy cannot be deleted";
+				}
 			}
-		}*/
+			else if($type == 0) { // Public
+				if ($policyinstance->deleteCompanyPolicy($policyid)){
+					print "Company Policy deleted successfully!";
+				} else {
+					print "Company Policy cannot be deleted";
+				}
+			}
+			else {
+				print "Policy type is unknown.";
+			}
+		}
 	} else if ($_GET['action']=='update'){
 		
 	} else if ($_GET['action']=='search'){

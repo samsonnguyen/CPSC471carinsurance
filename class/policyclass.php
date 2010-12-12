@@ -55,13 +55,13 @@ class Policy {
 	}
 	
 	function deletePrivatePolicy($policyID){
-		$sql="DELETE FROM Private_Policy WHERE Claim_No='$policyID'";
+		$sql="DELETE FROM Private_Policy WHERE Policy_No='$policyID'";
 		mysql_query($sql) or die(mysql_error());
 		return true;
 	}
 	
 	function deleteCompanyPolicy($policyID){
-		$sql="DELETE FROM Company_Policy WHERE Claim_No='$policyID'";
+		$sql="DELETE FROM Company_Policy WHERE Policy_No='$policyID'";
 		mysql_query($sql) or die(mysql_error());
 		return true;
 	}
@@ -69,7 +69,7 @@ class Policy {
 	function listPrivatePolicy($offset,$limit){
 		echo "<legend>PRIVATE</legend>";
 		$returnString = array();
-		$type = true; // PRIVATE
+		$type = 1; // PRIVATE
 		$sql = "SELECT * FROM Private_Policy ORDER BY Policy_No ASC LIMIT $offset, $limit";
 		$result = mysql_query($sql);
 		print "<table class=\"policy\"><tr><td>Policy Number</td><td>Premium Rate</td><td>Coverage</td></tr>";
@@ -87,7 +87,7 @@ class Policy {
 	function listCompanyPolicy($offset,$limit){
 		echo "<legend>COMPANY</legend>";
 		$returnString = array();
-		$type = false; // PUBLIC
+		$type = 0; // PUBLIC
 		$sql = "SELECT * FROM Company_Policy ORDER BY Policy_No ASC LIMIT $offset, $limit";
 		$result = mysql_query($sql);
 		print "<table class=\"policy\"><tr><td>Policy Number</td><td>Premium Rate</td><td>Coverage</td><td># of Employees</tr>";
@@ -104,18 +104,13 @@ class Policy {
 	
 	/**
 	 * Print out options to delete, or update the client.
-	 * type = true for private, type = false for company
+	 * type = 1 for private, type = 0 for company
 	 * @param $policyid
-	 * @param boolean $type
+	 * @param $type
 	 * @return unknown_type
 	 */
 	function printOptions($policyid,$type){
-		if($type){
-			print "<td><a href=\"client.php?action=remove&privatepolicy=$policyid\">X</a></td><td> <a href=\"client.php?action=update&privatepolicy=$policyid\">Edit</a></td>\n";
-		}
-		else {
-			print "<td><a href=\"client.php?action=remove&companypolicy=$policyid\">X</a></td><td> <a href=\"client.php?action=update&companypolicy=$policyid\">Edit</a></td>\n";
-		}
+		print "<td><a href=\"policy.php?action=remove&policy=$policyid&type=$type\">X</a></td><td> <a href=\"policy.php?action=update&policy=$policyid&type=$type\">Edit</a></td>\n";
 	}
 	
 	/**
