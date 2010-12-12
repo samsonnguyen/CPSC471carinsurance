@@ -15,7 +15,8 @@ define(VEHICLE_VALUE_MULTIPLE, 100); //For every $1000 in value, increase by thi
 //CONSTANTS FOR PREMIUM CALCULATION
 define(COMPANY_EMP_MULTIPLE, 1000); //UNIT in DOLLARS, for every employee covered in the policy, increase by this amount
 define(COVERAGE_MULTIPLE, 10000); //UNIT IN DOLLARS, as coverage increases by 1, 
-
+define(CLIENT_RISK_MULTIPLE, 1000);
+define(VEHICLE_RISK_MULTIPLE, 2000);
 
 class premiumClass{
 	//Local Variables
@@ -89,17 +90,19 @@ class premiumClass{
 	 * For policy_no, we find all clients and vehicles listed under the policy
 	 * calculate the premium 
 	 */
-	function calculatePremium($policy_no){
+	function calculatePremium($policy_no,$clientrisk,$vehiclerisk){
 		$base = $this->base_price;
-		$sql = "(SELECT Coverage, #_Of_Employees FROM CompanyPolicy) UNION (SELECT Coverage FROM PrivatePolicy) WHERE Policy_No='$policy_no'";;
+		$sql = "(SELECT Coverage, Num_Of_Employees FROM CompanyPolicy) UNION (SELECT Coverage FROM PrivatePolicy) WHERE Policy_No='$policy_no';";
 		$result = mysql_query($sql) or die(mysql_error());
 		$policy = mysql_fetch_assoc($result);
 		$premium = $this->base_price; //set this as the base price
 		$premium = $premium + (($policy['Coverage']/100)*COVERAGE_MULTIPLE); //Linear increase as coverage increases. Coverage should be like a percentage
-		if (isset($policy['#_Of_Employees'])){
+		if (isset($policy['Num_Of_Employees'])){
 			//This policy is a company policy
-			$premium = $premium + $policy['#_Of_Employees']*COMPANY_EMP_MULTIPLE;
+			$premium = $premium + $policy['Num_Of_Employees']*COMPANY_EMP_MULTIPLE;
 		}
+		$premium = $premium + (($clientrisk/100) * CLIENT_RISK_MULTIPLE);
+		$premium = $premium + (($vehiclerisk/100) * VEHICLE_RISK_MULTIPLE);
 		return $premium;
 		
 	}
@@ -130,10 +133,24 @@ class premiumClass{
 	
 	/**
 	 * Update premiums for ALL policies, WARNING THIS MAY TAKE A LONG TIME
-	 * Enter description here ...
+	 * returns true if the procedure was successful.
 	 */
 	function batchPremiumUpdate(){
-		
+		$sql = "(SELECT Client_ID,Policy_No FROM Client, CompanyPolicy WHERE Client.Policy_No = CompanyPolicy.Policy_No) UNION 
+				(SELECT Client_ID,Policy_No FROM Client,PrivatePolicy WHERE Client.Policy_No = PrivatePolicy.Policy_No)"; //get list of all clients with policies
+		$result = mysql_query($sql) or die(mysql_error());
+		while ($client = mysql_fetch_array($result)){
+			$clientRisk = $this->calculateClientRisk($client[0]); //Clients risk
+			$sql = "SELECT VIN FROM Vehicle WHERE Client_ID='$client[0]"; //Get all vehicles from this client
+			$result = mysql_query($sql) or die(mysql_error());
+			$vehiclerisk=0;
+			while($vehicle = mysql_fetch_row($result)){
+				$vehiclerisk = $vehiclerisk + $this->calculateVehicleRisk($vehicle[0]); //for every vehicle add it's risk
+			}
+			$premium = $this->calculatePremium($policy_no,$clientRisk,$vehiclerisk);
+			$sql = "UPDATE PrivatePolicy pp, CompanyPolicy cp SET Premium='$premium' WHERE Policy_No='$client[0]"; //update to both tables, no join involved
+		}
+		return true;
 	}
 	
 	/**
