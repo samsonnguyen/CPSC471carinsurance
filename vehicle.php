@@ -23,16 +23,22 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 			$newVehicleInfo['Ave_Daily_Miles'] = $_POST['fm-mileage'];
 			$newVehicleInfo['Displacement'] = $_POST['fm-displacement'];
 			$newVehicleInfo['Client_ID'] = $_POST['fm-clientid'];
-			$newVehicleInfo['Type'] = getAge($_POST['fm-type']);
+			$newVehicleInfo['Type'] = $_POST['fm-type'];
 			$newVehicleInfo['Commercial'] = $_POST['fm-commercial'];
-			if ($vehicleinstance->addNewVehicle($newVehicleInfo)){
-				print "Vehicle ".$_POST['fm-vin']." added successfully!\n";
+			if ($vehicleinstance->validateData($newVehicleInfo)){//ERROR CHECK
+				if ($vehicleinstance->addNewVehicle($newVehicleInfo)){
+					print "Vehicle ".$_POST['fm-vin']." added successfully!\n";
+				} else {
+					print "Error occured";
+				}
 			} else {
-				print "Error occured";
+				//Validation failed
+				$vehicleinstance->displayError();
+				include $includesfolder.'addvehicle.php'; //redisplay the form
 			}
 		} else {
-			//Display the add vehicle form
-			include $includesfolder.'addvehicle.php';
+			//Display add form
+			include $includesfolder.'addvehicle.php'; //display add form
 		}
 	} else if ($_GET['action']=='remove'){
 		//Remove the vehicle
@@ -54,6 +60,7 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 		} else {
 			if (isset($_GET['form'])){
 				//This is a return call from the form, we do an update on the database
+				$newVehicleInfo['VIN'] = $vehicleVIN; //ADD vin for validation check only
 				$newVehicleInfo['Year'] = $_POST['fm-year'];
 				$newVehicleInfo['Make'] = $_POST['fm-make'];
 				$newVehicleInfo['Model'] = $_POST['fm-model'];
@@ -66,15 +73,21 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 				$newVehicleInfo['Client_ID'] = $_POST['fm-clientid'];
 				$newVehicleInfo['Type'] = getAge($_POST['fm-type']);
 				$newVehicleInfo['Commercial'] = $_POST['fm-commercial'];
-				
-				if ($vehicleinstance->updateVehicle($vehicleVIN,$newVehicleInfo)){
-					print "Vehicle ".$vehicleVIN." successfully updated<br />\n";
-					print "<a href=\"vehicle.php?action=update&vehicle=".$vehicleVIN."\">Return</a>\n";
+				if ($vehicleinstance->validateData($newVehicleInfo)){
+					if ($vehicleinstance->updateVehicle($vehicleVIN,$newVehicleInfo)){
+						unset($newVehicleInfo['VIN']);//not needed in the sql
+						print "Vehicle ".$vehicleVIN." successfully updated<br />\n";
+						print "<a href=\"vehicle.php?action=update&vehicle=".$vehicleVIN."\">Return</a>\n";
+					} else {
+						print "Error occured while updating, please check your input";
+					}
 				} else {
-					print "Error occured, please check your input";
+					//Redisplay the update form with errors
+					$vehicleinstance->displayError();
+					$vehicleinstance->printUpdateForm($vehicleVIN);
 				}
 			} else {
-				//We cant to display an update form and get information
+				//We want to display an update form and get information
 				$vehicleinstance->printUpdateForm($vehicleVIN);
 			}
 		}

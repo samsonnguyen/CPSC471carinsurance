@@ -1,6 +1,8 @@
 <?php
 class Vehicle{
- 	
+ 	var $error = null;//set initial error to null
+	var $errorIndex = 0;
+	
 	/**
 	 * Add a new vehicle using an associative array.
 	 * @param unknown_type $VIN
@@ -200,6 +202,70 @@ class Vehicle{
 			print "</tr>";
 		}
 		print "</table>";
+	}
+	
+	/**
+	 * Validates input data, before commiting the data into the database
+	 */
+	function validateData($array){
+		$errorFlag=true;
+		if (trim($array['VIN'])==''){
+			$this->appendErrorMsg("VIN number is required");
+			$errorFlag=false;
+		}
+		if (trim($array['Year'])==''){
+			$this->appendErrorMsg("Year is required");
+			$errorFlag=false;
+		} else if (!preg_match("/^[0-9]{4,4}$/", $array['Year'])){
+			$this->appendErrorMsg("Year must be 4 digits");
+			$errorFlag=false;
+		}
+		if (trim($array['Value'])==''){
+			$this->appendErrorMsg("Estimated value is required");
+			$errorFlag=false;
+		} else if (!preg_match("/^[0-9]{1,}$/", $array['Value'])){
+			$this->appendErrorMsg("Value must numerical");
+			$errorFlag=false;
+		}
+		if (trim($array['Client_ID'])==''){
+			$this->appendErrorMsg("Client ID is required");
+			$errorFlag=false;
+		} else if (!preg_match("/^[0-9]{1,}$/", $array['Client_ID'])){
+			$this->appendErrorMsg("Client ID must numberical");
+			$errorFlag=false;
+		}
+		if (trim($array['Ave_Daily_Miles'])==''){
+			$this->appendErrorMsg("An estimated average daily mileage(KMS) is required");
+			$errorFlag=false;
+		} else if (!preg_match("/^[0-9]{1,}$/", $array['Ave_Daily_Miles'])){
+			$this->appendErrorMsg("Estimated average daily mileage(Kms) must be numerical");
+			$errorFlag=false;
+		}
+		if (trim($array['Type'])==""){
+			$this->appendErrorMsg("Please choose a vehicle type");
+			$errorFlag=false;
+		}
+		return $errorFlag;
+	}
+	
+	/**
+	 * Appends an error msg
+	 * @param unknown_type $string
+	 */
+	function appendErrorMsg($string){
+		$this->error[$this->errorIndex] = $string;
+		$this->errorIndex++;
+	}
+	
+	/**
+	 * Displays the validation errors
+	 */
+	function displayError(){
+		print "<div class=\"validationerror\">";
+		for ($i=0;$i<count($this->error);$i++){
+			 println($this->error[$i]);
+		}
+		print "</div>";		
 	}
 	
 }//CLOSE vehicle class
