@@ -191,7 +191,7 @@ class Vehicle{
 		$returnString = array();
 		$sql = "SELECT * FROM Vehicle ORDER BY Client_ID ASC LIMIT $offset, $limit ";
 		$data_p = mysql_query($sql);
-		print "<table class=\"vehicles\"><tr><td>Client ID</td><td>VIN</td><td>Year</td><td>Make</td><td>Model</td></tr>";
+		print "<table class=\"vehicles\"><tr><td>Client ID</td><td>VIN</td><td>Year</td><td>Make</td><td>Model</td><td>Commercial</td></tr>";
 		while($info = mysql_fetch_array($data_p)){
 			Print "<tr><td>";
 			if (($info['Client_ID']!=null) || ($info['Client_ID']!=0)){
@@ -200,6 +200,11 @@ class Vehicle{
 				print $info['Client_ID'];
 			}
 			print "</td><td>".$info['VIN']."</td><td>".$info['Year']."</td><td>".$info['Make']."</td><td>".$info['Model']."</td>";
+			if($info['Commercial'] == 1) {
+				print "<td>True</td>";
+			} else {
+				print "<td>False</td>";
+			}
 			$this->printOptions($info['VIN'], $info['Client_ID']);
 			print "</tr>";
 		}

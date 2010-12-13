@@ -7,10 +7,10 @@
    <form name="searchid" id="fm-form" method="post" action="client.php?action=search&form=clientid" >
       <fieldset>
     <legend>Search By ID</legend>
-	<div class="fm-req">
-      <label for="fm-clientID">Client ID:</label>
-      <input name="fm-clientID" id="fm-clientID" type="text" />
-    </div>
+	<div class="fm-req"><label for="fm-clientID">Client:</label> <select
+	id="fm-clientID" name="fm-clientID">
+	<?php Client::getAllClients(); ?>
+	</select></div>
 	</fieldset>
 	    <div id="fm-submit" class="fm-opt">
       <input name="Search" value="Search" type="submit" />

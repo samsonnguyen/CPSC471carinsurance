@@ -28,6 +28,35 @@ class Client{
 		mysql_query($sql) or die(mysql_error());
 	}
 
+	static function getAllClients($selection) {
+		$clients = mysql_query("SELECT * FROM `Client`");// or die(mysql_error());
+		if($clients != null){
+			while($info = mysql_fetch_array($clients)){
+				echo("<option value=\"");
+				if (($info['Client_ID']!=null) && ($info['Client_ID']!=0)){
+					if($selection != null && $selection == $info['Client_ID'])
+						echo($info['Client_ID']."\" selected=\"selected\"> [ ");
+					else
+						echo($info['Client_ID']."\"> [ ");
+					// Assume size 10 for license
+					for($i = floor(log10($info['Client_ID']) + 1);$i < 6;$i++) { print("0"); }
+					echo($info['Client_ID']." ] LicNo: ");
+					for($i = floor(log10($info['License_No']) + 1);$i < 10;$i++) { print("0"); }
+					echo($info['License_No']);
+					echo(" Name: ");
+					echo($info['FName']." ".$info['MName']." ".$info['LName']);
+					echo("</option>");
+				} else {
+					echo("-1\">");
+					echo("ERROR");
+					echo("</option>");
+				}
+			}
+		} else {
+			echo("<option value=\"\" selected=\"selected\">None Exist</option>");
+		} 
+	}
+	
 	/**
 	 * Check if the client exists by client_id
 	 */

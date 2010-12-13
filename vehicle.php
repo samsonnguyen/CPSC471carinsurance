@@ -3,6 +3,7 @@ require 'db.php';
 require 'config.php';
 require $classfolder.'vehicleclass.php';
 require $classfolder.'claimclass.php';
+require $classfolder.'clientclass.php';
 require $includesfolder.'functions.php';
 include $includesfolder.'header.php';
 

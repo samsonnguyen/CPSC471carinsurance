@@ -46,18 +46,16 @@
 
     <fieldset>
     <legend>Vehicle Owner</legend>
-    <?php // TODO pre-created list ?>
-    <div class="fm-req">
-      <label for="fm-clientid">Client ID:</label>
-      <input id="fm-clientid" name="fm-clientid" type="text"
-      <?php
-      if(isset($_GET['client'])){
-      		print "value=\"".$_GET['client']."\"";
-      } else if (isset($_POST['fm-clientid'])){
-      		print "value=\"".$_POST['fm-clientid']."\"";
-      }
-      ?> />
-    </div>
+    <div class="fm-req"><label for="fm-clientid">Client:</label> <select
+	id="fm-clientid" name="fm-clientid">
+	<?php if(isset($_GET['client'])){
+      		Client::getAllClients($_GET['client']);
+      	} else if (isset($_POST['fm-clientid'])){
+			Client::getAllClients($_POST['fm-clientid']);
+      	} else {
+      		Client::getAllClients();
+      	} ?>
+	</select></div>
     <div class="fm-req">
       <label for="fm-mileage">Avg Daily Mileage:</label>
       <input id="fm-mileage" name="fm-mileage" type="text" value="<?php print $_POST['fm-mileage'];?>" />

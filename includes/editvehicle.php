@@ -46,12 +46,10 @@
 
     <fieldset>
     <legend>Vehicle Owner</legend>
-    <?php // TODO pre-created list ?>
-    <div class="fm-req">
-      <label for="fm-clientid"><a href="client.php?action=update&client=<?php print $info['Client_ID']?>">Client ID:</a></label>
-      <input id="fm-clientid" name="fm-clientid" type="text"
-      <?php print "value=\"".$info['Client_ID']."\"";?>/>
-    </div>
+    <div class="fm-req"><label for="fm-clientid"><a href="client.php?action=update&client=<?php print $info['Client_ID']?>">Client:</a></label> <select
+	id="fm-clientid" name="fm-clientid">
+	<?php Client::getAllClients($info['Client_ID']); ?>
+	</select></div>
     <div class="fm-req">
       <label for="fm-mileage">Avg Daily Mileage:</label>
       <input id="fm-mileage" name="fm-mileage" type="text" <?php print "value=\"".$info['Ave_Daily_Miles']."\"";?>/>
