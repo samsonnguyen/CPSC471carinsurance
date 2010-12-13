@@ -67,13 +67,21 @@ class Client{
 		$returnString = array();
 		$sql = "SELECT * FROM Client LIMIT $offset, $limit";
 		$data_p = mysql_query($sql);
-		print "<table class=\"clients\"><tr><td>Client ID</td><td>Name</td><td>Policy Number</td></tr>";
+		echo "<table class=\"clients\"><tr><td>Client ID</td><td>Name</td><td>Policy Number</td></tr>";
 		while($info = mysql_fetch_array( $data_p )){
-			Print "<tr><td>".$info['Client_ID']."</td><td>".$info['FName']." ".$info['MName']." ".$info['LName']."</td><td>".$info['Policy_No']."</td>";
+			echo "<tr><td><a href='client.php?action=update&client=".$info['Client_ID']."'>".$info['Client_ID']."</a></td><td>";
+			echo $info['FName']." ".$info['MName']." ".$info['LName']."</td><td>";
+			echo "<a href='policy.php?action=update&policy=".$info['Policy_No']."&type=";
+			if($info['Company'] == 0 || $info['Company'] == null) { // Private Policy if true
+				echo "1";
+			} else { // Company Policy since false
+				echo "0";
+			}
+			echo "'>".$info['Policy_No']."</a></td>";
 			$this->printOptions($info['Client_ID']);
-			print "</tr>";
+			echo "</tr>";
 		}
-		print "</table>";
+		echo "</table>";
 	}
 	
 	/**
