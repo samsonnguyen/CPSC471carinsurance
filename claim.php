@@ -3,6 +3,7 @@ require 'db.php';
 require 'config.php';
 require $classfolder.'claimclass.php';
 require $classfolder.'clientclass.php';
+require $classfolder.'vehicleclass.php';
 require $includesfolder.'functions.php';
 include $includesfolder.'header.php';
 
@@ -142,10 +143,14 @@ if (isLoggedIn() && (getUserPermissions()>='2')){
 		} else if ($_GET['form']=='client'){
 			//search by client info
 			unset($temp);
-			if ($_POST['fm-cl-clientid']!=null || $_POST['fm-cl-clientid']!="")
+			if ($_POST['fm-cl-clientid']!=null && $_POST['fm-cl-clientid']!="")
 				$temp['Client_ID'] = $_POST['fm-cl-clientid'];
-			if ($_POST['fm-cl-vin']!=null || $_POST['fm-cl-vin']!="")
+			else
+				$temp['Client_ID'] = "X";
+			if ($_POST['fm-cl-vin']!=null && $_POST['fm-cl-vin']!="")
 				$temp['VIN'] = $_POST['fm-cl-vin'];
+			else
+				$temp['VIN'] = "X";
 			$keys = array_keys($temp);		
 			for ($i=0;$i<count($keys);$i++){
 				//find and convert all astericks into mysql like format

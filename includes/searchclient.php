@@ -18,7 +18,6 @@
     </div>
 	</form>
   
-  <?php // TODO Search by Policy ?>
   <form name="searchid" id="fm-form" method="post" action="client.php?action=search&form=policy">
 
 <fieldset><legend>Search By Policy</legend>

@@ -33,6 +33,33 @@ class Vehicle{
 		return true;
 	}
 
+	static function getAllVehicles($selection) {
+		$vehicles = mysql_query("SELECT * FROM `Vehicle`");// or die(mysql_error());
+		if($vehicles != null){
+			while($info = mysql_fetch_array($vehicles)){
+				echo("<option value=\"");
+				if ($info['VIN']!=null){
+					if($selection != null && $selection == $info['VIN'])
+						echo($info['VIN']."\" selected=\"selected\"> [ ");
+					else
+						echo($info['VIN']."\"> [ ");
+					echo($info['VIN']." ]");
+					echo(" Make: ");
+					echo($info['Make']);
+					echo(" Model: ");
+					echo($info['Model']." ".$info['Trim']);
+					echo("</option>");
+				} else {
+					echo("-1\">");
+					echo("ERROR");
+					echo("</option>");
+				}
+			}
+		} else {
+			echo("<option value=\"\" selected=\"selected\">None Exist</option>");
+		} 
+	}
+	
 	/**
 	 * Returns a search result using the client id
 	 * @param unknown_type $clientid
@@ -186,7 +213,6 @@ class Vehicle{
 	 * @param offset Being where in the results
 	 * @param limit Limit the number of results
 	 */
-	// TODO Add Commerical Flag To Table, Add Type to Table
 	function listVehicles($offset,$limit){
 		$returnString = array();
 		$sql = "SELECT * FROM Vehicle ORDER BY Client_ID ASC LIMIT $offset, $limit ";

@@ -123,26 +123,26 @@
     </fieldset>
     <fieldset>
     <legend>Client Involved with this Claim</legend>
-        <div class="fm-req"><label for="fm-clientid">Client:</label> <select
-	id="fm-clientid" name="fm-clientid">
-	<?php if(isset($_GET['client'])){
-      		Client::getAllClients($_GET['client']);
-      	} else if (isset($_POST['fm-clientid'])){
-			Client::getAllClients($_POST['fm-clientid']);
-      	} else {
-      		Client::getAllClients();
-      	} ?>
-	</select></div>
-        <div class="fm-req">
-      <label for="fm-cl-vin">Vehicle VIN:</label>
-	  <input id="fm-cl-vin" name="fm-cl-vin" type ="text"
-	  <?php if(isset($_GET['vehicle'])){
-	  	print "value=\"".$_GET['vehicle']."\" ";
-	  } else {
-	  	print "value=\"".$_POST['fm-cl-vin']."\" ";
-	  }?> 
-	  />
-    </div>
+        <div class="fm-req"><label for="fm-cl-clientid">Client:</label> <select
+		id="fm-cl-clientid" name="fm-cl-clientid">
+		<?php if(isset($_GET['client'])){
+	      		Client::getAllClients($_GET['client']);
+	      	} else if (isset($_POST['fm-cl-clientid'])){
+				Client::getAllClients($_POST['fm-cl-clientid']);
+	      	} else {
+	      		Client::getAllClients();
+	      	} ?>
+		</select></div>
+	 	<div class="fm-req"><label for="fm-cl-vin">Vehicle VIN:</label> <select
+		id="fm-cl-vin" name="fm-cl-vin">
+		<?php if(isset($_GET['vehicle'])){
+	      		Vehicle::getAllVehicles($_GET['vehicle']);
+	      	} else if (isset($_POST['fm-cl-vin'])){
+				Vehicle::getAllVehicles($_POST['fm-cl-vin']);
+	      	} else {
+	      		Vehicle::getAllVehicles();
+	      	} ?>
+		</select></div>
     </fieldset>
     <div class="fm-multi">
       <div class="fm-atfault">

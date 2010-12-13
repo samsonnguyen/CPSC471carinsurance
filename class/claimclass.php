@@ -371,7 +371,8 @@ class Claim{
 				AND Claim.Claim_No=Claims.Claim_No";
 		$keys = array_keys($array);
 		for ($i = 0; $i< count($keys); $i++){
-			$sql = $sql." AND ".$keys[$i]." LIKE '".$array[$keys[$i]]."'";
+			if($array[$keys[$i]] != "X")
+				$sql = $sql." AND ".$keys[$i]." LIKE '".$array[$keys[$i]]."'";
 		}
 		//print $sql;
 		$result = mysql_query($sql) or die(mysql_error());

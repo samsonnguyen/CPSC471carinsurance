@@ -21,11 +21,10 @@
   <form name="searchvehiclevin" id="fm-form" method="post" action="vehicle.php?action=search&form=vin" >
 	<fieldset>
 	<legend>Search By Vehicle VIN</legend>
-	<p>Use * for wildcards</p>
-    <div class="fm-req">
-      <label for="fm-vin">VIN:</label>
-      <input name="fm-vin" id="fm-vin" type="text" />
-    </div>
+	<div class="fm-req"><label for="fm-vin">VIN:</label> <select
+	id="fm-vin" name="fm-vin">
+	<?php Vehicle::getAllVehicles(); ?>
+	</select></div>
     </fieldset>  
     <div id="fm-submit" class="fm-req">
       <input name="Search" value="Search" type="submit" />

@@ -1,4 +1,4 @@
-<?php // TODO Incomplete ?>
+
 <div id="container"><!--   p id="fm-intro" required for 'hide optional fields' function -->
 	<p id="fm-intro">Fields in <strong>bold</strong> are required.</p>
 	<form name="editcompany" id="fm-form" method="post" action="company.php?action=update&company=<?php print $companyno?>&form" >
