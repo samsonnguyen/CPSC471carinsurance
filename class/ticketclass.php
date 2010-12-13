@@ -159,10 +159,10 @@ class Ticket{
 	}
 
 	/**
-	* Prints out a simple list of tickets, sort by infraction number, also display the option to update, 		 	  delete, etc.
-	* @param offset Being where in the results
-	* @param limit Limit the number of results
-	*/
+	 * Prints out a simple list of tickets, sort by infraction number, also display the option to update, 		 	  delete, etc.
+	 * @param offset Being where in the results
+	 * @param limit Limit the number of results
+	 */
 	function listTickets($offset,$limit){
 		$returnString = array();
 		$sql = "SELECT * FROM Ticket ORDER BY Infraction_No ASC LIMIT $offset, $limit";
@@ -206,7 +206,7 @@ class Ticket{
 		$data = mysql_query("SELECT * FROM Ticket") or die(mysql_error());
 		return mysql_num_rows($data); //count the number of results and return
 	}
-	
+
 	/**
 	 * Validate form data, returns true if all meet the criteria
 	 * $array = claim
@@ -236,18 +236,25 @@ class Ticket{
 		}
 		return $errorFlag;
 	}
-	
+
+	/**
+	 * Appends a message to be displayed when validation fails
+	 * @param unknown_type $string
+	 */
 	function appendErrorMsg($string){
 		$this->error[$this->errorIndex] = $string;
 		$this->errorIndex++;
 	}
-	
+
+	/**
+	 * Prints validation errors
+	 */
 	function displayError(){
 		print "<div class=\"validationerror\">";
 		for ($i=0;$i<count($this->error);$i++){
-			 println($this->error[$i]);
+			println($this->error[$i]);
 		}
-		print "</div>";		
+		print "</div>";
 	}
 }
 

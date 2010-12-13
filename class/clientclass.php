@@ -2,14 +2,14 @@
 class Client{
 	var $error = null;//set initial error to null
 	var $errorIndex = 0;
-	
+
 	/**
 	 * Reads an array of keys and its values and inserts them into the database as a new Client.
-	 */	
+	 */
 	function addNewClientByArray($array){
 		$keys = array_keys($array); //Return the keys of the array;
 		$sql = "INSERT INTO Client ("; //Set the first part of the SQL query
-		for ($i=0;$i<count($keys);$i++){	
+		for ($i=0;$i<count($keys);$i++){
 			if ($i==(count($keys)-1)){//last value, do not include the comma
 				$sql = $sql.$keys[$i];
 			} else {
@@ -17,7 +17,7 @@ class Client{
 			}
 		}
 		$sql = $sql.") VALUES (";
-		for ($i=0;$i<count($keys);$i++){	
+		for ($i=0;$i<count($keys);$i++){
 			if ($i==(count($keys)-1)){//last value, do not include the comma
 				$sql = $sql."'".$array[$keys[$i]]."');";
 			} else {
@@ -27,7 +27,7 @@ class Client{
 		//print $sql."<br />";
 		mysql_query($sql) or die(mysql_error());
 	}
-	
+
 	/**
 	 * Check if the client exists by client_id
 	 */
@@ -59,7 +59,7 @@ class Client{
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Prints out a simple list of clients with a table, we don't want to crowd the table with too much
 	 */
@@ -75,17 +75,17 @@ class Client{
 		}
 		print "</table>";
 	}
-	
+
 	/**
 	 * Returns the number of total # of Clients
 	 */
 	function totalClients(){
-		 $data = mysql_query("SELECT * FROM Client") or die(mysql_error());
-		 return $rows = mysql_num_rows($data); 
+		$data = mysql_query("SELECT * FROM Client") or die(mysql_error());
+		return $rows = mysql_num_rows($data);
 	}
-	
+
 	/**
-	 * Search clients by ID, return an array of the result 
+	 * Search clients by ID, return an array of the result
 	 */
 	function searchbyId($clientid){
 		$sql = "SELECT * FROM Client WHERE Client_ID = '$clientid'";
@@ -98,7 +98,7 @@ class Client{
 		}
 		return $toReturn;
 	}
-	
+
 	/**
 	 * Search for clients using any attribute in the array, uses LIKE in mysql for wildcards
 	 */
@@ -106,11 +106,11 @@ class Client{
 		$sql = "SELECT * FROM Client WHERE";
 		$keys = array_keys($array);
 		for ($i = 0; $i< count($keys); $i++){
-						if ($i==0){
+			if ($i==0){
 				$sql = $sql." ".$keys[$i]." LIKE '".$array[$keys[$i]]."'";
 			} else {
 				$sql = $sql." AND ".$keys[$i]." LIKE '".$array[$keys[$i]]."'";
-			} 
+			}
 		}
 		$result = mysql_query($sql) or die(mysql_error());
 		$i = 0;
@@ -120,7 +120,7 @@ class Client{
 		}
 		return $toReturn;
 	}
-	
+
 	/**
 	 * function that formats an array into a table.
 	 * this should work for all 2D arrays.
@@ -140,7 +140,7 @@ class Client{
 			print "</tr>";
 			for ($j=0;$j<count($array);$j++){
 				print "<tr>";
-				for ($i=0;$i<(count($keys));$i++){	
+				for ($i=0;$i<(count($keys));$i++){
 					print "<td>".$array[$j][$keys[$i]]."</td>\n";
 				}
 				if ($printoptionsflag){
@@ -151,7 +151,7 @@ class Client{
 			print "</table>\n";
 		}
 	}
-	
+
 	/**
 	 * Print out options to delete, or update the client
 	 * @param $clientid
@@ -160,7 +160,7 @@ class Client{
 	function printOptions($clientid){
 		print "<td><a href=\"client.php?action=remove&client=$clientid\">X</a></td><td> <a href=\"client.php?action=update&client=$clientid\">Edit</a></td>\n";
 	}
-	
+
 	/**
 	 * Deletes a client based on client id, return true if it was successful
 	 */
@@ -169,7 +169,7 @@ class Client{
 		mysql_query($sql) or die(mysql_error());
 		return true;
 	}
-	
+
 	/**
 	 * Prints a form containing the original values in the database for updating
 	 * @param unknown_type $clientid
@@ -180,7 +180,7 @@ class Client{
 		$info = mysql_fetch_array($result,MYSQL_ASSOC);
 		include 'includes/editclient.php';
 	} //CLOSE print update form
-	
+
 	/**
 	 * update the client information using data contained in the array. The Array keys must be associative
 	 * @return unknown_type
@@ -200,9 +200,9 @@ class Client{
 		mysql_query($sql) or die(mysql_error());
 		return true;//return true
 	}
-	
+
 	/**
-	 * Validate form data, returns true if all 
+	 * Validate form data, returns true if all
 	 */
 	function validateData($array){
 		$errorFlag=true;
@@ -244,7 +244,7 @@ class Client{
 		}
 		return $errorFlag;
 	}
-	
+
 	/**
 	 * Append an error message to be displayed
 	 * @param unknown_type $string
@@ -253,16 +253,16 @@ class Client{
 		$this->error[$this->errorIndex] = $string;
 		$this->errorIndex++;
 	}
-	
+
 	/**
 	 * Displays errors if validation fails
 	 */
 	function displayError(){
 		print "<div class=\"validationerror\">";
 		for ($i=0;$i<count($this->error);$i++){
-			 println($this->error[$i]);
+			println($this->error[$i]);
 		}
-		print "</div>";		
+		print "</div>";
 	}
 }
 ?>

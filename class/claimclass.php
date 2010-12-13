@@ -176,10 +176,10 @@ class Claim{
 		$data = mysql_query("SELECT * FROM Claim") or die(mysql_error());
 		return mysql_num_rows($data); //count the number of results and return
 	}
-	
+
 	/**
 	 * prints the option to delete and edit a claim/thirdparty/claims
-	 * 
+	 *
 	 */
 	function printOptions($claimID){
 		print "<td><a href=\"claim.php?action=remove&claim=".$claimID."\">x</a></td>\n";
@@ -201,7 +201,7 @@ class Claim{
 		}
 		return $toReturn;
 	}
-	
+
 	/**
 	 * Displays the form for editing the claim/thirdparty/claims
 	 * Enter description here ...
@@ -283,7 +283,7 @@ class Claim{
 		mysql_query($sql) or die(mysql_error());
 		return true;//return true
 	}
-	
+
 	/**
 	 * Updates claim, claims and thirdparty. Return true is all updates are successful
 	 * @param unknown_type $claimID
@@ -293,14 +293,14 @@ class Claim{
 	 */
 	function updateAll($claimID, $newClaimInfo, $newThirdParty, $newClaims){
 		if ($this->updateClaim($claimID,$newClaimInfo) &&
-			$this->updateThirdParty($claimID, $newThirdParty) &&
-			$this->updateClaims($claimID, $newClaims)){
-				return true;
+		$this->updateThirdParty($claimID, $newThirdParty) &&
+		$this->updateClaims($claimID, $newClaims)){
+			return true;
 		} else {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Returns an array Claim_No of all claims that have VIN = $vin
 	 * @param unknown_type $vin
@@ -340,7 +340,7 @@ class Claim{
 		$result = mysql_query($sql);
 		return mysql_fetch_array($result, MYSQL_ASSOC);
 	}
-	
+
 	/**
 	 * Search for claim no, with a join on Claim_No and Claim_No==$claimid
 	 */
@@ -355,7 +355,7 @@ class Claim{
 		}
 		return $toReturn;
 	}
-	
+
 	/**
 	 * Search for claim no, with a join on Claim_No and Claim_No==$claimid
 	 */
@@ -376,7 +376,7 @@ class Claim{
 		return $toReturn;
 	}
 
-	
+
 	/**
 	 * function that formats an array into a table.
 	 * this should work for all 2D arrays.
@@ -396,7 +396,7 @@ class Claim{
 			print "</tr>";
 			for ($j=0;$j<count($array);$j++){
 				print "<tr>";
-				for ($i=0;$i<(count($keys));$i++){	
+				for ($i=0;$i<(count($keys));$i++){
 					print "<td>".$array[$j][$keys[$i]]."</td>\n";
 				}
 				if ($printoptionsflag){
@@ -407,7 +407,7 @@ class Claim{
 			print "</table>\n";
 		}
 	}
-	
+
 	/**
 	 * Validate form data, returns true if all data meets the criteria
 	 * $array = claim
@@ -430,7 +430,7 @@ class Claim{
 		if (trim($array2['Party_Name'])==''){
 			$this->appendErrorMsg("Party Name is required");
 			$errorFlag = false;
-		} 
+		}
 		if (trim($array2['Insurer_Name'])==''){
 			$this->appendErrorMsg("Insurer Name is required");
 			$errorFlag = false;
@@ -472,18 +472,18 @@ class Claim{
 		}
 		return $errorFlag;
 	}
-	
+
 	function appendErrorMsg($string){
 		$this->error[$this->errorIndex] = $string;
 		$this->errorIndex++;
 	}
-	
+
 	function displayError(){
 		print "<div class=\"validationerror\">";
 		for ($i=0;$i<count($this->error);$i++){
-			 println($this->error[$i]);
+			println($this->error[$i]);
 		}
-		print "</div>";		
+		print "</div>";
 	}
 }
 ?>

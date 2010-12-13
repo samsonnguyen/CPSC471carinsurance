@@ -1,8 +1,8 @@
 <?php
 class Vehicle{
- 	var $error = null;//set initial error to null
+	var $error = null;//set initial error to null
 	var $errorIndex = 0;
-	
+
 	/**
 	 * Add a new vehicle using an associative array.
 	 * @param unknown_type $VIN
@@ -13,7 +13,7 @@ class Vehicle{
 	function addNewVehicle($array){
 		$keys = array_keys($array); //Return the keys of the array;
 		$sql = "INSERT INTO Vehicle ("; //Set the first part of the SQL query
-		for ($i=0;$i<count($keys);$i++){	
+		for ($i=0;$i<count($keys);$i++){
 			if ($i==(count($keys)-1)){//last value, do not include the comma
 				$sql = $sql.$keys[$i];
 			} else {
@@ -21,7 +21,7 @@ class Vehicle{
 			}
 		}
 		$sql = $sql.") VALUES (";
-		for ($i=0;$i<count($keys);$i++){	
+		for ($i=0;$i<count($keys);$i++){
 			if ($i==(count($keys)-1)){//last value, do not include the comma
 				$sql = $sql."'".$array[$keys[$i]]."');";
 			} else {
@@ -32,7 +32,7 @@ class Vehicle{
 		mysql_query($sql) or die(mysql_error());
 		return true;
 	}
-	
+
 	/**
 	 * Returns a search result using the client id
 	 * @param unknown_type $clientid
@@ -47,7 +47,7 @@ class Vehicle{
 		}
 		return $toReturn;
 	}
-	
+
 	/**
 	 * Searches vehicles by VIN number, uses Like for wildcards
 	 * @param unknown_type $vin
@@ -62,7 +62,7 @@ class Vehicle{
 		}
 		return $toReturn; //return 2D array
 	}
-	
+
 	/**
 	 * Searches vehicles by any type of info contained in an associative array
 	 * Allows the use of wildcards
@@ -76,7 +76,7 @@ class Vehicle{
 				$sql = $sql." ".$keys[$i]." LIKE '".$array[$keys[$i]]."'";
 			} else {
 				$sql = $sql." AND ".$keys[$i]." LIKE '".$array[$keys[$i]]."'";
-			} 
+			}
 		}
 		//print $sql;
 		$result = mysql_query($sql) or die(mysql_error());
@@ -87,7 +87,7 @@ class Vehicle{
 		}
 		return $toReturn; //return 2D array of results
 	}
-	
+
 	/**
 	 * function that formats an array into a table.
 	 * this should work for all 2D arrays.
@@ -107,7 +107,7 @@ class Vehicle{
 			print "</tr>";
 			for ($j=0;$j<count($array);$j++){
 				print "<tr>";
-				for ($i=0;$i<(count($keys));$i++){	
+				for ($i=0;$i<(count($keys));$i++){
 					print "<td>".$array[$j][$keys[$i]]."</td>\n";
 				}
 				if ($printoptionsflag){ //We want to print the options to delete, update, etc..
@@ -118,7 +118,7 @@ class Vehicle{
 			print "</table>\n";
 		}
 	}
-	
+
 	/**
 	 * Print out options to delete, or update the Vehicle
 	 * @param $clientid
@@ -129,7 +129,7 @@ class Vehicle{
 		print "<td><a href=\"vehicle.php?action=update&vehicle=$vehicleid\">Edit</a></td>\n";
 		print "<td><a href=\"claim.php?action=add&vehicle=$vehicleid&clientid=$clientid\">New Claim</a></td>\n";
 	}
-	
+
 	/**
 	 * Outputs a form that contains values from the database, for use in updating existing vehicles
 	 * Enter description here ...
@@ -139,9 +139,9 @@ class Vehicle{
 		$sql = "SELECT * FROM Vehicle WHERE VIN='$vehicleVIN'"; //Get the vehicle
 		$result = mysql_query($sql) or die(mysql_error());
 		$info = mysql_fetch_array($result,MYSQL_ASSOC);
-		include 'includes/editvehicle.php'; 
+		include 'includes/editvehicle.php';
 	} //CLOSE print update form!!
-	
+
 	/**
 	 * Updates vehicle data using an associative array
 	 * @return unknown_type
@@ -161,7 +161,7 @@ class Vehicle{
 		mysql_query($sql) or die(mysql_error());
 		return true;
 	}
-	
+
 	/**
 	 * Removes a vehicle from the database based on VIN
 	 */
@@ -170,7 +170,7 @@ class Vehicle{
 		mysql_query($sql) or die(mysql_error());
 		return true;
 	}
-	
+
 	/**
 	 * Returns the number of vehicles contained in the database
 	 * @return unknown_type
@@ -179,7 +179,7 @@ class Vehicle{
 		$data = mysql_query("SELECT * FROM Vehicle") or die(mysql_error());
 		return mysql_num_rows($data); //count the number of results and return
 	}
-	
+
 	/**
 	 * Prints out a simple list of vehicles, sort by client id and allow pagination, also display the option to update, delete, etc.
 	 * @param offset Being where in the results
@@ -203,7 +203,7 @@ class Vehicle{
 		}
 		print "</table>";
 	}
-	
+
 	/**
 	 * Validates input data, before commiting the data into the database
 	 */
@@ -247,7 +247,7 @@ class Vehicle{
 		}
 		return $errorFlag;
 	}
-	
+
 	/**
 	 * Appends an error msg
 	 * @param unknown_type $string
@@ -256,17 +256,17 @@ class Vehicle{
 		$this->error[$this->errorIndex] = $string;
 		$this->errorIndex++;
 	}
-	
+
 	/**
 	 * Displays the validation errors
 	 */
 	function displayError(){
 		print "<div class=\"validationerror\">";
 		for ($i=0;$i<count($this->error);$i++){
-			 println($this->error[$i]);
+			println($this->error[$i]);
 		}
-		print "</div>";		
+		print "</div>";
 	}
-	
+
 }//CLOSE vehicle class
 ?>
