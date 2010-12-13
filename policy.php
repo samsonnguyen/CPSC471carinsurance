@@ -55,21 +55,21 @@ if (isLoggedIn() && (getUserPermissions()>='2')){
 				$newPolicyInfo['Coverage'] = $_POST['fm-coverage'];
 				if($type == 0) // Company
 					$newPolicyInfo['Num_of_Employees'] = $_POST['fm-numofemp'];
-				if ($policyinstance->updatePolicy($policyid,$newPolicyInfo,$type)){
-					print "Policy ".$policyid." successfully updated<br />\n";
-					print "<a href='policy.php?action=update&policy=".$policyid."&type=".$type."'>Return to Edit Page</a>\n";
+				if ($policyinstance->validateData($newPolicyInfo)){
+					if ($policyinstance->updatePolicy($policyid,$newPolicyInfo,$type)){
+						print "Policy ".$policyid." successfully updated<br />\n";
+						print "<a href='policy.php?action=update&policy=".$policyid."&type=".$type."'>Return to Edit Page</a>\n";
+					} else {
+						print "Error occured, please check your input";
+					}
 				} else {
-					print "Error occured, please check your input";
+					//Display an update form and get information
+					$policyinstance->displayError();
+					$policyinstance->printUpdateForm($policyid,$type);
 				}
 			} else {
 				//Display an update form and get information
 				$policyinstance->printUpdateForm($policyid,$type);
-//				$vehicles = $vehicleinstance->searchByClient($clientid);
-//				$vehicleinstance->display2DArray($vehicles, true);
-//				print "<br /><a href=\"vehicle.php?action=add&client=".$clientid."\">Add a new vehicle for this client</a><br />\n";
-//				$tickets = $ticketinstance->searchByClient($clientid);
-//				$ticketinstance->display2DArray($tickets, true);
-//				print "<br /><a href=\"tickets.php?action=add&client=".$clientid."\">Add a ticket for this client</a><br />\n";
 			}	
 		}
 	} elseif ($_GET['action']=='search'){
@@ -101,15 +101,25 @@ if (isLoggedIn() && (getUserPermissions()>='2')){
 		//Add a new private policy, should be called only through a form
 		$newPolicyInfo['Premium_Rate'] = $_POST['fm-premium'];
 		$newPolicyInfo['Coverage'] = $_POST['fm-coverage'];
-		$policyinstance->addNewPrivatePolicy($newPolicyInfo);
-		print "Policy has been added<br />\n";
+		if ($policyinstance->validateData($newPolicyInfo)){
+			$policyinstance->addNewPrivatePolicy($newPolicyInfo);
+			print "Policy has been added<br />\n";
+		} else {
+			$policyinstance->displayError(); //display validation errors
+			include $includesfolder.'addpolicy.php'; //redisplay form
+		}
 	} elseif (isset($_GET['addcompanypolicy'])){
 		//Add a new company policy, should be called only through a form
 		$newPolicyInfo['Premium_Rate'] = $_POST['fm-premiumc'];
 		$newPolicyInfo['Coverage'] = $_POST['fm-coveragec'];
 		$newPolicyInfo['Num_of_Employees'] = $_POST['fm-numofemp'];
-		$policyinstance->addNewCompanyPolicy($newPolicyInfo);
-		print "Policy has been added<br />\n";
+		if ($policyinstance->validateData($newPolicyInfo)){
+			$policyinstance->addNewCompanyPolicy($newPolicyInfo);
+			print "Policy has been added<br />\n";
+		} else {
+			$policyinstance->displayError(); //display validation errors
+			include $includesfolder.'addpolicy.php'; //redisplay form
+		}
 	} else {
 		//Policy home, display stats?
 		include $includesfolder.'displaypolicystats.php';

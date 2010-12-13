@@ -480,11 +480,18 @@ class Claim{
 		return $errorFlag;
 	}
 
+	/**
+	 * Append a message to display if validation fails
+	 * @param unknown_type $string
+	 */
 	function appendErrorMsg($string){
 		$this->error[$this->errorIndex] = $string;
 		$this->errorIndex++;
 	}
 
+	/**
+	 * Display validation error messages
+	 */
 	function displayError(){
 		print "<div class=\"validationerror\">";
 		for ($i=0;$i<count($this->error);$i++){
