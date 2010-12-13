@@ -63,6 +63,7 @@ class Client{
 	/**
 	 * Prints out a simple list of clients with a table, we don't want to crowd the table with too much
 	 */
+	// TODO Add License No to table
 	function listClients($offset,$limit){
 		$returnString = array();
 		$sql = "SELECT * FROM Client LIMIT $offset, $limit";

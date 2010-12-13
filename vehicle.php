@@ -88,6 +88,7 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 				}
 			} else {
 				//We want to display an update form and get information
+				// TODO Add claims to this
 				$vehicleinstance->printUpdateForm($vehicleVIN);
 			}
 		}

@@ -75,7 +75,7 @@ class company {
 		$sql = "SELECT * FROM `Company` ORDER BY Commercial_License_No ASC LIMIT $offset, $limit";
 		$result = mysql_query($sql);
 		print "<table class=\"company\"><tr>";
-		print "<td><b>Commercial License Number</b></td>";
+		print "<td><b>Com Lic Number</b></td>";
 		print "<td><b>Name</b></td>";
 		print "<td><b>Address</b></td>";
 		print "<td><b>City</b></td>";
@@ -83,7 +83,7 @@ class company {
 		print "<td><b>Province</b></td>";
 		print "<td><b>Phone</b></td>";
 		print "<td><b>Manager</b></td>";
-		print "<td><b>Policy Number</b></td>";
+		print "<td><b>Policy</b></td>";
 		print "</tr>";
 		while($info = mysql_fetch_array($result)){
 			Print "<tr>";

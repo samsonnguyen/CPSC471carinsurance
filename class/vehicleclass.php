@@ -185,6 +185,7 @@ class Vehicle{
 	 * @param offset Being where in the results
 	 * @param limit Limit the number of results
 	 */
+	// TODO Add Commerical Flag To Table, Add Type to Table
 	function listVehicles($offset,$limit){
 		$returnString = array();
 		$sql = "SELECT * FROM Vehicle ORDER BY Client_ID ASC LIMIT $offset, $limit ";

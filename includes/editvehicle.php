@@ -46,6 +46,7 @@
 
     <fieldset>
     <legend>Vehicle Owner</legend>
+    <?php // TODO pre-created list ?>
     <div class="fm-req">
       <label for="fm-clientid"><a href="client.php?action=update&client=<?php print $info['Client_ID']?>">Client ID:</a></label>
       <input id="fm-clientid" name="fm-clientid" type="text"

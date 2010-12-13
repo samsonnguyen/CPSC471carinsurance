@@ -74,6 +74,7 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 					print "<br /><a href=\"tickets.php?action=add&client=".$clientid."\">Add a ticket for this client</a><br />\n";
 				}
 			} else {
+				// TODO Add Claims to list
 				//Display an update form and get information
 				$clientinstance->printUpdateForm($clientid);
 				$vehicles = $vehicleinstance->searchByClient($clientid);
