@@ -101,15 +101,25 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 		//Add a new private policy, should be called only through a form
 		$newPolicyInfo['Premium_Rate'] = $_POST['fm-premium'];
 		$newPolicyInfo['Coverage'] = $_POST['fm-coverage'];
-		$policyinstance->addNewPrivatePolicy($newPolicyInfo);
-		print "Policy has been added<br />\n";
+		if ($policyinstance->validateData($newPolicyInfo)){
+			$policyinstance->addNewPrivatePolicy($newPolicyInfo);
+			print "Policy has been added<br />\n";
+		} else {
+			$policyinstance->displayError(); //display validation errors
+			include $includesfolder.'addpolicy.php'; //redisplay form
+		}
 	} elseif (isset($_GET['addcompanypolicy'])){
 		//Add a new company policy, should be called only through a form
 		$newPolicyInfo['Premium_Rate'] = $_POST['fm-premiumc'];
 		$newPolicyInfo['Coverage'] = $_POST['fm-coveragec'];
 		$newPolicyInfo['Num_of_Employees'] = $_POST['fm-numofemp'];
-		$policyinstance->addNewCompanyPolicy($newPolicyInfo);
-		print "Policy has been added<br />\n";
+		if ($policyinstance->validateData($newPolicyInfo)){
+			$policyinstance->addNewCompanyPolicy($newPolicyInfo);
+			print "Policy has been added<br />\n";
+		} else {
+			$policyinstance->displayError(); //display validation errors
+			include $includesfolder.'addpolicy.php'; //redisplay form
+		}
 	} else {
 		//Policy home, display stats?
 		include $includesfolder.'displaypolicystats.php';

@@ -55,7 +55,7 @@ or die(mysql_error());
 //Create Company_Policy table
 mysql_query("CREATE TABLE Company_Policy
 	(	Policy_No 		INT	NOT	NULL AUTO_INCREMENT,
-		Premium_Rate	INT	NOT NULL,
+		Premium_Rate	DOUBLE(11,2) NOT NULL DEFAULT 0,
 		Coverage		INT,
 		Num_of_Employees	INT,	
 	PRIMARY KEY (Policy_No));")
@@ -64,7 +64,7 @@ or die(mysql_error());
 // Create Private_Policy table
 mysql_query("CREATE TABLE Private_Policy
 	(	Policy_No 		INT	NOT	NULL AUTO_INCREMENT,
-		Premium_Rate	INT	NOT NULL,
+		Premium_Rate	DOUBLE(11,2) NOT NULL DEFAULT 0,
 		Coverage		INT,	
 	PRIMARY KEY (Policy_No));")
 or die(mysql_error());

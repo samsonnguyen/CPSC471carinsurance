@@ -1,5 +1,8 @@
 <?php 
 class Policy {
+	var $error;
+	var $errorIndex = 0; //Set initial error index at 0
+	
 	function addNewPrivatePolicy($array) {
 		$keys = array_keys($array); //Return the keys of the array;
 		$sql = "INSERT INTO `Private_Policy` (`Policy_No`, "; //Set the first part of the SQL query
@@ -520,6 +523,45 @@ class Policy {
 	function totalCompanyPolicies(){
 		$data = mysql_query("SELECT * FROM Company_Policy") or die(mysql_error());
 		return mysql_num_rows($data); //count the number of results and return
+	}
+	
+	/**
+	 * Validate form data, returns true if all data meets the criteria
+	 * $array = policy info array
+	 */
+	function validateData($array){
+		$errorFlag=true;
+		if (!preg_match("/^[0-9]{1,}[.]?[0-9]{0,2}$/", $array['Premium_Rate'])){
+			$this->appendErrorMsg("Premium Rate must be a valid number. Decimals are accepted (xxxx.xx)");
+			$errorFlag = false;
+		}
+		if (isset($array['Num_of_Employees'])){ //Company only
+			if (!preg_match("/^[0-9]{1,}$/", $array['Num_of_Employees'])){
+				$this->appendErrorMsg("Number of Employees must be numeric");
+				$errorFlag = false;
+			}
+		}
+		return $errorFlag;
+	}
+
+	/**
+	 * Append a message to display if validation fails
+	 * @param unknown_type $string
+	 */
+	function appendErrorMsg($string){
+		$this->error[$this->errorIndex] = $string;
+		$this->errorIndex++;
+	}
+
+	/**
+	 * Display validation error messages
+	 */
+	function displayError(){
+		print "<div class=\"validationerror\">";
+		for ($i=0;$i<count($this->error);$i++){
+			println($this->error[$i]);
+		}
+		print "</div>";
 	}
 } //CLOSE policy class
 ?>
