@@ -31,7 +31,6 @@ class company {
 		return true;
 	}
 	
-	// TODO Test
 	static function getAllCompanies($selection){
 		$companies = mysql_query("SELECT * FROM `Company`");// or die(mysql_error());
 		if($companies != null){
