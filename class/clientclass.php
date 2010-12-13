@@ -228,14 +228,14 @@ class Client{
 		if (trim($array['PostalCode'])==''){
 			$this->appendErrorMsg("Postal Code is required");
 			$errorFlag = false;
-		} else if (!preg_match("/^[A-Z]{1}\d{1}[A-Z]{1}\s\d{1}[A-Z]{1}\d{1}$/",$array['PostalCode'])){
-			$this->appendErrorMsg("Postal Code should be in the format A1B 2C3");
+		} else if (!preg_match("/^[A-Za-z]{1}\d{1}[A-Za-z]{1}\d{1}[A-Za-z]{1}\d{1}$/",$array['PostalCode'])){
+			$this->appendErrorMsg("Postal Code should be in the format A1B2C3");
 		}
 		if (trim($array['Phone'])==''){
 			$this->appendErrorMsg("Phone number is required");
 			$errorFlag = false;
-		} else if (!preg_match("/^[0-9]{3,3}[-][0-9]{3,3}[-][0-9]{4,4}$/",$array['Phone'])){
-			$this->appendErrorMsg("Phone number must be in the format xxx-xxx-xxxx");
+		} else if (!preg_match("/^[0-9]{10}$/",$array['Phone'])){
+			$this->appendErrorMsg("Phone number must be in the format xxx-xxx-xxxx or xxxxxxxxx");
 			$errorFlag = false;
 		}
 		if (!preg_match("/^[0-9]{1,}$/", $array['Years_Exp'])){

@@ -79,17 +79,6 @@ mysql_query("CREATE TABLE Ticket
 		ON DELETE CASCADE			ON UPDATE CASCADE);")
 or die(mysql_error());
 
-//Create Clients_Under_Policy table
-mysql_query("CREATE TABLE Clients_Under_Policy
-	(	Client_ID		INT		NOT NULL,
-		Client_Under	INT		NOT NULL,
-	PRIMARY KEY (Client_ID,Client_Under),
-	FOREIGN KEY (Client_ID) REFERENCES Client(Client_ID)
-		ON DELETE CASCADE			ON UPDATE CASCADE,
-	FOREIGN KEY (Client_Under) REFERENCES Client(Client_ID)
-		ON DELETE CASCADE			ON UPDATE CASCADE);")
-or die(mysql_error());
-
 //Create Vehicle table
 mysql_query("CREATE TABLE Vehicle
 	(	VIN				CHAR(17)		NOT NULL,
