@@ -35,11 +35,6 @@ $offset = ($pagenum - 1) * $page_rows;
 
 //Display the table of clients
 $clientinstance->listClients($offset,$page_rows);
-
-
- 
-
-
  
 // First we check if we are on page one. If we are then we don't need a
 //link to the previous page or the first page so we do nothing.
