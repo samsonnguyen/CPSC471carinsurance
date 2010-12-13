@@ -7,33 +7,43 @@ require $includesfolder.'functions.php';
 include $includesfolder.'header.php';
 //test change
 if (isLoggedIn() && (getUserPermissions()>='2')){
-		$managerinstance = new Manager();	//create new manager instance
-		$premiuminstance = new premiumClass();
+	$managerinstance = new Manager();	//create new manager instance
+	$premiuminstance = new premiumClass();
 
 	if ($_GET['action']=='add'){
-	if (isset($_GET['form'])){
-	$newEmpInfo['Username'] = $_POST['fm-username'];	
-	$newEmpInfo['Password'] = $_POST['fm-password'];
-	$newEmpInfo['Permissions'] = $_POST['fm-permissions'];	
-	if ($managerinstance->addNewEmployee($newEmpInfo)>0){
-				print "Employee ".$_POST['fm-username']." added successfully!\n";
+		if (isset($_GET['form'])){
+			$newEmpInfo['Username'] = $_POST['fm-username'];
+			$newEmpInfo['Password'] = $_POST['fm-password'];
+			$newEmpInfo['Permissions'] = $_POST['fm-permissions'];
+			if ($managerinstance->validateEmployeerData($newEmpInfo)){
+				if ($managerinstance->addNewEmployee($newEmpInfo)>0){
+					print "Employee ".$_POST['fm-username']." added successfully!\n";
+				} else {
+					print "Error occured";
+				}
 			} else {
-				print "Error occured";
+				$managerinstance->displayError();
+				include $includesfolder.'addemployee.php';
 			}
-	}else{
-
-	include $includesfolder.'addemployee.php';}
-
-
-		} else if($_GET['action']=='setbase'){
-		if(isset($_GET['form'])){
-		$premiuminstance->setBasePrice($_POST['fm-newbase']);
-		print 'New base price is '.$premiuminstance->getBasePrice().".";
-		}else { 
-		print 'CURRENT BASE PRICE IS '.$premiuminstance->getBasePrice().".";
-		$managerinstance->PrintBasePriceForm($premiuminstance->getBasePrice());	
+		}else{
+			include $includesfolder.'addemployee.php';
 		}
-	
+	} else if($_GET['action']=='setbase'){
+		if(isset($_GET['form'])){
+			if ($managerinstance->validatePriceData($_POST['fm-newbase'])){
+				$premiuminstance->setBasePrice($_POST['fm-newbase']);
+				print 'New base price is '.$premiuminstance->getBasePrice().".";
+			} else {
+				//Validation failed
+				$managerinstance->displayError();
+				print 'CURRENT BASE PRICE IS '.$premiuminstance->getBasePrice().".";
+				$managerinstance->PrintBasePriceForm($premiuminstance->getBasePrice());
+			}
+		}else {
+			print 'CURRENT BASE PRICE IS '.$premiuminstance->getBasePrice().".";
+			$managerinstance->PrintBasePriceForm($premiuminstance->getBasePrice());
+		}
+
 
 	}else if ($_GET['action']=='remove'){
 		//Remove the employee
@@ -43,11 +53,11 @@ if (isLoggedIn() && (getUserPermissions()>='2')){
 		} else {
 			if ($managerinstance->deleteEmployee($emp_id)){
 				print "Employee ".$emp_id." removed successfully!";
-				
+
 			} else {
-				print "ERROR: Employee ".$emp_id." could not be removed!";	
+				print "ERROR: Employee ".$emp_id." could not be removed!";
 			}
- 		}
+		}
 	} else if ($_GET['action']=='update'){
 		//Update employee
 		$emp_id= $_GET['id'];
@@ -56,18 +66,23 @@ if (isLoggedIn() && (getUserPermissions()>='2')){
 		} else {
 			if (isset($_GET['form'])){
 				//This is a return call from the form, we do an update on the database
-					$newEmpInfo['Username'] = $_POST['fm-username'];	
-					$newEmpInfo['Password'] = $_POST['fm-password'];
-					$newEmpInfo['Permissions'] = $_POST['fm-permissions'];	
-
-				if ($managerinstance->updateEmployee($emp_id,$newEmpInfo)){
-					print "Employee ".$emp_id." successfully updated<br />\n";
-					print "<a href=\"manager.php?action=update&ticket=".$emp_id."\">Return</a>\n";
+				$newEmpInfo['Username'] = $_POST['fm-username'];
+				$newEmpInfo['Password'] = $_POST['fm-password'];
+				$newEmpInfo['Permissions'] = $_POST['fm-permissions'];
+				if ($managerinstance->validateEmployeerData($newEmpInfo)){
+					if ($managerinstance->updateEmployee($emp_id,$newEmpInfo)){
+						print "Employee ".$emp_id." successfully updated<br />\n";
+						print "<a href=\"manager.php?action=update&ticket=".$emp_id."\">Return</a>\n";
+					} else {
+						print "Error occured, please check your input";
+					}
 				} else {
-					print "Error occured, please check your input";
+					//Validation failed
+					$managerinstance->displayError();
+					$managerinstance->printUpdateForm($emp_id);
 				}
 			} else {
-				//We cant to display an update form and get information
+				//We want to display an update form and get information
 				$managerinstance->printUpdateForm($emp_id);
 			}
 		}
@@ -87,12 +102,12 @@ if (isLoggedIn() && (getUserPermissions()>='2')){
 		} else {
 			//No form data, we display a form
 			include $includesfolder."searchemployee.php";
-		} 
+		}
 	}else {
 		//Manager home, display Employees stats
 		include $includesfolder.'displayemployeestats.php';
-		
-}
+
+	}
 
 
 } else {
