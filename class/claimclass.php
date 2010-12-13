@@ -138,7 +138,13 @@ class Claim{
 					break;
 			}
 
-			print "</td><td>".$info['Client_At_Fault']."</td>";
+			print "</td><td>";
+			if($info['Client_At_Fault'] == '1') {
+				print "True";
+			} else {
+				print "False";
+			}
+			print "</td>";
 			$sql = "SELECT Party_Name, Insurer_Name, Phone FROM Third_Party WHERE Claim_No='".$info['Claim_No']."';";
 			//print $sql;
 			$result = mysql_query($sql);
@@ -185,22 +191,6 @@ class Claim{
 	function printOptions($claimID){
 		print "<td><a href=\"claim.php?action=remove&claim=".$claimID."\">x</a></td>\n";
 		print "<td><a href=\"claim.php?action=update&claim=".$claimID."\">Edit</a></td>\n";
-	}
-
-	/**
-	 * Returns the an array Claims_No of all claims that have clientID = $clientID
-	 * @param unknown_type $clientID
-	 */
-	function searchClaimsByClientID($clientID){
-		$sql = "SELECT Claim_No FROM Claims WHERE Client_ID='$clientID'";
-		$result = mysql_query($sql);
-		$i = 0;
-		$toReturn;
-		while ($info = mysql_fetch_array($result,MYSQL_NUM)){ //Use num, because otherwise we'll get duplicates
-			$toReturn[$i] = $info[0]; //Add the results into an array for us to read
-			$i++;
-		}
-		return $toReturn;
 	}
 
 	/**
@@ -307,17 +297,33 @@ class Claim{
 	 * @param unknown_type $vin
 	 */
 	function searchClaimsByVIN($vin){
-		$sql = "SELECT Claim_No FROM Claims WHERE VIN='$vin'";
+		$sql = "SELECT * FROM Claims WHERE VIN='$vin'";
 		$result = mysql_query($sql);
 		$i = 0;
 		$toReturn;
-		while ($info = mysql_fetch_array($result,MYSQL_NUM)){ //Use assoc, because otherwise we'll get duplicates
+		while ($info = mysql_fetch_array($result,MYSQL_ASSOC)){ //Use assoc, because otherwise we'll get duplicates
 			$toReturn[$i] = $info[0]; //Add the results into an array for us to read
 			$i++;
 		}
 		return $toReturn;
 	}
 
+	/**
+	 * Returns the an array Claims_No of all claims that have clientID = $clientID
+	 * @param unknown_type $clientID
+	 */
+	function searchClaimsByClientID($clientID){
+		$sql = "SELECT * FROM Claims WHERE Client_ID='$clientID'";
+		$result = mysql_query($sql);
+		$i = 0;
+		$toReturn;
+		while ($info = mysql_fetch_array($result,MYSQL_ASSOC)){ 
+			$toReturn[$i] = $info[0]; //Add the results into an array for us to read
+			$i++;
+		}
+		return $toReturn;
+	}
+	
 	/**
 	 * Returns an array of claims that match the claimsno in the argument
 	 * Useful for multiple claims display
@@ -386,7 +392,7 @@ class Claim{
 	 */
 	function display2DArray($array,$printoptionsflag){
 		if($array==null){
-			print "No results were found!";
+			print "No claims were found!";
 		} else {
 			print "<table class=\"claims\"><tr>";
 			$first = $array[0];
