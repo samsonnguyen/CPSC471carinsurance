@@ -361,7 +361,7 @@ class Policy {
 			}
 			while($info = mysql_fetch_array($result)){
 				Print "<tr><td>";
-				if (($info['Policy_No']!=null) || ($info['Policy_No']!=0)){
+				if (($info['Policy_No']!=null) && ($info['Policy_No']!=0)){
 					print "<a href='policy.php?action=update&policy=".$info['Policy_No']."&type=1'>".$info['Policy_No']."</a>\n";
 				} else {
 					print $info['Policy_No'];
@@ -379,14 +379,13 @@ class Policy {
 	
 	function listPrivatePolicy($offset,$limit){
 		echo "<legend>PRIVATE</legend>";
-		$returnString = array();
 		$type = 1; // PRIVATE
 		$sql = "SELECT * FROM Private_Policy ORDER BY Policy_No ASC LIMIT $offset, $limit";
 		$result = mysql_query($sql);
 		print "<table class=\"policy\"><tr><td><b>Policy Number</b></td><td><b>Premium Rate</b></td><td><b>Coverage</b></td></tr>";
 		while($info = mysql_fetch_array($result)){
 			Print "<tr><td>";
-			if (($info['Policy_No']!=null) || ($info['Policy_No']!=0)){
+			if (($info['Policy_No']!=null) && ($info['Policy_No']!=0)){
 				print "<a href='policy.php?action=update&policy=".$info['Policy_No']."&type=1'>".$info['Policy_No']."</a>\n";
 			} else {
 				print $info['Policy_No'];
@@ -400,14 +399,13 @@ class Policy {
 	
 	function listCompanyPolicy($offset,$limit){
 		echo "<legend>COMPANY</legend>";
-		$returnString = array();
 		$type = 0; // PUBLIC
 		$sql = "SELECT * FROM Company_Policy ORDER BY Policy_No ASC LIMIT $offset, $limit";
 		$result = mysql_query($sql);
 		print "<table class=\"policy\"><tr><td><b>Policy Number</b></td><td><b>Premium Rate</b></td><td><b>Coverage</b></td><td><b>Num of Employees</b></tr>";
 		while($info = mysql_fetch_array($result)){
 			Print "<tr><td>";
-			if (($info['Policy_No']!=null) || ($info['Policy_No']!=0)){
+			if (($info['Policy_No']!=null) && ($info['Policy_No']!=0)){
 				print "<a href='policy.php?action=update&policy=".$info['Policy_No']."&type=0'>".$info['Policy_No']."</a>\n";
 			} else {
 				print $info['Policy_No'];
