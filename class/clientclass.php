@@ -65,7 +65,7 @@ class Client{
 	 */
 	function listClients($offset,$limit){
 		$returnString = array();
-		$sql = "SELECT * FROM Client LIMIT $offset, $limit";
+		$sql = "SELECT * FROM Client ORDER BY Client_ID ASC LIMIT $offset, $limit";
 		$data_p = mysql_query($sql);
 		echo "<table class=\"clients\"><tr><td>Client ID</td><td>Name</td><td>License Number</td><td>Policy Number</td></tr>";
 		while($info = mysql_fetch_array( $data_p )){

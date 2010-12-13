@@ -6,6 +6,7 @@ require $classfolder.'vehicleclass.php';
 require $classfolder.'ticketclass.php';
 require $classfolder.'policyclass.php';
 require $classfolder.'companyclass.php';
+require $classfolder.'claimclass.php';
 require $includesfolder.'functions.php';
 include $includesfolder.'header.php';
 
@@ -16,6 +17,7 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 	$ticketinstance = new Ticket();//Create new ticket instance
 	$policyinstance = new Policy();//Create new policy instance
 	$companyinstance = new company(); // Create new company instance
+	$claiminstance = new Claim(); // Create new claim instance
 	if ($_GET['action']=='add'){
 		//display add client form
 		include $includesfolder.'addclient.php';
@@ -90,7 +92,6 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 					print "<br /><a href=\"tickets.php?action=add&client=".$clientid."\">Add a ticket for this client</a><br />\n";
 				}
 			} else {
-				// TODO Add Claims to list
 				//Display an update form and get information
 				$clientinstance->printUpdateForm($clientid);
 				$vehicles = $vehicleinstance->searchByClient($clientid);
@@ -99,6 +100,11 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 				$tickets = $ticketinstance->searchByClient($clientid);
 				$ticketinstance->display2DArray($tickets, true);
 				print "<br /><a href=\"tickets.php?action=add&client=".$clientid."\">Add a ticket for this client</a><br />\n";
+				
+				// FIXME Print out Claim table
+				$claims = $claiminstance->searchClaimsByClientID($clientid);
+				$claiminstance->display2DArray($claims, false);
+				print "<br /><a href=\"claim.php?action=add&client=".$clientid."\">Add a claim for this client</a><br />\n";
 			}
 		}
 	} else if ($_GET['action']=='search'){

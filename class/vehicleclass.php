@@ -100,6 +100,7 @@ class Vehicle{
 		} else {
 			print "Vehicles<br/><table class=\"vehicles\"><tr>";
 			$first = $array[0];
+			println($first); 
 			$keys = array_keys($first); //Return the keys of the array, use first element;
 			for ($i=0;$i<count($keys);$i++){
 				print "<td>".$keys[$i]."</td>\n";
