@@ -101,9 +101,9 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 				$ticketinstance->display2DArray($tickets, true);
 				print "<br /><a href=\"tickets.php?action=add&client=".$clientid."\">Add a ticket for this client</a><br />\n";
 				
-				// FIXME Print out Claim table
-				$claims = $claiminstance->searchClaimsByClientID($clientid);
-				$claiminstance->display2DArray($claims, false);
+				$temp['Client_ID'] = $clientid;
+				$claims = $claiminstance->searchByInfo($temp);
+				$claiminstance->display2DArray($claims, true);
 				print "<br /><a href=\"claim.php?action=add&client=".$clientid."\">Add a claim for this client</a><br />\n";
 			}
 		}

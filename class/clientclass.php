@@ -253,7 +253,7 @@ class Client{
 	}
 
 	/**
-	 * Validate form data, returns true if all
+	 * Validate form data, returns true if all data meets the criteria
 	 */
 	function validateData($array){
 		$errorFlag=true;

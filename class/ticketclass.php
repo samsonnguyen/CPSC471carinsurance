@@ -230,6 +230,10 @@ class Ticket{
 			$this->appendErrorMsg("Officer Name is required");
 			$errorFlag = false;
 		}
+		if (trim($array['Infraction_No'])==""){
+			$this->appendErrorMsg("Infraction Number is required");
+			$errorFlag = false;
+		}
 		if (!preg_match("/^[A-D]{1}$/", $array['Classification'])){
 			$this->appendErrorMsg("Classification must be one of A,B,C,D");
 			$errorFlag = false;

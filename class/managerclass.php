@@ -1,6 +1,8 @@
 <?php
 class Manager{
-
+	var $error;
+	var $errorIndex = 0;
+	
 	/**
 	 * Print a form to update the base price
 	 * @param unknown_type $price
@@ -236,6 +238,49 @@ class Manager{
 	function totalEmployees(){
 		$data = mysql_query("SELECT * FROM Employees") or die(mysql_error());
 		return mysql_num_rows($data); //count the number of results and return
+	}
+	
+	/**
+	 * Validate form data, returns true if all data meets the criteria
+	 */
+	function validateEmployeerData($array){
+		$errorFlag=true;
+		if (trim($array['Username'])==''){
+			$this->appendErrorMsg("Username is required");
+			$errorFlag = false;
+		}
+		if (trim($array['Password'])==''){
+			$this->appendErrorMsg("Password is required");
+			$errorFlag = false;
+		}
+		return $errorFlag;
+	}
+
+	function validatePriceData($price){
+		$errorFlag = true;
+		if (!preg_match("/^[0-9]{1,}$/", $price)){
+			$this->appendErrorMsg("Price must be numeric");
+			$errorFlag = false;
+		}
+	}
+	/**
+	 * Append an error message to be displayed
+	 * @param unknown_type $string
+	 */
+	function appendErrorMsg($string){
+		$this->error[$this->errorIndex] = $string;
+		$this->errorIndex++;
+	}
+
+	/**
+	 * Displays errors if validation fails
+	 */
+	function displayError(){
+		print "<div class=\"validationerror\">";
+		for ($i=0;$i<count($this->error);$i++){
+			println($this->error[$i]);
+		}
+		print "</div>";
 	}
 }
 ?>
