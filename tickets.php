@@ -2,6 +2,7 @@
 require 'db.php';
 require 'config.php';
 require $classfolder.'ticketclass.php';
+require $classfolder.'clientclass.php';
 require $includesfolder.'functions.php';
 include $includesfolder.'header.php';
 

@@ -5,11 +5,10 @@
   <form name="addticket" id="fm-form" method="post" action="tickets.php?action=update&form&ticket=<?php print $infraction_no;?>" >
     <fieldset>
     <legend>Ticket Information</legend>
-    <div class="fm-req">
-      <label for="fm-clientid"><a href="client.php?action=update&client=<?php print $info['Client_ID']?>">Client ID:</a></label>
-      <input id="fm-clientid" name="fm-clientid" type="text"
-      <?php print "value=\"".$info['Client_ID']."\"";?> readonly />
-    </div>
+    <div class="fm-req"><label for="fm-clientid"><a href="client.php?action=update&client=<?php print $info['Client_ID']?>">Client:</a></label> <select
+	id="fm-clientid" name="fm-clientid">
+	<?php Client::getAllClients($info['Client_ID']); ?>
+	</select></div>
     <div class="fm-req">
 
       <label for="fm-infraction_no">Infraction Number:</label>

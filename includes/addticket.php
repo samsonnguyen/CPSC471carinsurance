@@ -6,16 +6,16 @@
   <form name="addticket" id="fm-form" method="post" action="tickets.php?action=add&form" >
     <fieldset>
 		    <legend>Ticket Information</legend>
-	    <div class="fm-req">
-      <label for="fm-clientid">Client ID:</label>
-      <input id="fm-clientid" name="fm-clientid" type="text"
-      <?php
-      if(isset($_GET['client'])){
-      		print "value=\"".$_GET['client']."\"";
-      } else {
-      	print "value=\"".$_POST['fm-clientid']."\"";
-      }?> />
-    </div>
+    <div class="fm-req"><label for="fm-clientid">Client:</label> <select
+	id="fm-clientid" name="fm-clientid">
+	<?php if(isset($_GET['client'])){
+      		Client::getAllClients($_GET['client']);
+      	} else if (isset($_POST['fm-clientid'])){
+			Client::getAllClients($_POST['fm-clientid']);
+      	} else {
+      		Client::getAllClients();
+      	} ?>
+	</select></div>
     <div class="fm-req">
       <label for="fm-infraction_no">Infraction Number:</label>
       <input name="fm-infraction_no" id="fm-infraction_no" type="text" value="<?php print $_POST['fm-infraction_no'];?>" />

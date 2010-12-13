@@ -123,16 +123,16 @@
     </fieldset>
     <fieldset>
     <legend>Client Involved with this Claim</legend>
-    <div class="fm-req">
-      <label for="fm-cl-clientid">Client ID:</label>
-	  <input id="fm-cl-clientid" name="fm-cl-clientid" type ="text" 
-	  <?php if(isset($_GET['clientid'])){
-	  	print "value=\"".$_GET['clientid']."\" ";
-	  } else {
-	  	print "value=\"".$_POST['fm-cl-clientid']."\" ";
-	  }?>
-	  />
-    </div>
+        <div class="fm-req"><label for="fm-clientid">Client:</label> <select
+	id="fm-clientid" name="fm-clientid">
+	<?php if(isset($_GET['client'])){
+      		Client::getAllClients($_GET['client']);
+      	} else if (isset($_POST['fm-clientid'])){
+			Client::getAllClients($_POST['fm-clientid']);
+      	} else {
+      		Client::getAllClients();
+      	} ?>
+	</select></div>
         <div class="fm-req">
       <label for="fm-cl-vin">Vehicle VIN:</label>
 	  <input id="fm-cl-vin" name="fm-cl-vin" type ="text"

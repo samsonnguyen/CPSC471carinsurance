@@ -45,10 +45,10 @@
 	    <fieldset>
 	    	<legend>Search By Client</legend>
 	    	<p>Use * for wildcards</p>
-		 	<div class="fm-opt">
-	      		<label for="fm-cl-clientid">Client ID:</label>
-	      		<input id="fm-cl-clientid" name="fm-cl-clientid" type="text" />
-	    	</div>
+		 		<div class="fm-opt"><label for="fm-cl-clientid">Client:</label> <select
+	id="fm-cl-clientid" name="fm-cl-clientid">
+	<?php Client::getAllClients(); ?>
+	</select></div>
 	    	<div class="fm-opt">
 	      		<label for="fm-cl-vin">Vehicle VIN:</label>
 	      		<input id="fm-cl-vin" name="fm-cl-vin" type="text" />
