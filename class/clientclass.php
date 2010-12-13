@@ -78,13 +78,26 @@ class Client{
 			} else { // Company Policy since false
 				echo "0'>C".$info['Policy_No']."</a></td>";
 			}
-
 			$this->printOptions($info['Client_ID']);
 			echo "</tr>";
 		}
 		echo "</table>";
 	}
 
+	/**
+	 * 
+	 * Updates Clients of a company to a new company policy when the policy of that company changes.
+	 * @param unknown_type $companyno
+	 * @param unknown_type $newpolicyno
+	 */
+	static function updateCompanyPolicy($companyno, $newpolicyno) {
+		$sql = "";
+		$sql="UPDATE Client SET Policy_No='$newpolicyno'";
+		$sql = $sql." WHERE Company='$companyno'";
+		mysql_query($sql) or die(mysql_error());
+		return true;//return true
+	}
+	
 	/**
 	 * Returns the number of total # of Clients
 	 */
