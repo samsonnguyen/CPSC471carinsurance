@@ -2,12 +2,14 @@
 require 'db.php';
 require 'config.php';
 require $classfolder.'vehicleclass.php';
+require $classfolder.'claimclass.php';
 require $includesfolder.'functions.php';
 include $includesfolder.'header.php';
 
 //Check if the user and logged in and has permissions
 if (isLoggedIn() && (getUserPermissions()>='1')){
 	$vehicleinstance = new Vehicle();//Create new vehicle instance
+	$claiminstance = new Claim();
 	if ($_GET['action']=='add'){
 		//Add vehicle
 		if (isset($_GET['form'])){
@@ -88,8 +90,12 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 				}
 			} else {
 				//We want to display an update form and get information
-				// TODO Add claims to this
 				$vehicleinstance->printUpdateForm($vehicleVIN);
+				$temp['VIN'] = $vehicleVIN;
+				$claims = $claiminstance->searchByInfo($temp);
+				$claiminstance->display2DArray($claims, true);
+				print "<br /><a href=\"claim.php?action=add&vehicle=".$vehicleVIN."&clientid=";
+				print $vehicleinstance->getVehicleOwner($vehicleVIN)."\">Add a claim for this client</a><br />\n";
 			}
 		}
 	} else if ($_GET['action']=='search'){
