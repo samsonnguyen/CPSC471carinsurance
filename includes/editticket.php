@@ -8,7 +8,7 @@
     <div class="fm-req">
       <label for="fm-clientid"><a href="client.php?action=update&client=<?php print $info['Client_ID']?>">Client ID:</a></label>
       <input id="fm-clientid" name="fm-clientid" type="text"
-      <?php print "value=\"".$info['Client_ID']."\"";?> disabled />
+      <?php print "value=\"".$info['Client_ID']."\"";?> readonly />
     </div>
     <div class="fm-req">
 
@@ -23,9 +23,14 @@
       <label for="fm-officer_no">Officer Number:</label>
       <input name="fm-officer_no" id="fm-officer_no" type="text" <?php print "value=\"".$info['Officer_No']."\"";?>/>
     </div>
-    <div class="fm-opt">
-    	<label for="fm-classification">Classification:</label>
-    	<input name="fm-classification" id="fm-classification" type="text" title="" <?php print "value=\"".$info['Classification']."\"";?>/>
+    <div class="fm-req">
+      <label for="fm-classification">Classification:</label>
+      <select id="fm-classification" name="fm-classification">
+		<option value='A' <?php if($info['Classification']=="A") print "selected";?>>Civil Infraction</option>
+		<option value='B' <?php if($info['Classification']=="B") print "selected";?>>Criminal Infraction</option>
+		<option value='C' <?php if($info['Classification']=="C") print "selected";?>>Misdemeanor</option>
+		<option value='D' <?php if($info['Classification']=="D") print "selected";?>>Felony</option>
+	  </select>
     </div>
 	
 	   <div class="fm-req">

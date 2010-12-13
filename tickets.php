@@ -9,17 +9,25 @@ include $includesfolder.'header.php';
 if (isLoggedIn() && (getUserPermissions()>='1')){
 	$ticketinstance = new Ticket();	//create new ticket instance
 	if ($_GET['action']=='add'){
+		//Add tickets
 		if (isset($_GET['form'])){
+			//Return from a form
 			$newTicketInfo['Client_ID'] = $_POST['fm-clientid'];
 			$newTicketInfo['Infraction_No'] = $_POST['fm-infraction_no'];
 			$newTicketInfo['Officer_Name'] = $_POST['fm-officer_name'];
 			$newTicketInfo['Officer_No'] = $_POST['fm-officer_no'];
 			$newTicketInfo['Classification'] = $_POST['fm-classification'];
-			$newTicketInfo['Date'] = $_POST['fm-year'].$_POST['fm-month'].$_POST['fm-day'];
-			if ($ticketinstance->addNewTicket($newTicketInfo)>0){
-				print "Ticket ".$_POST['fm-Infraction_Number']." added successfully!\n";
+			$newTicketInfo['Date'] = $_POST['fm-year']."-".$_POST['fm-month']."-".$_POST['fm-day'];
+			if ($ticketinstance->validateData($newTicketInfo)){
+				if ($ticketinstance->addNewTicket($newTicketInfo)>0){
+					print "Ticket ".$_POST['fm-Infraction_Number']." added successfully!\n";
+				} else {
+					print "Error occured";
+				}
 			} else {
-				print "Error occured";
+				//Validation failed
+				$ticketinstance->displayError();
+				include $includesfolder.'addticket.php';
 			}
 		} else {
 			include $includesfolder.'addticket.php';
@@ -37,9 +45,6 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 				print "ERROR: Ticket ".$infraction_no." could not be removed!";
 			}
 		}
-
-
-
 	} else if ($_GET['action']=='update'){
 		//Update ticket
 		$infraction_no= $_GET['ticket'];
@@ -54,12 +59,17 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 				$newTicketInfo['Officer_No'] = $_POST['fm-officer_no'];
 				$newTicketInfo['Classification'] = $_POST['fm-classification'];
 				$newTicketInfo['Date'] = $_POST['fm-date'];
-
-				if ($ticketinstance->updateTicket($infraction_no,$newTicketInfo)){
-					print "Ticket ".$infraction_no." successfully updated<br />\n";
-					print "<a href=\"tickets.php?action=update&ticket=".$infraction_no."\">Return</a>\n";
+				if ($ticketinstance->validateData($newTicketInfo)){
+					if ($ticketinstance->updateTicket($infraction_no,$newTicketInfo)){
+						print "Ticket ".$infraction_no." successfully updated<br />\n";
+						print "<a href=\"tickets.php?action=update&ticket=".$infraction_no."\">Return</a>\n";
+					} else {
+						print "Error occured, please check your input";
+					}
 				} else {
-					print "Error occured, please check your input";
+					//validation failed
+					$ticketinstance->displayError();
+					$ticketinstance->printUpdateForm($infraction_no);
 				}
 			} else {
 				//We cant to display an update form and get information

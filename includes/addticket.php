@@ -12,80 +12,87 @@
       <?php
       if(isset($_GET['client'])){
       		print "value=\"".$_GET['client']."\"";
+      } else {
+      	print "value=\"".$_POST['fm-clientid']."\"";
       }?> />
     </div>
     <div class="fm-req">
       <label for="fm-infraction_no">Infraction Number:</label>
-      <input name="fm-infraction_no" id="fm-infraction_no" type="text" />
+      <input name="fm-infraction_no" id="fm-infraction_no" type="text" value="<?php print $_POST['fm-infraction_no'];?>" />
     </div>
     <div class="fm-req">
 
       <label for="fm-officer_name">Officer Name:</label>
-      <input id="fm-officer_name" name="fm-officer_name" type="text" />
+      <input id="fm-officer_name" name="fm-officer_name" type="text" value="<?php print $_POST['fm-officer_name'];?>" />
     </div>
     <div class="fm-opt">
       <label for="fm-officer_no">Officer Number:</label>
-      <input name="fm-officer_no" id="fm-officer_no" type="text" />
+      <input name="fm-officer_no" id="fm-officer_no" type="text" value="<?php print $_POST['fm-officer_no'];?>" />
     </div>
-    <div class="fm-opt">
+    <div class="fm-req">
       <label for="fm-classification">Classification:</label>
-      <input name="fm-classification" id="fm-classification" type="text" />
+      <select id="fm-classification" name="fm-classification">
+		<option value='A' <?php if($_POST['fm-classification']=="A") print "selected";?>>Civil Infraction</option>
+		<option value='B' <?php if($_POST['fm-classification']=="B") print "selected";?>>Criminal Infraction</option>
+		<option value='C' <?php if($_POST['fm-classification']=="C") print "selected";?>>Misdemeanor</option>
+		<option value='D' <?php if($_POST['fm-classification']=="D") print "selected";?>>Felony</option>
+	  </select>
     </div>
     <div class="fm-req">
       <label for="fm-date">Date:</label>
       <a>Month:</a>
 	  <select id="fm-month" name="fm-month">
-		<option value='01'>January</option>
-		<option value='02'>February</option>
-		<option value='03'>March</option>
-		<option value='04'>April</option>
-		<option value='05'>May</option>
-		<option value='06'>June</option>
-		<option value='07'>July</option>
-		<option value='08'>August</option>
-		<option value='09'>September</option>
-		<option value='10'>October</option>
-		<option value='11'>November</option>
-		<option value='12'>December</option>
+		<option value='01' <?php if($_POST['fm-month']=="01") print "selected";?>>January</option>
+		<option value='02' <?php if($_POST['fm-month']=="02") print "selected";?>>February</option>
+		<option value='03' <?php if($_POST['fm-month']=="03") print "selected";?>>March</option>
+		<option value='04' <?php if($_POST['fm-month']=="04") print "selected";?>>April</option>
+		<option value='05' <?php if($_POST['fm-month']=="05") print "selected";?>>May</option>
+		<option value='06' <?php if($_POST['fm-month']=="06") print "selected";?>>June</option>
+		<option value='07' <?php if($_POST['fm-month']=="07") print "selected";?>>July</option>
+		<option value='08' <?php if($_POST['fm-month']=="08") print "selected";?>>August</option>
+		<option value='09' <?php if($_POST['fm-month']=="09") print "selected";?>>September</option>
+		<option value='10' <?php if($_POST['fm-month']=="10") print "selected";?>>October</option>
+		<option value='11' <?php if($_POST['fm-month']=="11") print "selected";?>>November</option>
+		<option value='12' <?php if($_POST['fm-month']=="12") print "selected";?>>December</option>
       </select>
 	  
-	  <a>Day:</a>
+	  <span>Day:</span>
 	  <select id="fm-day" name="fm-day">
-       <option value='01'>01</option>
-		<option value='02'>02</option>
-		<option value='03'>03</option>
-		<option value='04'>04</option>
-		<option value='05'>05</option>
-		<option value='06'>06</option>
-		<option value='07'>07</option>
-		<option value='08'>08</option>
-		<option value='09'>09</option>
-		<option value='10'>10</option>
-		<option value='11'>11</option>
-		<option value='12'>12</option>
-		<option value='13'>13</option>
-		<option value='14'>14</option>
-		<option value='15'>15</option>
-		<option value='16'>16</option>
-		<option value='17'>17</option>
-		<option value='18'>18</option>
-		<option value='19'>19</option>
-		<option value='20'>20</option>
-		<option value='21'>21</option>
-		<option value='22'>22</option>
-		<option value='23'>23</option>
-		<option value='24'>24</option>
-		<option value='25'>25</option>
-		<option value='26'>26</option>
-		<option value='27'>27</option>
-		<option value='28'>28</option>
-		<option value='29'>29</option>
-		<option value='30'>30</option>
-		<option value='31'>31</option>
+      	<option value='01' <?php if($_POST['fm-day']=="01") print "selected";?>>01</option>
+		<option value='02' <?php if($_POST['fm-day']=="02") print "selected";?>>02</option>
+		<option value='03' <?php if($_POST['fm-day']=="03") print "selected";?>>03</option>
+		<option value='04' <?php if($_POST['fm-day']=="04") print "selected";?>>04</option>
+		<option value='05' <?php if($_POST['fm-day']=="05") print "selected";?>>05</option>
+		<option value='06' <?php if($_POST['fm-day']=="06") print "selected";?>>06</option>
+		<option value='07' <?php if($_POST['fm-day']=="07") print "selected";?>>07</option>
+		<option value='08' <?php if($_POST['fm-day']=="08") print "selected";?>>08</option>
+		<option value='09' <?php if($_POST['fm-day']=="09") print "selected";?>>09</option>
+		<option value='10' <?php if($_POST['fm-day']=="10") print "selected";?>>10</option>
+		<option value='11' <?php if($_POST['fm-day']=="11") print "selected";?>>11</option>
+		<option value='12' <?php if($_POST['fm-day']=="12") print "selected";?>>12</option>
+		<option value='13' <?php if($_POST['fm-day']=="13") print "selected";?>>13</option>
+		<option value='14' <?php if($_POST['fm-day']=="14") print "selected";?>>14</option>
+		<option value='15' <?php if($_POST['fm-day']=="15") print "selected";?>>15</option>
+		<option value='16' <?php if($_POST['fm-day']=="16") print "selected";?>>16</option>
+		<option value='17' <?php if($_POST['fm-day']=="17") print "selected";?>>17</option>
+		<option value='18' <?php if($_POST['fm-day']=="18") print "selected";?>>18</option>
+		<option value='19' <?php if($_POST['fm-day']=="19") print "selected";?>>19</option>
+		<option value='20' <?php if($_POST['fm-day']=="20") print "selected";?>>20</option>
+		<option value='21' <?php if($_POST['fm-day']=="21") print "selected";?>>21</option>
+		<option value='22' <?php if($_POST['fm-day']=="22") print "selected";?>>22</option>
+		<option value='23' <?php if($_POST['fm-day']=="23") print "selected";?>>23</option>
+		<option value='24' <?php if($_POST['fm-day']=="24") print "selected";?>>24</option>
+		<option value='25' <?php if($_POST['fm-day']=="25") print "selected";?>>25</option>
+		<option value='26' <?php if($_POST['fm-day']=="26") print "selected";?>>26</option>
+		<option value='27' <?php if($_POST['fm-day']=="27") print "selected";?>>27</option>
+		<option value='28' <?php if($_POST['fm-day']=="28") print "selected";?>>28</option>
+		<option value='29' <?php if($_POST['fm-day']=="29") print "selected";?>>29</option>
+		<option value='30' <?php if($_POST['fm-day']=="30") print "selected";?>>30</option>
+		<option value='31' <?php if($_POST['fm-day']=="30") print "selected";?>>31</option>
 		</select>
 	  
 		<a>Year:</a>
-		<input name= "fm-year"	id="fm-year"	type="text" />
+		<input name= "fm-year"	id="fm-year" type="text" value="<?php print $_POST['fm-year'];?>" />
 	  
     </div>
 

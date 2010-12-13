@@ -409,7 +409,7 @@ class Claim{
 	}
 	
 	/**
-	 * Validate form data, returns true if all 
+	 * Validate form data, returns true if all data meets the criteria
 	 * $array = claim
 	 * $array2 = Thirdpartyinfo
 	 * $array3 = Claims
