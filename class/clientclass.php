@@ -239,6 +239,7 @@ class Client{
 			$errorFlag = false;
 		} else if (!preg_match("/^[A-Za-z]{1}\d{1}[A-Za-z]{1}\d{1}[A-Za-z]{1}\d{1}$/",$array['PostalCode'])){
 			$this->appendErrorMsg("Postal Code should be in the format A1B2C3");
+			$errorFlag = false;
 		}
 		if (trim($array['Phone'])==''){
 			$this->appendErrorMsg("Phone number is required");

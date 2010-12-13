@@ -9,7 +9,7 @@
 		</div>
 		<div class="fm-req">
 			<label for="fm-name">Company Name:</label>
-			<input id="fm-name" name="fm-name" type="text" value="<?php print $info['Name'];?>" />
+			<input id="fm-name" name="fm-name" type="text" value="<?php print $info['CName'];?>" />
 		</div>
 	</fieldset>
 	<fieldset>
@@ -40,7 +40,7 @@
 			</select>
 		</div>
 		<div class="fm-req">
-			<label for="fm-postalcode">Zip code:</label>
+			<label for="fm-postalcode">Postal code:</label>
 			<input id="fm-postalcode" name="fm-postalcode" type="text" value="<?php print $info['PostalCode'];?>"/>
 		</div>
 	</fieldset>

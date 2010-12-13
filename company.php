@@ -42,21 +42,21 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 				$newCompanyInfo['Phone'] = preg_replace("/[-\(\)\s]/","",$_POST['fm-telephone']); //Strip unwanted characters
 				$newCompanyInfo['Manager'] = $_POST['fm-manager'];
 				$newCompanyInfo['Policy_No'] = $_POST['fm-policy'];
-				if ($companyinstance->updateCompany($companyno,$newCompanyInfo)){
-					print "Company ".$companyno." successfully updated<br />\n";
-					print "<a href='company.php?action=update&company=".$companyno."'>Return to Edit Page</a>\n";
+				if ($companyinstance->validateData($newCompanyInfo)){
+					if ($companyinstance->updateCompany($companyno,$newCompanyInfo)){
+						print "Company ".$companyno." successfully updated<br />\n";
+						print "<a href='company.php?action=update&company=".$companyno."'>Return to Edit Page</a>\n";
+					} else {
+						print "Error occured, please check your input";
+					}
 				} else {
-					print "Error occured, please check your input";
+					//Error while validating, print out errors and form
+					$companyinstance->displayError();
+					$companyinstance->printUpdateForm($companyno);
 				}
 			} else {
 				//Display an update form and get information
 				$companyinstance->printUpdateForm($companyno);
-//				$vehicles = $vehicleinstance->searchByClient($clientid);
-//				$vehicleinstance->display2DArray($vehicles, true);
-//				print "<br /><a href=\"vehicle.php?action=add&client=".$clientid."\">Add a new vehicle for this client</a><br />\n";
-//				$tickets = $ticketinstance->searchByClient($clientid);
-//				$ticketinstance->display2DArray($tickets, true);
-//				print "<br /><a href=\"tickets.php?action=add&client=".$clientid."\">Add a ticket for this client</a><br />\n";
 			}	
 		}
 	} elseif ($_GET['action']=='search'){
@@ -109,7 +109,7 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 		}
 	} elseif (isset($_GET['addcompany'])){
 		$newCompanyInfo['Commercial_License_No'] = $_POST['fm-comlicno'];
-		$newCompanyInfo['Name'] = $_POST['fm-name'];
+		$newCompanyInfo['CName'] = $_POST['fm-name'];
 		$newCompanyInfo['Address'] = $_POST['fm-addr'];
 		$newCompanyInfo['City'] = $_POST['fm-city'];
 		$newCompanyInfo['PostalCode'] = preg_replace("/[\s]/", "", $_POST['fm-postalcode']); //Strip spaces
@@ -117,8 +117,13 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 		$newCompanyInfo['Phone'] = preg_replace("/[-\(\)\s]/","",$_POST['fm-telephone']); //Strip unwanted characters
 		$newCompanyInfo['Manager'] = $_POST['fm-manager'];
 		$newCompanyInfo['Policy_No'] = $_POST['fm-policy'];
-		$companyinstance->addNewCompany($newCompanyInfo);
-		print "Company has been added<br />\n";
+		if ($companyinstance->validateData($newCompanyInfo)){
+			$companyinstance->addNewCompany($newCompanyInfo);
+			print "Company has been added<br />\n";
+		} else {
+			$companyinstance->displayError();
+			include $includesfolder.'addcompany.php';
+		}
 	} else{
 		//Company home, display stats?
 		include $includesfolder.'displaycompanystats.php';

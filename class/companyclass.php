@@ -1,5 +1,7 @@
 <?php
 class company {
+	var $error;
+	var $errorIndex = 0;
 	
 	function addNewCompany($array) {
 		$keys = array_keys($array); //Return the keys of the array;
@@ -216,6 +218,63 @@ class company {
 	function totalCompanies(){
 		$temp = mysql_query("SELECT * FROM Company") or die(mysql_error());
 		return mysql_num_rows($temp);
+	}
+	
+	/**
+	 * Validate form data, returns true if all data meets the criteria
+	 * $array = claim
+	 * $array2 = Thirdpartyinfo
+	 * $array3 = Claims
+	 */
+	function validateData($array){
+		$errorFlag=true;
+		if (trim($array['Commercial_License_No'])==""){
+			$this->appendErrorMsg("Commercial License Number required");
+			$errorFlag = false;
+		}
+		if (trim($array['CName'])==''){
+			$this->appendErrorMsg("Company Name is required");
+			$errorFlag = false;
+		}
+		if (trim($array['Manager'])==''){
+			$this->appendErrorMsg("Manager name is required");
+			$errorFlag = false;
+		}
+		if (trim($array['PostalCode'])==''){
+			$this->appendErrorMsg("Postal Code is required");
+			$errorFlag = false;
+		} else if (!preg_match("/^[A-Za-z]{1}\d{1}[A-Za-z]{1}\d{1}[A-Za-z]{1}\d{1}$/",$array['PostalCode'])){
+			$this->appendErrorMsg("Postal Code should be in the format A1B 2C3");
+			$errorFlag = false;
+		}
+		if (trim($array['Phone'])==''){
+			$this->appendErrorMsg("Phone number is required");
+			$errorFlag = false;
+		} else if (!preg_match("/^[0-9]{10}$/",$array['Phone'])){
+			$this->appendErrorMsg("Phone number must be in the format xxx-xxx-xxxx or xxxxxxxxx");
+			$errorFlag = false;
+		}
+		return $errorFlag;
+	}
+
+	/**
+	 * Append a message to display if validation fails
+	 * @param unknown_type $string
+	 */
+	function appendErrorMsg($string){
+		$this->error[$this->errorIndex] = $string;
+		$this->errorIndex++;
+	}
+
+	/**
+	 * Display validation error messages
+	 */
+	function displayError(){
+		print "<div class=\"validationerror\">";
+		for ($i=0;$i<count($this->error);$i++){
+			println($this->error[$i]);
+		}
+		print "</div>";
 	}
 } //CLOSE policy class
 ?>
