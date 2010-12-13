@@ -39,8 +39,11 @@ mysql_query("CREATE TABLE Client
 //Create Company table
 mysql_query("CREATE TABLE Company(
 		Commercial_License_No 	INT	NOT	NULL,
-		Name		VARCHAR(20)	NOT NULL,
+		CName		VARCHAR(20)	NOT NULL,
 		Address		VARCHAR(50),
+		City		VARCHAR(20),
+		PostalCode	CHAR(6),
+		Province	CHAR(2),
 		Phone		INT,
 		Manager		VARCHAR(20),
 		Policy_No	INT,

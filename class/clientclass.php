@@ -63,22 +63,22 @@ class Client{
 	/**
 	 * Prints out a simple list of clients with a table, we don't want to crowd the table with too much
 	 */
-	// TODO Add License No to table
 	function listClients($offset,$limit){
 		$returnString = array();
 		$sql = "SELECT * FROM Client LIMIT $offset, $limit";
 		$data_p = mysql_query($sql);
-		echo "<table class=\"clients\"><tr><td>Client ID</td><td>Name</td><td>Policy Number</td></tr>";
+		echo "<table class=\"clients\"><tr><td>Client ID</td><td>Name</td><td>License Number</td><td>Policy Number</td></tr>";
 		while($info = mysql_fetch_array( $data_p )){
 			echo "<tr><td><a href='client.php?action=update&client=".$info['Client_ID']."'>".$info['Client_ID']."</a></td><td>";
 			echo $info['FName']." ".$info['MName']." ".$info['LName']."</td><td>";
+			echo $info['License_No']."</td><td>";
 			echo "<a href='policy.php?action=update&policy=".$info['Policy_No']."&type=";
 			if($info['Company'] == 0 || $info['Company'] == null) { // Private Policy if true
-				echo "1";
+				echo "1'>P".$info['Policy_No']."</a></td>";
 			} else { // Company Policy since false
-				echo "0";
+				echo "0'>C".$info['Policy_No']."</a></td>";
 			}
-			echo "'>".$info['Policy_No']."</a></td>";
+
 			$this->printOptions($info['Client_ID']);
 			echo "</tr>";
 		}

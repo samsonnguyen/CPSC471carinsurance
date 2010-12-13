@@ -24,7 +24,7 @@
     </div>
      <div class="fm-req">
     	<label for="fm-birthdate">Birthdate:</label>
-    	<input name="fm-birthdate" id="fm-birthdate" type="text" title="Enter Birthdate in yyy-mm-dd format" value="<?php print $_POST['fm-birthdate'];?>" />
+    	<input name="fm-birthdate" id="fm-birthdate" type="text" title="Enter Birthdate in yyyy-mm-dd format" value="<?php print $_POST['fm-birthdate'];?>" />
     </div>
     <div class="fm-multi">
       <div class="fm-gender">
@@ -90,13 +90,13 @@
     <legend>Policy Information</legend>
  	<div class="fm-opt"><label for="fm-policy">Private Policy:</label> <select
 	id="fm-policy" name="fm-policy">
-	<option value="" selected>None</option>
+	<option value="X" selected>None</option>
 	<?php Policy::getAllPrivatePolicy(); ?>
 	</select> Select 'None' for company policy.</div>
 	<b>OR</b><br/>
 	<div class="fm-opt"><label for="fm-company">Company:</label> <select
 	id="fm-company" name="fm-company">
-	<option value="" selected>None</option>
+	<option value="X" selected>None</option>
 	<?php Company::getAllCompanies(); ?>
 	</select></div>
     </fieldset>
@@ -111,15 +111,10 @@
       <div class="fm-training">
       	<span>Driver training</span>
         <label for="fm-trainingno">
-        <input name="fm-training" type="radio" id="fm-trainingno" value="0"
-        <?php
-        	if(!trim($_POST['fm-training'])=='' or $_POST['fm-training']=="0"){
-        		print "checked";
-        	} 
-        ?>/>
+        <input name="fm-training" type="radio" id="fm-trainingno" value="0" checked/>
         No</label>
         <label for="fm-trainingyes">
-        <input id="fm-trainingyes" name="fm-training" type="radio" value="1" <?php if($_POST['fm-training']=="1") print "checked";?> />
+        <input id="fm-trainingyes" name="fm-training" type="radio" value="1"/>
         Yes</label>
       </div>
     </div>

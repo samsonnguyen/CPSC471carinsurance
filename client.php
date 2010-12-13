@@ -14,7 +14,8 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 	$clientinstance = new Client(); //Create new client instance
 	$vehicleinstance = new Vehicle();//Create new vehicle instance
 	$ticketinstance = new Ticket();//Create new ticket instance
-	$policyinstance = new Policy();//Create new ticket instance
+	$policyinstance = new Policy();//Create new policy instance
+	$companyinstance = new company(); // Create new company instance
 	if ($_GET['action']=='add'){
 		//display add client form
 		include $includesfolder.'addclient.php';
@@ -47,13 +48,27 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 				$newClientInfo['PostalCode'] = preg_replace("/[\s]/", "", $_POST['fm-postalcode']); //Strip spaces
 				$newClientInfo['Province'] = $_POST['fm-province'];
 				$newClientInfo['Phone'] = preg_replace("/[-\(\)\s]/","",$_POST['fm-telephone']); //Strip unwanted characters
-				print $newClientInfo['Phone'];
+			//	print $newClientInfo['Phone'];
 				$newClientInfo['Birthdate'] = $_POST['fm-birthdate'];
 				$newClientInfo['License_No'] = $_POST['fm-license_no'];
 				$newClientInfo['Gender'] = $_POST['fm-gender'];
 				$newClientInfo['Age'] = getAge($_POST['fm-birthdate']);
-				$newClientInfo['Company'] = $_POST['fm-company'];
-				$newClientInfo['Policy_No'] = $_POST['fm-policy'];
+				$temppolicy = $_POST['fm-policy'];
+				$tempcompany =  $_POST['fm-company'];
+				if( $temppolicy == "X") { // No policy therefore assume company policy
+					if($tempcompany != "X") { // If company exists (i.e. not blank)
+						$result = $companyinstance->searchCompanies($tempcompany, null, null);
+						$info = mysql_fetch_array($result);
+						$newClientInfo['Policy_No'] = $info['Policy_No'];
+						$newClientInfo['Company'] = $info['Commercial_License_No'];
+					} else { // Otherwise error
+						print "Error, must have a policy";
+						return;
+					}
+				} else { // Policy is set therefore not part of a company plan
+					$newClientInfo['Policy_No'] = $temppolicy;
+					$newClientInfo['Company'] = null;
+				}						
 				$newClientInfo['Years_Exp'] = $_POST['fm-yearsexp'];
 				$newClientInfo['Training'] = $_POST['fm-training'];
 				if ($clientinstance->validateData($newClientInfo)){//ERROR CHECK
@@ -164,8 +179,22 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 		$newClientInfo['License_No'] = $_POST['fm-license_no'];
 		$newClientInfo['Gender'] = $_POST['fm-gender'];
 		$newClientInfo['Age'] = getAge($_POST['fm-birthdate']);
-		$newClientInfo['Company'] = $_POST['fm-company'];
-		$newClientInfo['Policy_No'] = $_POST['fm-policy'];
+		$temppolicy = $_POST['fm-policy'];
+		$tempcompany =  $_POST['fm-company'];
+		if( $temppolicy == "X") { // No policy therefore assume company policy
+			if($tempcompany != "X") { // If company exists (i.e. not blank)
+				$result = $companyinstance->searchCompanies($tempcompany, null, null);
+				$info = mysql_fetch_array($result);
+				$newClientInfo['Policy_No'] = $info['Policy_No'];
+				$newClientInfo['Company'] = $info['Commercial_License_No'];
+			} else { // Otherwise error
+				print "Error, must have a policy";
+				return;
+			}
+		} else { // Policy is set therefore not part of a company plan
+			$newClientInfo['Policy_No'] = $temppolicy;
+			$newClientInfo['Company'] = null;
+		}						
 		$newClientInfo['Years_Exp'] = $_POST['fm-yearsexp'];
 		$newClientInfo['Training'] = $_POST['fm-training'];
 		if ($clientinstance->validateData($newClientInfo)){//ERROR CHECK

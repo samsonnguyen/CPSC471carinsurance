@@ -88,13 +88,15 @@
     <legend>Policy Information</legend>
    <div class="fm-opt"><label for="fm-policy">Private Policy:</label> <select
 	id="fm-policy" name="fm-policy">
-	<?php Policy::getAllPrivatePolicy($info['Policy_No']); ?>
-	</select></div>
+	<option value="X" <?php if($info['Company'] != '0') { print "selected"; }?>>None</option>
+	<?php if($info['Company'] == '0') { Policy::getAllPrivatePolicy($info['Policy_No']); } else { Policy::getAllPrivatePolicy(); } ?>
+	</select> Select 'None' for company policy.</div>
 	<b>OR</b><br/>
-    <div class="fm-opt">
-    	<label for="fm-company">Company:</label>
-    	<input id="fm-company" name="fm-company" type="text" value="<?php print $info['Company'];?>"></input><i> (Leave blank for private policy)</i>
-    </div>
+	<div class="fm-opt"><label for="fm-company">Company:</label> <select
+	id="fm-company" name="fm-company">
+	<option value="X" <?php if($info['Company'] == '0') { print "selected"; }?>>None</option>
+	<?php Company::getAllCompanies($info['Company']); ?>
+	</select></div>
     </fieldset>
     
         <fieldset>
