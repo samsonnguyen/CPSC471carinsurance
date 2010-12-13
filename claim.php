@@ -99,7 +99,7 @@ if (isLoggedIn() && (getUserPermissions()>='2')){
 				$newClaims['Client_ID']=$_POST['fm-cl-clientid'];
 				$newClaims['VIN']=$_POST['fm-cl-vin'];
 				if ($claiminstance->validateData($newClaimInfo, $newThirdParty, $newClaims)){
-					if ($claiminstance->updateClaim($claimID,$newClaimInfo, $newThirdParty, $newClaims)){
+					if ($claiminstance->updateAll($claimID,$newClaimInfo, $newThirdParty, $newClaims)){
 						print "Claim ".$claimID." successfully updated<br />\n";
 						print "<a href=\"claim.php?action=update&claim=".$claimID."\">Return</a>\n";
 					} else {

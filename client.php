@@ -104,7 +104,7 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 				$temp['Client_ID'] = $clientid;
 				$claims = $claiminstance->searchByInfo($temp);
 				$claiminstance->display2DArray($claims, true);
-				print "<br /><a href=\"claim.php?action=add&client=".$clientid."\">Add a claim for this client</a><br />\n";
+				print "<br /><a href=\"claim.php?action=add&clientid=".$clientid."\">Add a claim for this client</a><br />\n";
 			}
 		}
 	} else if ($_GET['action']=='search'){

@@ -274,6 +274,15 @@ class Vehicle{
 		}
 		print "</div>";
 	}
-
+	
+	/**
+	 * Returns the vehicle's client ID
+	 */
+	function getVehicleOwner($vin){
+		$sql = "SELECT Client_ID FROM Vehicle WHERE VIN='$vin'";
+		$result = mysql_query($sql);
+		$vehicle = mysql_fetch_row($result); 
+		return $vehicle[0];
+	}
 }//CLOSE vehicle class
 ?>
