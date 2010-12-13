@@ -6,7 +6,7 @@ require $classfolder.'premiumclass.php';
 require $includesfolder.'functions.php';
 include $includesfolder.'header.php';
 //test change
-if (isLoggedIn() && (getUserPermissions()=='2')){
+if (isLoggedIn() && (getUserPermissions()>='2')){
 		$managerinstance = new Manager();	//create new manager instance
 		$premiuminstance = new premiumClass();
 
@@ -61,7 +61,7 @@ if (isLoggedIn() && (getUserPermissions()=='2')){
 					$newEmpInfo['Permissions'] = $_POST['fm-permissions'];	
 
 				if ($managerinstance->updateEmployee($emp_id,$newEmpInfo)){
-					print "Ticket ".$emp_id." successfully updated<br />\n";
+					print "Employee ".$emp_id." successfully updated<br />\n";
 					print "<a href=\"manager.php?action=update&ticket=".$emp_id."\">Return</a>\n";
 				} else {
 					print "Error occured, please check your input";

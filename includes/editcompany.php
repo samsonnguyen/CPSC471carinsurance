@@ -9,7 +9,7 @@
 		</div>
 		<div class="fm-req">
 			<label for="fm-name">Company Name:</label>
-			<input id="fm-name" name="fm-name" type="text" value="<?php print $info['Name'];?>" />
+			<input id="fm-name" name="fm-name" type="text" value="<?php print $info['CName'];?>" />
 		</div>
 	</fieldset>
 	<fieldset>

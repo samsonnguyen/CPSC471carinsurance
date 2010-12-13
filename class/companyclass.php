@@ -199,6 +199,8 @@ class company {
 		$sql = $sql." WHERE Commercial_License_No='$companyno'";
 		//print $sql."<br />\n";
 		mysql_query($sql) or die(mysql_error());
+		$newpolicyno = $array['Policy_No'];
+		Client::updateCompanyPolicy($companyno, $newpolicyno);
 		return true;//return true
 	}
 	

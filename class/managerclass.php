@@ -147,7 +147,7 @@ class Manager{
 	 * @param unknown_type $array
 	 */
 	function updateEmployee($emp_id,$array){
-		$sql="UPDATE Employee SET ";
+		$sql="UPDATE Employees SET ";
 		$keys = array_keys($array); //Return the keys of the array, use first element;
 		for ($i=0;$i<count($keys);$i++){
 			if ($i==(count($keys)-1)){ //last value, omit the comma
@@ -185,10 +185,14 @@ class Manager{
 					<label for="fm-password">Password:</label>
 					<input name="fm-password" id="fm-password" type="password" <?php print "value=\"".$info['Password']."\"";?> />
 				</div>
-				<div class="fm-opt">
-					<label for="fm-permissions">Permission:</label>
-					<input name="fm-permissions" id="fm-permissions" type="text" <?php print "value=\"".$info['Permissions']."\"";?> />
-				</div>
+				<div class="fm-req">
+			      <label for="fm-permissions">Permission:</label>
+			      <select id="fm-permissions" name="fm-permissions">
+					<option value='1' <?php if($info['Permissions'] == '1') { print"selected"; } ?>>Employee</option>
+					<option value='2' <?php if($info['Permissions'] == '2') { print"selected"; } ?>>Supervisor</option>
+					<option value='3' <?php if($info['Permissions'] == '3') { print"selected"; } ?>>Manager</option>
+			      </select>
+			    </div>
 				</fieldset>
 				<div id="fm-submit" class="fm-req">
 					<input name="Submit" value="Submit" type="submit" />

@@ -38,7 +38,8 @@
       <label for="fm-permissions">Permission:</label>
       <select id="fm-permissions" name="fm-permissions">
 		<option value='1'>Employee</option>
-		<option value='2'>Manager</option>
+		<option value='2'>Supervisor</option>
+		<option value='3'>Manager</option>
       </select>
     </div>
   

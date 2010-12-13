@@ -22,15 +22,15 @@
   <form name="searchid" id="fm-form" method="post" action="client.php?action=search&form=policy">
 
 <fieldset><legend>Search By Policy</legend>
-<div class="fm-req"><label for="fm-policyc">Company Policy:</label> <select
-	id="fm-policyc" name="fm-policyc">
-	<option value="" selected>Any</option>
-	<?php Policy::getAllCompanyPolicy(); ?>
-</select></div>
 <div class="fm-req"><label for="fm-policyp">Private Policy:</label> <select
 	id="fm-policyp" name="fm-policyp">
 	<option value="" selected>Any</option>
 	<?php Policy::getAllPrivatePolicy(); ?>
+</select></div>
+<div class="fm-req"><label for="fm-policyc">Company Policy:</label> <select
+	id="fm-policyc" name="fm-policyc">
+	<option value="" selected>Any</option>
+	<?php Policy::getAllCompanyPolicy(); ?>
 </select></div>
 </fieldset>
   <fieldset>
@@ -64,10 +64,6 @@
     <div class="fm-opt">
     	<label for="fm-license_no">License Number:</label>
     	<input name="fm-license_no" id="fm-license_no" type="text" />
-    </div>
-	    <div class="fm-opt">
-    	<label for="fm-policy">Policy Number:</label>
-    	<input name="fm-policy" id="fm-policy" type="text" />
     </div>
     <div class="fm-opt">
       <label for="fm-city">City or Town:</label>
