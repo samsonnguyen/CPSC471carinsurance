@@ -30,7 +30,7 @@
     	<label for="fm-color">Color:</label>
     	<input name="fm-color" id="fm-color" type="text" title="Color max 10 characters" <?php print "value=\"".$info['Color']."\"";?>/>
     </div>
-    <div class="fm-opt">
+    <div class="fm-req">
     	<label for="fm-value">Est. Value:</label>
     	<input name="fm-value" id="fm-value" type="text" <?php print "value=\"".$info['Value']."\"";?>/>
     </div>
@@ -51,11 +51,11 @@
       <input id="fm-clientid" name="fm-clientid" type="text"
       <?php print "value=\"".$info['Client_ID']."\"";?>/>
     </div>
-    <div class="fm-opt">
-      <label for="fm-mileage">Average Daily Miles:</label>
+    <div class="fm-req">
+      <label for="fm-mileage">Avg Daily Mileage:</label>
       <input id="fm-mileage" name="fm-mileage" type="text" <?php print "value=\"".$info['Ave_Daily_Miles']."\"";?>/>
     </div>
-    <div class="fm-opt">
+    <div class="fm-req">
       <label for="fm-type">Type:</label>
       <select id="fm-type" name="fm-type">
         <option value="">Choose a type</option>

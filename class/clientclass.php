@@ -245,11 +245,18 @@ class Client{
 		return $errorFlag;
 	}
 	
+	/**
+	 * Append an error message to be displayed
+	 * @param unknown_type $string
+	 */
 	function appendErrorMsg($string){
 		$this->error[$this->errorIndex] = $string;
 		$this->errorIndex++;
 	}
 	
+	/**
+	 * Displays errors if validation fails
+	 */
 	function displayError(){
 		print "<div class=\"validationerror\">";
 		for ($i=0;$i<count($this->error);$i++){

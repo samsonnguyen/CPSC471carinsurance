@@ -1,5 +1,7 @@
 <?php
 class Claim{
+	var $error;
+	var $errorIndex= 0;
 	/**
 	 * Add a new claim
 	 * @param unknown_type $array contains array of info
@@ -404,6 +406,84 @@ class Claim{
 			}
 			print "</table>\n";
 		}
+	}
+	
+	/**
+	 * Validate form data, returns true if all 
+	 * $array = claim
+	 * $array2 = Thirdpartyinfo
+	 * $array3 = Claims
+	 */
+	function validateData($array,$array2, $array3){
+		$errorFlag=true;
+		if (!preg_match("/^[0-9]{1,}$/", $array['Amount'])){
+			$this->appendErrorMsg("Claim Amount is required");
+			$errorFlag = false;
+		}
+		if (trim($array['Date'])==''){
+			$this->appendErrorMsg("Date is required");
+			$errorFlag = false;
+		} else if (!preg_match("/^[0-9]{4,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2}$/", $array['Date'])){
+			$this->appendErrorMsg("Date is not valid");
+			$errorFlag = false;
+		}
+		if (trim($array2['Party_Name'])==''){
+			$this->appendErrorMsg("Party Name is required");
+			$errorFlag = false;
+		} 
+		if (trim($array2['Insurer_Name'])==''){
+			$this->appendErrorMsg("Insurer Name is required");
+			$errorFlag = false;
+		}
+		if (trim($array2['Insurer_Rep'])==''){
+			$this->appendErrorMsg("Insurer representative is required");
+			$errorFlag = false;
+		}
+		if (trim($array2['Phone'])==''){
+			$this->appendErrorMsg("Phone number is required");
+			$errorFlag = false;
+		} else if (!preg_match("/^[0-9]{10}$/",$array2['Phone'])){
+			$this->appendErrorMsg("Phone number is not valid");
+			$errorFlag = false;
+		}
+		if (!preg_match("/^[0-9]{4}$/", $array2['Vehicle_Year'])){
+			$this->appendErrorMsg("Vehicle Year is not valid");
+			$errorFlag = false;
+		}
+		if (trim($array2['Vehicle_Make'])==""){
+			$this->appendErrorMsg("Vehicle Make is required");
+			$errorFlag = false;
+		}
+		if (trim($array2['Vehicle_Model'])==""){
+			$this->appendErrorMsg("Vehicle Model is required");
+			$errorFlag = false;
+		}
+		if (trim($array2['Party_License_No'])==""){
+			$this->appendErrorMsg("Third Party License Number is required");
+			$errorFlag = false;
+		}
+		if (!preg_match("/^[0-9]{1,}$/", $array3['Client_ID'])){
+			$this->appendErrorMsg("Client ID must be numeric required");
+			$errorFlag = false;
+		}
+		if (trim($array3['VIN'])==""){
+			$this->appendErrorMsg("Vehicle VIN is required");
+			$errorFlag = false;
+		}
+		return $errorFlag;
+	}
+	
+	function appendErrorMsg($string){
+		$this->error[$this->errorIndex] = $string;
+		$this->errorIndex++;
+	}
+	
+	function displayError(){
+		print "<div class=\"validationerror\">";
+		for ($i=0;$i<count($this->error);$i++){
+			 println($this->error[$i]);
+		}
+		print "</div>";		
 	}
 }
 ?>

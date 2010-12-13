@@ -12,13 +12,13 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 		//Add new claim
 		if (isset($_GET['form'])){
 			$newClaimInfo['Amount'] = $_POST['fm-amount'];
-			$newClaimInfo['Date'] = $_POST['fm-year'].$_POST['fm-month'].$_POST['fm-day'];
+			$newClaimInfo['Date'] = $_POST['fm-year']."-".$_POST['fm-month']."-".$_POST['fm-day'];
 			$newClaimInfo['Description'] = $_POST['fm-description'];
 			$newClaimInfo['Status'] = $_POST['fm-status'];
 			$newClaimInfo['Client_At_Fault'] = $_POST['fm-atfault'];
 			$newThirdParty['Party_Name'] = $_POST['fm-tp-name'];
 			$newThirdParty['Insurer_Name'] = $_POST['fm-tp-insurer'];
-			$newThirdParty['Phone'] = $_POST['fm-tp-phone'];
+			$newThirdParty['Phone'] = preg_replace("/[-\(\)\s]/","",$_POST['fm-tp-phone']);
 			$newThirdParty['Address'] = $_POST['fm-tp-address'];
 			$newThirdParty['Insurer_Rep'] = $_POST['fm-tp-rep'];
 			$newThirdParty['Vehicle_Year'] = $_POST['fm-tp-year'];
@@ -27,27 +27,33 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 			$newThirdParty['Party_License_No'] = $_POST['fm-tp-license'];
 			$newClaims['Client_ID']=$_POST['fm-cl-clientid'];
 			$newClaims['VIN']=$_POST['fm-cl-vin'];
-			$claimid=$claiminstance->addNewClaim($newClaimInfo);
-			if ($claimid>0){
-				print "Claim ".$claimid." added successfully!<br />\n";
-				$newThirdParty['Claim_No'] = $claimid;
-				$newClaims['Claim_No'] = $claimid;
-				if ($claiminstance->addNewThirdParty($newThirdParty)){
-					//Successfully added third party
-					print "Third Party was created successfully!<br />\n";
+			if ($claiminstance->validateData($newClaimInfo, $newThirdParty, $newClaims)){
+				$claimid=$claiminstance->addNewClaim($newClaimInfo);
+				if ($claimid>0){
+					print "Claim ".$claimid." added successfully!<br />\n";
+					$newThirdParty['Claim_No'] = $claimid;
+					$newClaims['Claim_No'] = $claimid;
+					if ($claiminstance->addNewThirdParty($newThirdParty)){
+						//Successfully added third party
+						print "Third Party was created successfully!<br />\n";
+					} else {
+						//Error adding thirdparty
+						print "Unable to add a new thirdparty";
+					}
+					if ($claiminstance->addNewClaims($newClaims)){
+						//Successfully added a new Claims
+						print "Claim was created successfully!<br />\n";
+					} else {
+						//Error adding thirdparty
+						print "Unable to link Claim to the client and/or Vehicle VIN";
+					}
 				} else {
-					//Error adding thirdparty
-					print "Unable to add a new thirdparty";
-				}
-				if ($claiminstance->addNewClaims($newClaims)){
-					//Successfully added a new Claims
-					print "Claim was created successfully!<br />\n";
-				} else {
-					//Error adding thirdparty
-					print "Unable to link Claim to the client and/or Vehicle VIN";
+					print "Error occured";
 				}
 			} else {
-				print "Error occured";
+				//Error validating
+				$claiminstance->displayError();
+				include $includesfolder.'addclaim.php';
 			}
 		} else {
 			//display add claim form
@@ -74,15 +80,15 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 		} else {
 			if (isset($_GET['form'])){
 				//This is a return call from the form, we do an update on the database
-				$claimID = $_POST['fm-claimid'];
+				//$claimID = $_POST['fm-claimid'];
 				$newClaimInfo['Amount'] = $_POST['fm-amount'];
-				$newClaimInfo['Date'] = $_POST['fm-year'].$_POST['fm-month'].$_POST['fm-day'];
+				$newClaimInfo['Date'] = $_POST['fm-year']."-".$_POST['fm-month']."-".$_POST['fm-day'];
 				$newClaimInfo['Description'] = $_POST['fm-description'];
 				$newClaimInfo['Status'] = $_POST['fm-status'];
 				$newClaimInfo['Client_At_Fault'] = $_POST['fm-atfault'];
 				$newThirdParty['Party_Name'] = $_POST['fm-tp-name'];
 				$newThirdParty['Insurer_Name'] = $_POST['fm-tp-insurer'];
-				$newThirdParty['Phone'] = $_POST['fm-tp-phone'];
+				$newThirdParty['Phone'] = preg_replace("/[-\(\)\s]/","",$_POST['fm-tp-phone']);
 				$newThirdParty['Address'] = $_POST['fm-tp-address'];
 				$newThirdParty['Insurer_Rep'] = $_POST['fm-tp-rep'];
 				$newThirdParty['Vehicle_Year'] = $_POST['fm-tp-year'];
@@ -91,11 +97,17 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 				$newThirdParty['Party_License_No'] = $_POST['fm-tp-license'];
 				$newClaims['Client_ID']=$_POST['fm-cl-clientid'];
 				$newClaims['VIN']=$_POST['fm-cl-vin'];
-				if ($claiminstance->updateClaim($claimID,$newClaimInfo, $newThirdParty, $newClaims)){
-					print "Claim ".$claimID." successfully updated<br />\n";
-					print "<a href=\"claim.php?action=update&claim=".$claimID."\">Return</a>\n";
+				if ($claiminstance->validateData($newClaimInfo, $newThirdParty, $newClaims)){
+					if ($claiminstance->updateClaim($claimID,$newClaimInfo, $newThirdParty, $newClaims)){
+						print "Claim ".$claimID." successfully updated<br />\n";
+						print "<a href=\"claim.php?action=update&claim=".$claimID."\">Return</a>\n";
+					} else {
+						print "Error occured, please check your input";
+					}
 				} else {
-					print "Error occured, please check your input";
+					//Validation error
+					$claiminstance->displayError();
+					$claiminstance->printUpdateForm($claimID);
 				}
 			} else {
 				//Display an update form and get information
@@ -144,26 +156,6 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 			//display search form
 			include $includesfolder.'searchclaim.php';
 		}
-
-	} else if (isset($_GET['addclient'])){
-
-		//Add a new client, should be called only through a form
-		$newClientInfo['FName'] = $_POST['fm-firstname'];
-		$newClientInfo['MName'] = $_POST['fm-middlename'];
-		$newClientInfo['LName'] = $_POST['fm-lastname'];
-		$newClientInfo['Address'] = $_POST['fm-addr'];
-		$newClientInfo['City'] = $_POST['fm-city'];
-		$newClientInfo['PostalCode'] = $_POST['fm-postalcode'];
-		$newClientInfo['Province'] = $_POST['fm-province'];
-		$newClientInfo['Phone'] = $_POST['fm-telephone'];
-		$newClientInfo['Birthdate'] = $_POST['fm-birthdate'];
-		$newClientInfo['License_No'] = $_POST['fm-license_no'];
-		$newClientInfo['Gender'] = $_POST['fm-gender'];
-		$newClientInfo['Age'] = getAge($_POST['fm-birthdate']);
-		$newClientInfo['Company'] = $_POST['fm-company'];
-		$newClientInfo['Policy_No'] = $_POST['fm-policy'];
-		$clientinstance->addNewClientByArray($newClientInfo);
-		print "Client has been added<br />\n";
 	} else {
 		//Client home, display stats?
 		include $includesfolder.'displayclaimstats.php';

@@ -3,7 +3,7 @@
   <!-- p id="fm-intro" required for 'hide optional fields' function -->
   <p id="fm-intro">Fields in <strong>bold</strong> are required.</p>
 
-  <form name="addclaim" id="fm-form" method="post" action="claim.php?action=update&form" >
+  <form name="addclaim" id="fm-form" method="post" action="claim.php?action=update&form&claim=<?php print $claimID; ?>" >
     <fieldset>
     	<legend>Claim Information</legend>
     		 	<div class="fm-req">
