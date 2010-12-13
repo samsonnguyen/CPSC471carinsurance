@@ -18,6 +18,36 @@
     </div>
 	</form>
   
+  <?php // TODO Search by Policy ?>
+  <form name="searchid" id="fm-form" method="post" action="client.php?action=search&form=policy">
+
+<fieldset><legend>Search By Policy</legend>
+<div class="fm-req"><label for="fm-policyc">Company Policy:</label> <select
+	id="fm-policyc" name="fm-policyc">
+	<option value="" selected>Any</option>
+	<?php Policy::getAllCompanyPolicy(); ?>
+</select></div>
+<div class="fm-req"><label for="fm-policyp">Private Policy:</label> <select
+	id="fm-policyp" name="fm-policyp">
+	<option value="" selected>Any</option>
+	<?php Policy::getAllPrivatePolicy(); ?>
+</select></div>
+</fieldset>
+  <fieldset>
+			<div class="fm-multi">
+				<div class="fm-type">
+				<span>Policy Type:</span>
+				<label for="fm-typeprivate">
+				<input name="fm-type" type="radio" id="fm-typeprivate" value="p" checked="checked" />Private</label>
+				<label for="fm-typecompany">
+				<input name="fm-type" type="radio" id="fm-typecompany" value="c" />Company</label>
+				</div>
+		    </div>
+		</fieldset>
+<div id="fm-submit" class="fm-opt"><input name="Search" value="Search"
+	type="submit" /></div>
+</form>
+  
   <form name="searchclient" id="fm-form" method="post" action="client.php?action=search&form=info" >
 	<fieldset>
 	<legend>Search By Information</legend>

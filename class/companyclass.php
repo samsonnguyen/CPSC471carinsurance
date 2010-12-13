@@ -1,7 +1,6 @@
 <?php
 class company {
 	
-	// TODO Test
 	function addNewCompany($array) {
 		$keys = array_keys($array); //Return the keys of the array;
 		$sql = "INSERT INTO `Company` ("; //Set the first part of the SQL query
@@ -24,49 +23,115 @@ class company {
 		return true;
 	}
 	
-	// TODO Test
 	function deleteCompany($companyno){
 		$sql="DELETE FROM `Company` WHERE Commercial_License_No='$companyno'";
 		mysql_query($sql) or die(mysql_error());
 		return true;
 	}
 	
-	// TODO Incomplete
+	// TODO Test
 	static function getAllCompanies($selection){
-		
-	}
-	
-	// TODO Incomplete
-	function searchCompanies($fields){
-		
-	}
-	
-	// TODO Incomplete
-	function display2DArray($result){
-	if($result==null){
-			print "No results were found!<br />";
-		} else {
-			print "<table class=\"policy\"><tr><td><b>Policy Number</b></td><td><b>Premium Rate</b></td><td><b>Coverage</b></td>";
-			if($type == 1) {
-				print("</tr>");
-			} else {
-				print("<td><b>Num of Employees</b></td></tr>");
-			}
-			while($info = mysql_fetch_array($result)){
-				Print "<tr><td>";
-				if (($info['Policy_No']!=null) && ($info['Policy_No']!=0)){
-					print "<a href='policy.php?action=update&policy=".$info['Policy_No']."&type=1'>".$info['Policy_No']."</a>\n";
+		$companies = mysql_query("SELECT * FROM `Company`");// or die(mysql_error());
+		if($companies != null){
+			while($info = mysql_fetch_array($companies)){
+				echo("<option value=\"");
+				if (($info['Commercial_License_No']!=null) && ($info['Commercial_License_No']!=0)){
+					if($selection != null && $selection == $info['Commercial_License_No'])
+					echo($info['Commercial_License_No']."\" selected=\"selected\"> [ ");
+					else
+						echo($info['Commercial_License_No']."\"> [ ");
+					// Assume size 10 for license
+					for($i = floor(log10($info['Commercial_License_No']) + 1);$i < 10;$i++) { print("0"); }
+					echo($info['Commercial_License_No']." ]");
+					echo(" Name: ");
+					echo($info['CName']);
+					echo("</option>");
 				} else {
-					print $info['Policy_No'];
+					echo("-1\">");
+					echo("ERROR");
+					echo("</option>");
 				}
-				print "</td><td>".$info['Premium_Rate']."</td><td>".$info['Coverage']."</td>";
-				if($type == 0) {
-					print("<td>".$info['Num_of_Employees']."</td>");
+			}
+		} else {
+			echo("<option value=\"\" selected=\"selected\">None Exist</option>");
+		} 
+	}
+	
+	function searchCompanies($companyno,$policyid,$info){
+		$flag = '0';
+		$sql = "SELECT * FROM `Company` WHERE ";
+		// Company Number
+		if($companyno != null && $companyno != '0') {
+			$sql = $sql."Commercial_License_No='$companyno' ";
+			$flag = '1';
+		} 			
+		
+		// Policy Number
+		if($policyid != null && $policyid != '0') {
+			$sql = $sql."Policy_No='$policyid' ";
+			$flag = '1';
+		} 
+		
+		// Company Information
+		if($info != null) {
+			$keys = array_keys($info);
+			for ($i = 0; $i< count($keys); $i++){
+				if ($i==0){
+					$sql = $sql." ".$keys[$i]." LIKE '".$info[$keys[$i]]."'";
+				} else {
+					$sql = $sql." AND '".$keys[$i]."' LIKE '".$info[$keys[$i]]."'";
 				}
-				$this->printOptions($info['Policy_No'],$type);
+			}	
+			$flag = '1'; // This is probably unneeded but just in case.
+		}
+		if($flag == '0') { // Nothing was entered
+			$sql = "SELECT * FROM `Company`";
+		}
+		return mysql_query($sql);
+	}
+	
+	function display2DArray($result){
+		$flag = '0';
+		if($result==null) {
+			print "No results were found!<br />";
+			return;
+		} else {
+			while($info = mysql_fetch_array($result)){
+				if($flag == '0') {
+					$flag = '1';
+					print "<table class=\"company\"><tr>";
+					print "<td><b>Com Lic Number</b></td>";
+					print "<td><b>Name</b></td>";
+					print "<td><b>Address</b></td>";
+					print "<td><b>City</b></td>";
+					print "<td><b>Postal Code</b></td>";
+					print "<td><b>Province</b></td>";
+					print "<td><b>Phone</b></td>";
+					print "<td><b>Manager</b></td>";
+					print "<td><b>Policy</b></td>";
+					print "</tr>";
+				}
+				Print "<tr>";
+				if (($info['Commercial_License_No']!=null) && ($info['Commercial_License_No']!=0)){
+					print "<td><a href='company.php?action=update&company=".$info['Commercial_License_No']."'>".$info['Commercial_License_No']."</a>\n</td>";
+				} else {
+					print "<td>".$info['Commercial_License_No']."</td>";
+				}
+				print "<td>".$info['CName']."</td>";
+				print "<td>".$info['Address']."</td>";
+				print "<td>".$info['City']."</td>";
+				print "<td>".$info['PostalCode']."</td>";
+				print "<td>".$info['Province']."</td>";
+				print "<td>".$info['Phone']."</td>";
+				print "<td>".$info['Manager']."</td>";
+				print "<td><a href='policy.php?action=update&policy=".$info['Policy_No']."&type=0'>".$info['Policy_No']."</a>\n</td>";
+				$this->printOptions($info['Commercial_License_No']);
 				print "</tr>";
 			}
 			print "</table>";
+		}
+		if($flag == '0') {
+			print "No results were found!<br />";
 		}
 	}
 	
@@ -92,7 +157,7 @@ class company {
 			} else {
 				print "<td>".$info['Commercial_License_No']."</td>";
 			}
-			print "<td>".$info['Name']."</td>";
+			print "<td>".$info['CName']."</td>";
 			print "<td>".$info['Address']."</td>";
 			print "<td>".$info['City']."</td>";
 			print "<td>".$info['PostalCode']."</td>";
@@ -114,7 +179,7 @@ class company {
 		$sql = "SELECT * FROM `Company` WHERE Commercial_License_No='$companyno'";
 		$result = mysql_query($sql) or die(mysql_error());
 		$info = mysql_fetch_array($result,MYSQL_ASSOC);
-		include $includesfolder.'editcompany.php';
+		include 'includes/editcompany.php';
 	}
 	
 	function updateCompany($companyno, $array){

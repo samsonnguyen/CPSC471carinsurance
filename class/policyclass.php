@@ -345,6 +345,7 @@ class Policy {
 	 * @param boolean $printoptions Set whether to display delete, update, etc functions
 	 */
 	function display2DArray($result, $type){
+		$flag = '0';
 		if($result==null){
 			print "No results were found!<br />";
 		} else {
@@ -353,13 +354,16 @@ class Policy {
 			} elseif ($type == 0) {
 				print("<legend>Company Policy</legend>");
 			}
-			print "<table class=\"policy\"><tr><td><b>Policy Number</b></td><td><b>Premium Rate</b></td><td><b>Coverage</b></td>";
-			if($type == 1) {
-				print("</tr>");
-			} else {
-				print("<td><b>Num of Employees</b></td></tr>");
-			}
 			while($info = mysql_fetch_array($result)){
+				if($flag == '0') {
+					$flag = '1';
+					print "<table class=\"policy\"><tr><td><b>Policy Number</b></td><td><b>Premium Rate</b></td><td><b>Coverage</b></td>";
+					if($type == 1) {
+						print("</tr>");
+					} else {
+						print("<td><b>Num of Employees</b></td></tr>");
+					}
+				}
 				Print "<tr><td>";
 				if (($info['Policy_No']!=null) && ($info['Policy_No']!=0)){
 					print "<a href='policy.php?action=update&policy=".$info['Policy_No']."&type=1'>".$info['Policy_No']."</a>\n";
@@ -374,6 +378,9 @@ class Policy {
 				print "</tr>";
 			}
 			print "</table>";
+		}
+		if($flag == '0') {
+			print "No results were found!<br />";
 		}
 	}
 	

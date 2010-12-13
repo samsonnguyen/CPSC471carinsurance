@@ -85,18 +85,22 @@
       <input id="fm-telephone" name="fm-telephone" type="text" title="Enter Phone Number in xxx-xxx-xxxx format"  value="<?php print $_POST['fm-telephone'];?>" />
     </div>
     </fieldset>
+    
     <fieldset>
     <legend>Policy Information</legend>
  	<div class="fm-opt"><label for="fm-policy">Private Policy:</label> <select
 	id="fm-policy" name="fm-policy">
+	<option value="" selected>None</option>
 	<?php Policy::getAllPrivatePolicy(); ?>
-	</select></div>
+	</select> Select 'None' for company policy.</div>
 	<b>OR</b><br/>
-    <div class="fm-opt">
-    	<label for="fm-company">Company:</label>
-    	<input id="fm-company" name="fm-company" type="text"></input><i> (Leave blank for private policy)</i>
-    </div>
+	<div class="fm-opt"><label for="fm-company">Company:</label> <select
+	id="fm-company" name="fm-company">
+	<option value="" selected>None</option>
+	<?php Company::getAllCompanies(); ?>
+	</select></div>
     </fieldset>
+    
     <fieldset>
     <legend>Driving History</legend>
     <div class="fm-req">

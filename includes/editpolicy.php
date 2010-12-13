@@ -3,11 +3,11 @@
 	<p id="fm-intro">Fields in <strong>bold</strong> are required.</p>
 	
 
-	<form <?php if($type==1){ print('name="addprivatepolicy"'); } else { print('name="addcompanypolicy"'); } ?> id="fm-form" method="post" action="policy.php?action=update&policy=<?php print $policyid?>&type=<?php print $type ?>&form" >
+	<form <?php if($type==1){ print('name="editprivatepolicy"'); } else { print('name="editcompanypolicy"'); } ?> id="fm-form" method="post" action="policy.php?action=update&policy=<?php print $policyid?>&type=<?php print $type ?>&form" >
 		<fieldset>
 		<?php if($type==1){ print('<legend>Private Policy Information</legend>'); } else { print('<legend>Company Policy Information</legend>'); } ?>
 		<div class="fm-opt">
-	    	<label for="fm-policyid">Client ID:</label>
+	    	<label for="fm-policyid">Policy ID:</label>
     		<input name="fm-policyid" disabled id="fm-policyid" type="text" value="<?php print $policyid;?>"/>
     	</div>
 		<div class="fm-req">

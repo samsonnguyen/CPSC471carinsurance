@@ -5,6 +5,7 @@ require $classfolder.'clientclass.php';
 require $classfolder.'vehicleclass.php';
 require $classfolder.'ticketclass.php';
 require $classfolder.'policyclass.php';
+require $classfolder.'companyclass.php';
 require $includesfolder.'functions.php';
 include $includesfolder.'header.php';
 
