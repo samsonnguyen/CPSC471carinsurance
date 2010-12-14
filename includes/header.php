@@ -12,7 +12,8 @@
 	<div id="page">
 		<!-- HEADER -->
 		<div id="header">
-			<a href="index.php"><h2><?php echo $sitename;?></h2></a>
+			<a href="index.php"><h2><?php echo $sitename;?></h2></a><br />
+			<span>By: Devin Chollak, Malik Yussuf, Samson Nguyen</span>
 		</div>
 		<!-- //HEADER -->
 		
