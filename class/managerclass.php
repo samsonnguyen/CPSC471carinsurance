@@ -262,6 +262,7 @@ class Manager{
 			$this->appendErrorMsg("Price must be numeric");
 			$errorFlag = false;
 		}
+		return $errorFlag;
 	}
 	/**
 	 * Append an error message to be displayed

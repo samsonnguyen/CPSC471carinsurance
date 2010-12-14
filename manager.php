@@ -103,7 +103,17 @@ if (isLoggedIn() && (getUserPermissions()>='2')){
 			//No form data, we display a form
 			include $includesfolder."searchemployee.php";
 		}
-	}else {
+	} else if ($_GET['action']=='premium'){
+		if (isset($_GET['form'])){
+			if ($premiuminstance->batchPremiumUpdate()){
+				print "Success!";
+			} else {
+				print "Error: Could not update all policies!";
+			}	
+		} else {
+			include $includesfolder."updatepremium.php";
+		}
+	} else {
 		//Manager home, display Employees stats
 		include $includesfolder.'displayemployeestats.php';
 
