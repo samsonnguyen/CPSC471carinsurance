@@ -96,15 +96,15 @@ class premiumClass{
 		$premium = $this->base_price; //Set initial base price
 		if ($isCompany){
 			//Policy exists in the company policy
-			$sql = "SELECT Coverage, Num_Of_Employees, Premium FROM Company_Policy WHERE Policy_No='$policy_no'";
-			$result = mysql_query($sql);
+			$sql = "SELECT Coverage, Num_Of_Employees, Premium_Rate FROM Company_Policy WHERE Policy_No='$policy_no'";
+			$result = mysql_query($sql) or die(mysql_error());
 			$policy = mysql_fetch_assoc($result);
 			//print $policy['Num_Of_Employees'];
 			$premium = $premium + ($policy['Num_Of_Employees']*COMPANY_EMP_MULTIPLE);
 			//print $premium;
 		} else {
 			//Policy exists in the private policy
-			$sql = "SELECT Coverage FROM Private_Policy, Premium WHERE Policy_No='$policy_no'";
+			$sql = "SELECT Coverage, Premium_Rate FROM Private_Policy WHERE Policy_No='$policy_no'";
 			$result = mysql_query($sql) or die(mysql_error());
 			$policy = mysql_fetch_assoc($result);
 		}
@@ -152,19 +152,19 @@ class premiumClass{
 		while ($client = mysql_fetch_array($privateresult,MYSQL_ASSOC)){
 			//Private
 			$clientRisk = $this->calculateClientRisk($client['Client_ID']); //Clients risk
-			println("Client ".$client['Client_ID']." : ".$clientRisk);
+			//println("Client ".$client['Client_ID']." : ".$clientRisk);
 			$sql = "SELECT VIN FROM Vehicle WHERE Client_ID='".$client['Client_ID']."'"; //Get all vehicles from this client
 			$result = mysql_query($sql) or die(mysql_error());
 			$vehiclerisk=0;
 			while($vehicle = mysql_fetch_row($result)){
 				$vehiclerisk = $vehiclerisk + $this->calculateVehicleRisk($vehicle[0]); //for every vehicle add it's risk
-				println("Client ".$client['Client_ID']." : v ".$vehiclerisk);
+				//println("Client ".$client['Client_ID']." : v ".$vehiclerisk);
 			}
 			$premium = $this->calculatePremium($client['Policy_No'],$clientRisk,$vehiclerisk, false);
 			//update
 			$sql = "UPDATE Private_Policy SET Premium_Rate='$premium' WHERE Policy_No='".$client['Policy_No']."'";
 			mysql_query($sql) or die(mysql_error());
-			print "Private ".$client["Policy_No"]." : ".$premium."<br />\n";
+			//print "Private ".$client["Policy_No"]." : ".$premium."<br />\n";
 			
 		}
 		
@@ -184,7 +184,7 @@ class premiumClass{
 			//Update
 			$sql = "UPDATE Company_Policy SET Premium_Rate='$premium' WHERE Policy_No='".$client['Policy_No']."'";
 			mysql_query($sql) or die(mysql_error());
-			print "Company ".$client['Policy_No']." : ".$premium."<br />\n";
+			//print "Company ".$client['Policy_No']." : ".$premium."<br />\n";
 		}
 		return true;
 	}
@@ -202,9 +202,21 @@ class premiumClass{
 		$this->base_price = $price; // sets the base price for premiums;
 	}
 
+	/**
+	 * Returns the base price
+	 */
 	public function getBasePrice(){
 		return $this->base_price; // returns the base price for premiums;
 	}
 
+	/**
+	 * Clears all premiums
+	 */
+	public function clearPremiums(){
+		$sql = "UPDATE Company_Policy SET Premium_Rate='1'";
+		mysql_query($sql) or die(mysql_error());
+		$sql = "UPDATE Private_Policy SET Premium_Rate='1'";
+		mysql_query($sql) or die(mysql_error());
+	}
 }
 ?>

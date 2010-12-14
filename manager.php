@@ -110,6 +110,10 @@ if (isLoggedIn() && (getUserPermissions()>='2')){
 			} else {
 				print "Error: Could not update all policies!";
 			}	
+		} else if (isset($_GET['clear'])){
+			//Clear all premiums
+			$premiuminstance->clearPremiums();
+			print "Premiums Cleared";
 		} else {
 			include $includesfolder."updatepremium.php";
 		}
