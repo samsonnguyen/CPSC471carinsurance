@@ -37,26 +37,26 @@ class Vehicle{
 		$vehicles = mysql_query("SELECT * FROM `Vehicle`");// or die(mysql_error());
 		if($vehicles != null){
 			while($info = mysql_fetch_array($vehicles)){
-				echo("<option value=\"");
+				print("<option value=\"");
 				if ($info['VIN']!=null){
 					if($selection != null && $selection == $info['VIN'])
-						echo($info['VIN']."\" selected=\"selected\"> [ ");
+						print($info['VIN']."\" selected=\"selected\"> [ ");
 					else
-						echo($info['VIN']."\"> [ ");
-					echo($info['VIN']." ]");
-					echo(" Make: ");
-					echo($info['Make']);
-					echo(" Model: ");
-					echo($info['Model']." ".$info['Trim']);
-					echo("</option>");
+						print($info['VIN']."\"> [ ");
+					print($info['VIN']." ]");
+					print(" Make: ");
+					print($info['Make']);
+					print(" Model: ");
+					print($info['Model']." ".$info['Trim']);
+					print("</option>");
 				} else {
-					echo("-1\">");
-					echo("ERROR");
-					echo("</option>");
+					print("-1\">");
+					print("ERROR");
+					print("</option>");
 				}
 			}
 		} else {
-			echo("<option value=\"\" selected=\"selected\">None Exist</option>");
+			print("<option value=\"\" selected=\"selected\">None Exist</option>");
 		} 
 	}
 	
@@ -252,12 +252,16 @@ class Vehicle{
 			$this->appendErrorMsg("VIN number is required");
 			$errorFlag=false;
 		}
+		$currentDate = getdate();
 		if (trim($array['Year'])==''){
 			$this->appendErrorMsg("Year is required");
 			$errorFlag=false;
 		} else if (!preg_match("/^[0-9]{4,4}$/", $array['Year'])){
 			$this->appendErrorMsg("Year must be 4 digits");
 			$errorFlag=false;
+		} else if ($array['Year']>($currentDate[year]+1)){
+			$this->appendErrorMsg("Vehicle Year must be less than ".($currentDate[year]+1)." ");
+			$errorFlag = false;			
 		}
 		if (trim($array['Value'])==''){
 			$this->appendErrorMsg("Estimated value is required");
@@ -265,6 +269,9 @@ class Vehicle{
 		} else if (!preg_match("/^[0-9]{1,}$/", $array['Value'])){
 			$this->appendErrorMsg("Value must numerical");
 			$errorFlag=false;
+		} else if ($array['Value']>1000000){
+			$this->appendErrorMsg("Sorry, our company does not ensure vehicles valued at over $1 million");
+			$errorFlag = false;
 		}
 		if (trim($array['Client_ID'])==''){
 			$this->appendErrorMsg("Client ID is required");
@@ -279,6 +286,9 @@ class Vehicle{
 		} else if (!preg_match("/^[0-9]{1,}$/", $array['Ave_Daily_Miles'])){
 			$this->appendErrorMsg("Estimated average daily mileage(Kms) must be numerical");
 			$errorFlag=false;
+		} else if ($array['Ave_Daily_Miles'] > 200){
+			$this->appendErrorMsg("Average Daily miles cannot exeed 200kms/day");
+			$errorFlag=flase;
 		}
 		if (trim($array['Type'])==""){
 			$this->appendErrorMsg("Please choose a vehicle type");

@@ -11,4 +11,14 @@
 		</div>
     </fieldset>
 	</form>
+	<form name="premium" id="fm-form" method="post" action="manager.php?action=premium&clear" >
+    <fieldset>
+    	<legend>Clear All Premiums</legend>
+    	<p>By pressing this button all premiums for all policies will be reset to 0.</p>
+    	<p>Warning: This process is irreversible.</p>
+    	<div id="fm-submit" class="fm-req">
+		<input name="Submit" value="Clear"	type="submit" />
+		</div>
+    </fieldset>
+	</form>
 </div>

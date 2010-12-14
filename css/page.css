@@ -307,3 +307,13 @@ td {
 	padding: 10px;
 	margin: 0 auto;
 }
+div#header {
+	background: url('../images/header.jpg') right;
+	height: 99px;
+	display:block;
+	padding-top: 20px;
+}
+#header H2, #header span{
+	margin: 0;
+	margin-left: 20px;
+}

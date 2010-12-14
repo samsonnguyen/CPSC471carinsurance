@@ -35,26 +35,25 @@ class company {
 		$companies = mysql_query("SELECT * FROM `Company`");// or die(mysql_error());
 		if($companies != null){
 			while($info = mysql_fetch_array($companies)){
-				echo("<option value=\"");
+				print("<option value=\"");
 				if (($info['Commercial_License_No']!=null) && ($info['Commercial_License_No']!=0)){
 					if($selection != null && $selection == $info['Commercial_License_No'])
-					echo($info['Commercial_License_No']."\" selected=\"selected\"> [ ");
+					print($info['Commercial_License_No']."\" selected=\"selected\"> [ ");
 					else
-						echo($info['Commercial_License_No']."\"> [ ");
+						print($info['Commercial_License_No']."\"> [ ");
 					// Assume size 10 for license
-					for($i = floor(log10($info['Commercial_License_No']) + 1);$i < 10;$i++) { print("0"); }
-					echo($info['Commercial_License_No']." ]");
-					echo(" Name: ");
-					echo($info['CName']);
-					echo("</option>");
+					print(str_pad($info['Commercial_License_No'],10,"0",STR_PAD_LEFT)." ]");
+					print(" Name: ");
+					print($info['CName']);
+					print("</option>");
 				} else {
-					echo("-1\">");
-					echo("ERROR");
-					echo("</option>");
+					print("-1\">");
+					print("ERROR");
+					print("</option>");
 				}
 			}
 		} else {
-			echo("<option value=\"\" selected=\"selected\">None Exist</option>");
+			print("<option value=\"\" selected=\"selected\">None Exist</option>");
 		} 
 	}
 	

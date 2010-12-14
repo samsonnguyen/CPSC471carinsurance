@@ -32,28 +32,26 @@ class Client{
 		$clients = mysql_query("SELECT * FROM `Client`");// or die(mysql_error());
 		if($clients != null){
 			while($info = mysql_fetch_array($clients)){
-				echo("<option value=\"");
+				print("<option value=\"");
 				if (($info['Client_ID']!=null) && ($info['Client_ID']!=0)){
 					if($selection != null && $selection == $info['Client_ID'])
-						echo($info['Client_ID']."\" selected=\"selected\"> [ ");
+						print($info['Client_ID']."\" selected=\"selected\"> [ ");
 					else
-						echo($info['Client_ID']."\"> [ ");
+						print($info['Client_ID']."\"> [ ");
 					// Assume size 10 for license
-					for($i = floor(log10($info['Client_ID']) + 1);$i < 6;$i++) { print("0"); }
-					echo($info['Client_ID']." ] LicNo: ");
-					for($i = floor(log10($info['License_No']) + 1);$i < 10;$i++) { print("0"); }
-					echo($info['License_No']);
-					echo(" Name: ");
-					echo($info['FName']." ".$info['MName']." ".$info['LName']);
-					echo("</option>");
+					print(str_pad($info['Client_ID'],5,"0",STR_PAD_LEFT)." ] LicNo: ");
+					print(str_pad($info['License_No'],10,"0",STR_PAD_LEFT));
+					print(" Name: ");
+					print($info['FName']." ".$info['MName']." ".$info['LName']);
+					print("</option>");
 				} else {
-					echo("-1\">");
-					echo("ERROR");
-					echo("</option>");
+					print("-1\">");
+					print("ERROR");
+					print("</option>");
 				}
 			}
 		} else {
-			echo("<option value=\"\" selected=\"selected\">None Exist</option>");
+			print("<option value=\"\" selected=\"selected\">None Exist</option>");
 		} 
 	}
 	
@@ -96,21 +94,21 @@ class Client{
 		$returnString = array();
 		$sql = "SELECT * FROM Client ORDER BY Client_ID ASC LIMIT $offset, $limit";
 		$data_p = mysql_query($sql);
-		echo "<table class=\"clients\"><tr><td>Client ID</td><td>Name</td><td>License Number</td><td>Policy Number</td></tr>";
+		print "<table class=\"clients\"><tr><td>Client ID</td><td>Name</td><td>License Number</td><td>Policy Number</td></tr>";
 		while($info = mysql_fetch_array( $data_p )){
-			echo "<tr><td><a href='client.php?action=update&client=".$info['Client_ID']."'>".$info['Client_ID']."</a></td><td>";
-			echo $info['FName']." ".$info['MName']." ".$info['LName']."</td><td>";
-			echo $info['License_No']."</td><td>";
-			echo "<a href='policy.php?action=update&policy=".$info['Policy_No']."&type=";
+			print "<tr><td><a href='client.php?action=update&client=".$info['Client_ID']."'>".$info['Client_ID']."</a></td><td>";
+			print $info['FName']." ".$info['MName']." ".$info['LName']."</td><td>";
+			print $info['License_No']."</td><td>";
+			print "<a href='policy.php?action=update&policy=".$info['Policy_No']."&type=";
 			if($info['Company'] == 0 || $info['Company'] == null) { // Private Policy if true
-				echo "1'>P".$info['Policy_No']."</a></td>";
+				print "1'>P".$info['Policy_No']."</a></td>";
 			} else { // Company Policy since false
-				echo "0'>C".$info['Policy_No']."</a></td>";
+				print "0'>C".$info['Policy_No']."</a></td>";
 			}
 			$this->printOptions($info['Client_ID']);
-			echo "</tr>";
+			print "</tr>";
 		}
-		echo "</table>";
+		print "</table>";
 	}
 
 	/**
@@ -257,6 +255,7 @@ class Client{
 	 */
 	function validateData($array){
 		$errorFlag=true;
+		$currentDate = getdate(); //get current date
 		if (trim($array['FName'])==''){
 			$this->appendErrorMsg("First Name is required");
 			$errorFlag = false;
@@ -274,6 +273,9 @@ class Client{
 			$errorFlag = false;
 		} else if (!preg_match("/^[0-9]{4,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2}$/", $array['Birthdate'])){
 			$this->appendErrorMsg("Date should be in the format yyyy-mm-dd");
+			$errorFlag = false;
+		} else if (getAge($array['Birthdate'])<16 || getAge($array['Birthdate'])> 100){
+			$this->appendErrorMsg("Sorry, we do not provide coverage to drivers under the age of 16 or over the age of 100");
 			$errorFlag = false;
 		}
 		if (trim($array['PostalCode'])==''){
