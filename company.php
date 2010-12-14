@@ -44,6 +44,8 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 				$newCompanyInfo['Manager'] = $_POST['fm-manager'];
 				$newCompanyInfo['Policy_No'] = $_POST['fm-policy'];
 				if ($companyinstance->validateData($newCompanyInfo)){
+					if($newCompanyInfo['Commercial_License_No'] == $companyno)
+						unset($newCompanyInfo['Commercial_License_No']);
 					if ($companyinstance->updateCompany($companyno,$newCompanyInfo)){
 						print "Company ".$companyno." successfully updated<br />\n";
 						print "<a href='company.php?action=update&company=".$companyno."'>Return to Edit Page</a>\n";
