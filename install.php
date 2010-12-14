@@ -91,7 +91,6 @@ mysql_query("CREATE TABLE Vehicle
 		Trim			VARCHAR(10),
 		Color			VARCHAR(10),
 		Value			INT,
-		Risk			INT,
 		License_Plate_No	VARCHAR(8)		NOT NULL,
 		Ave_Daily_Miles	INT,
 		#_Of_Wheels		SHORTINT,
