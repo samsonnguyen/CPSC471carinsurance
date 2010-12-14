@@ -37,26 +37,26 @@ class Vehicle{
 		$vehicles = mysql_query("SELECT * FROM `Vehicle`");// or die(mysql_error());
 		if($vehicles != null){
 			while($info = mysql_fetch_array($vehicles)){
-				echo("<option value=\"");
+				print("<option value=\"");
 				if ($info['VIN']!=null){
 					if($selection != null && $selection == $info['VIN'])
-						echo($info['VIN']."\" selected=\"selected\"> [ ");
+						print($info['VIN']."\" selected=\"selected\"> [ ");
 					else
-						echo($info['VIN']."\"> [ ");
-					echo($info['VIN']." ]");
-					echo(" Make: ");
-					echo($info['Make']);
-					echo(" Model: ");
-					echo($info['Model']." ".$info['Trim']);
-					echo("</option>");
+						print($info['VIN']."\"> [ ");
+					print($info['VIN']." ]");
+					print(" Make: ");
+					print($info['Make']);
+					print(" Model: ");
+					print($info['Model']." ".$info['Trim']);
+					print("</option>");
 				} else {
-					echo("-1\">");
-					echo("ERROR");
-					echo("</option>");
+					print("-1\">");
+					print("ERROR");
+					print("</option>");
 				}
 			}
 		} else {
-			echo("<option value=\"\" selected=\"selected\">None Exist</option>");
+			print("<option value=\"\" selected=\"selected\">None Exist</option>");
 		} 
 	}
 	

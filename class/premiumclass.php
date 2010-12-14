@@ -213,9 +213,9 @@ class premiumClass{
 	 * Clears all premiums
 	 */
 	public function clearPremiums(){
-		$sql = "UPDATE Company_Policy SET Premium_Rate='1'";
+		$sql = "UPDATE Company_Policy SET Premium_Rate='0'";
 		mysql_query($sql) or die(mysql_error());
-		$sql = "UPDATE Private_Policy SET Premium_Rate='1'";
+		$sql = "UPDATE Private_Policy SET Premium_Rate='0'";
 		mysql_query($sql) or die(mysql_error());
 	}
 }

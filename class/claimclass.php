@@ -124,16 +124,16 @@ class Claim{
 			print "</td><td>".$info['Amount']."</td><td>".$info['Date']."</td><td>";
 			switch($info['Status']){
 				case '0':
-					echo "Pending";
+					print "Pending";
 					break;
 				case '1':
-					echo "Completed";
+					print "Completed";
 					break;
 				case '2':
-					echo "Filed";
+					print "Filed";
 					break;
 				case '3':
-					echo "Declined";
+					print "Declined";
 					break;
 			}
 
