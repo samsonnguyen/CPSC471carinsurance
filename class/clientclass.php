@@ -257,6 +257,7 @@ class Client{
 	 */
 	function validateData($array){
 		$errorFlag=true;
+		$currentDate = getdate(); //get current date
 		if (trim($array['FName'])==''){
 			$this->appendErrorMsg("First Name is required");
 			$errorFlag = false;
@@ -274,6 +275,9 @@ class Client{
 			$errorFlag = false;
 		} else if (!preg_match("/^[0-9]{4,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2}$/", $array['Birthdate'])){
 			$this->appendErrorMsg("Date should be in the format yyyy-mm-dd");
+			$errorFlag = false;
+		} else if (getAge($array['Birthdate'])<16 || getAge($array['Birthdate'])> 100){
+			$this->appendErrorMsg("Sorry, we do not provide coverage to drivers under the age of 16 or over the age of 100");
 			$errorFlag = false;
 		}
 		if (trim($array['PostalCode'])==''){

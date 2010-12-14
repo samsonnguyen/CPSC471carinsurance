@@ -229,6 +229,9 @@ class Ticket{
 		} else if (!preg_match("/^[0-9]{4,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2}$/", $array['Date'])){
 			$this->appendErrorMsg("Date is not valid");
 			$errorFlag = false;
+		} else if (getAge($array['Date'])<0){
+			$this->appendErrorMsg("Date is not within a valid range");
+			$errorFlag = false;
 		}
 		if (trim($array['Officer_Name'])==""){
 			$this->appendErrorMsg("Officer Name is required");

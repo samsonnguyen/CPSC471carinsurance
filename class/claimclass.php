@@ -423,6 +423,7 @@ class Claim{
 	 */
 	function validateData($array,$array2, $array3){
 		$errorFlag=true;
+		$currentDate = getdate(); //retrieve the current date
 		if (!preg_match("/^[0-9]{1,}$/", $array['Amount'])){
 			$this->appendErrorMsg("Claim Amount is required");
 			$errorFlag = false;
@@ -432,6 +433,9 @@ class Claim{
 			$errorFlag = false;
 		} else if (!preg_match("/^[0-9]{4,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2}$/", $array['Date'])){
 			$this->appendErrorMsg("Date is not valid");
+			$errorFlag = false;
+		} else if (getAge($array['Date']) > 10 || getAge($array['Date'])< 0){
+			$this->appendErrorMsg("Date is not within a valid range");
 			$errorFlag = false;
 		}
 		if (trim($array2['Party_Name'])==''){
@@ -455,6 +459,9 @@ class Claim{
 		}
 		if (!preg_match("/^[0-9]{4}$/", $array2['Vehicle_Year'])){
 			$this->appendErrorMsg("Vehicle Year is not valid");
+			$errorFlag = false;
+		} else if ($array2['Vehicle_Year']>($currentDate[year]+1)){
+			$this->appendErrorMsg("Vehicle year cannot be greater than ".($currentDate[year]+1)."");
 			$errorFlag = false;
 		}
 		if (trim($array2['Vehicle_Make'])==""){
