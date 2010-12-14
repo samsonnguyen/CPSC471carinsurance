@@ -23,13 +23,13 @@
 <fieldset><legend>Search By Policy</legend>
 <div class="fm-req"><label for="fm-policyp">Private Policy:</label> <select
 	id="fm-policyp" name="fm-policyp">
-	<option value="" selected>Any</option>
-	<?php Policy::getAllPrivatePolicy(); ?>
+	<option value="*" selected>Any</option>
+	<?php Policy::getAllPrivatePolicy(null); ?>
 </select></div>
 <div class="fm-req"><label for="fm-policyc">Company Policy:</label> <select
 	id="fm-policyc" name="fm-policyc">
-	<option value="" selected>Any</option>
-	<?php Policy::getAllCompanyPolicy(); ?>
+	<option value="*" selected>Any</option>
+	<?php Policy::getAllCompanyPolicy(null); ?>
 </select></div>
 </fieldset>
   <fieldset>

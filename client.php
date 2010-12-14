@@ -165,6 +165,12 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 			}
 			$clients = $clientinstance->searchByInfo($temp);
 			$clientinstance->display2DArray($clients, true);
+		} else if ($_GET['form']=='policy'){
+			unset($temp);//Make sure temp is clear
+			$temp['Policy_No'] = convertToLike($_POST['fm-policyp']);
+			$temp['Company'] = convertToLike($_POST['fm-policyc']);
+			$clients = $clientinstance->searchByInfo($temp);
+			$clientinstance->display2DArray($clients, true);
 		} else {
 			//display search form
 			include $includesfolder.'searchclient.php';
