@@ -88,7 +88,7 @@ class Manager{
 	 * @param unknown_type $username
 	 */
 	function searchByUsername($username){
-		$sql = "SELECT * FROM Employees WHERE Username='$username'";
+		$sql = "SELECT * FROM Employees WHERE Username LIKE '$username'";
 		$result = mysql_query($sql) or die(mysql_error());
 		$i = 0;
 		while ($info = mysql_fetch_array($result,MYSQL_ASSOC)){ //while more results

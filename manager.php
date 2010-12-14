@@ -93,7 +93,7 @@ if (isLoggedIn() && (getUserPermissions()>='2')){
 			$managerinstance->display2DArray($employees, true);
 		} else if ($_GET['form']=='username'){
 			//Search by username
-			$employees = $managerinstance->searchByUsername($_POST['fm-username']);
+			$employees = $managerinstance->searchByUsername(convertToLike($_POST['fm-username']));
 			$managerinstance->display2DArray($employees, true);
 		} else if ($_GET['form']=='permissions'){
 			//Search by permission level (2 = manager)
