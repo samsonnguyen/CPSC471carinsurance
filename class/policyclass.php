@@ -107,11 +107,11 @@ class Policy {
 			if($flag == '1')
 				$sql = $sql."&& ";
 				
-			if($policyrate['min'] <= '0') {
+			if($policyrate['min'] < '0') {
 				println("Error: Policy Min Rate less than zero");
 				return null;
 			}				
-			if($policyrate['max'] <= '0') {
+			if($policyrate['max'] < '0') {
 				println("Error: Policy Max Rate less than zero");
 				return null;
 			}	
@@ -122,13 +122,13 @@ class Policy {
 				println("Error: Policy Rate Max less than Policy Rate Min");
 				return null;
 			} else {
-				$sql = $sql."Premium_Rate BETWEEN '".$policyrate['min']."' AND ".$policyrate['max']."' ";
+				$sql = $sql."Premium_Rate BETWEEN '".$policyrate['min']."' AND '".$policyrate['max']."' ";
 			}
+			//print $sql;
 			$flag = 1;
 		} elseif($policyrate['min'] != null) {
 			if($flag == '1')
 				$sql = $sql."&& ";
-				
 			if($policyrate['min'] <= '0') {
 				println("Error: Policy Min Rate less than zero");
 				return null;
@@ -156,8 +156,9 @@ class Policy {
 				println("Error: Policy Cover Max less than Policy Cover Min");
 				return null;
 			} else {
-				$sql = $sql."Coverage BETWEEN '".$policycover['min']."' AND ".$policycover['max']."' ";
+				$sql = $sql."Coverage BETWEEN '".$policycover['min']."' AND '".$policycover['max']."' ";
 			}
+			print $sql;
 			$flag = 1;
 		} elseif($policycover['min'] != '-1') {
 			if($flag == '1')

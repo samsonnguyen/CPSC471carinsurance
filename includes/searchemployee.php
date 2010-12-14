@@ -21,6 +21,7 @@
   <form name="searchusername" id="fm-form" method="post" action="manager.php?action=search&form=username" >
 	<fieldset>
 	<legend>Search By Username</legend>
+	<p>User * for wildcard</p>
     <div class="fm-req">
       <label for="fm-username">Username:</label>
       <input name="fm-username" id="fm-username" type="text" />
