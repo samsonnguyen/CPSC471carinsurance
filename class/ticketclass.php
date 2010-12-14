@@ -100,12 +100,16 @@ class Ticket{
 	 * @param unknown_type $array
 	 */
 	function searchByInfo($array){
-		$sql = "SELECT * FROM Ticket WHERE";
+		$flag = '0';
+		$sql = "SELECT * FROM Ticket";
 		$keys = array_keys($array);
 		for ($i = 0; $i< count($keys); $i++){
+			if($flag == '0') {
+				$flag = '1';
+				$sql = $sql." WHERE ";	
+			}
 			$sql = $sql." ".$keys[$i]." LIKE '".$array[$keys[$i]]."'";
 		}
-		//print $sql;
 		$result = mysql_query($sql) or die(mysql_error());
 		$i = 0;
 		while ($info = mysql_fetch_array($result,MYSQL_ASSOC)){ //While more results

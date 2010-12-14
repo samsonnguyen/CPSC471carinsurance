@@ -59,7 +59,7 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 				$newTicketInfo['Officer_Name'] = $_POST['fm-officer_name'];
 				$newTicketInfo['Officer_No'] = $_POST['fm-officer_no'];
 				$newTicketInfo['Classification'] = $_POST['fm-classification'];
-				$newTicketInfo['Date'] = $_POST['fm-date'];
+				$newTicketInfo['Date'] = $_POST['fm-year']."-".$_POST['fm-month']."-".$_POST['fm-day'];
 				if ($ticketinstance->validateData($newTicketInfo)){
 					if ($ticketinstance->updateTicket($infraction_no,$newTicketInfo)){
 						print "Ticket ".$infraction_no." successfully updated<br />\n";
@@ -93,7 +93,9 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 			$temp['Officer_Name'] = $_POST['fm-officer_name'];
 			$temp['Officer_No'] = $_POST['fm-officer_no'];
 			$temp['Classification'] = $_POST['fm-classification'];
-			$temp['Date'] = $_POST['fm-date'];
+			$tempdate['year'] = $_POST['fm-year'];
+			$tempdate['month'] = $_POST['fm-month'];
+			$tempdate['day'] = $_POST['fm-day'];
 			//Check officer name
 			if (strlen($temp['Officer_Name']) < 1){
 				unset($temp['Officer_Name']);
@@ -107,17 +109,25 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 				$temp['Officer_No'] = convertToLike($temp['Officer_No']);
 			}
 			//check classification
-			if (strlen($temp['Classification']) < 1){ //empty
+			if (strlen($temp['Classification']) < 1 || $temp['Classification'] == "*"){ //empty
 				unset($temp['Classification']);
 			} else {
 				$temp['Classification'] = convertToLike($temp['Classification']);
 			}
 			//check date
-			if (strlen($temp['Date']) < 1){ //empty
-				unset($temp['Date']);
-			} else {
-				$temp['Date'] = convertToLike($temp['Date']);
+			if($tempdate['year'] == null || $tempdate['year'] == "" || $tempdate['year'] == "*") {
+				$tempdate['year'] = "%";
 			}
+			if($tempdate['month'] == "*") {
+				$tempdate['month'] = "%";
+			}
+			if($tempdate['day'] == "*") {
+				$tempdate['day'] = "%";
+			}
+			$temp['Date'] = $tempdate['year']."-".$tempdate['month']."-".$tempdate['day'];
+			if($tempdate['year'] == "%" && $tempdate['month'] == "%" && $tempdate['day'] == "%")
+				unset($temp['Date']);
+				
 			$tickets = $ticketinstance->searchByInfo($temp);
 			$ticketinstance->display2DArray($tickets, true); //display the result
 		}

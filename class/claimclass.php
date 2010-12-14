@@ -108,7 +108,6 @@ class Claim{
 	 * @param unknown_type $offset
 	 * @param unknown_type $limit
 	 */
-	// TODO change At Fault to True/False
 	function listClaims($offset,$limit){
 		$sql = "SELECT * FROM Claim ORDER BY Claim_No ASC LIMIT $offset, $limit ";
 		//print $sql;
