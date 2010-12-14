@@ -126,14 +126,16 @@
 	</fieldset>
 	<fieldset>
 		<legend>Client Involved with this Claim</legend>
-		<div class="fm-req">
-			<label for="fm-cl-clientid">Client ID:</label>
-			<input id="fm-cl-clientid" name="fm-cl-clientid" type="text" <?php print "value=\"".$claims['Client_ID']."\" ";?> />
-		</div>
-		<div class="fm-req">
-			<label for="fm-cl-vin">Vehicle VIN:</label>
-			<input id="fm-cl-vin" name="fm-cl-vin" type="text" <?php print "value=\"".$claims['VIN']."\" ";?> />
-		</div>
+		<div class="fm-req"><label for="fm-cl-clientid"><a href="client.php?action=update&client=<?php print $claims['Client_ID']?>">Client:</a></label> <select
+	id="fm-cl-clientid" name="fm-cl-clientid">
+	<?php Client::getAllClients($claims['Client_ID']); ?>
+	</select></div>
+	
+	<div class="fm-req"><label for="fm-cl-vin"><a href="vehicle.php?action=update&vehicle=<?php print $claims['VIN']?>">Vehicle VIN:</a></label> <select
+	id="fm-cl-vin" name="fm-cl-vin">
+	<?php Vehicle::getAllVehicles($claims['VIN']); ?>
+	</select></div>
+
 	</fieldset>
 	<div class="fm-multi">
 		<div class="fm-atfault">

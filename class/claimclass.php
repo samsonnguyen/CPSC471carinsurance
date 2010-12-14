@@ -108,7 +108,6 @@ class Claim{
 	 * @param unknown_type $offset
 	 * @param unknown_type $limit
 	 */
-	// TODO change At Fault to True/False
 	function listClaims($offset,$limit){
 		$sql = "SELECT * FROM Claim ORDER BY Claim_No ASC LIMIT $offset, $limit ";
 		//print $sql;
@@ -371,7 +370,8 @@ class Claim{
 				AND Claim.Claim_No=Claims.Claim_No";
 		$keys = array_keys($array);
 		for ($i = 0; $i< count($keys); $i++){
-			$sql = $sql." AND ".$keys[$i]." LIKE '".$array[$keys[$i]]."'";
+			if($array[$keys[$i]] != "X")
+				$sql = $sql." AND ".$keys[$i]." LIKE '".$array[$keys[$i]]."'";
 		}
 		//print $sql;
 		$result = mysql_query($sql) or die(mysql_error());

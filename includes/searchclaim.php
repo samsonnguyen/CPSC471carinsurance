@@ -44,15 +44,14 @@
 	<form name="searchclaim" id="fm-form" method="post" action="claim.php?action=search&form=client" >
 	    <fieldset>
 	    	<legend>Search By Client</legend>
-	    	<p>Use * for wildcards</p>
-		 	<div class="fm-opt">
-	      		<label for="fm-cl-clientid">Client ID:</label>
-	      		<input id="fm-cl-clientid" name="fm-cl-clientid" type="text" />
-	    	</div>
-	    	<div class="fm-opt">
-	      		<label for="fm-cl-vin">Vehicle VIN:</label>
-	      		<input id="fm-cl-vin" name="fm-cl-vin" type="text" />
-	    	</div>
+	 		<div class="fm-opt"><label for="fm-cl-clientid">Client:</label> <select	id="fm-cl-clientid" name="fm-cl-clientid">
+				<option value="" selected> </option>
+				<?php Client::getAllClients(); ?>
+			</select></div>
+			<div class="fm-opt"><label for="fm-cl-vin">VIN:</label> <select id="fm-cl-vin" name="fm-cl-vin">
+				<option value="" selected> </option>
+				<?php Vehicle::getAllVehicles(); ?>
+			</select></div>
 	     </fieldset>
 		 <div id="fm-submit" class="fm-opt">
 	      <input name="Search" value="Search" type="submit" />
