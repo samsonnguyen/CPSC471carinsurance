@@ -74,7 +74,7 @@ if (isLoggedIn() && (getUserPermissions()>='1')){
 				$newVehicleInfo['Ave_Daily_Miles'] = $_POST['fm-mileage'];
 				$newVehicleInfo['Displacement'] = $_POST['fm-displacement'];
 				$newVehicleInfo['Client_ID'] = $_POST['fm-clientid'];
-				$newVehicleInfo['Type'] = getAge($_POST['fm-type']);
+				$newVehicleInfo['Type'] = $_POST['fm-type'];
 				$newVehicleInfo['Commercial'] = $_POST['fm-commercial'];
 				if ($vehicleinstance->validateData($newVehicleInfo)){
 					if ($vehicleinstance->updateVehicle($vehicleVIN,$newVehicleInfo)){

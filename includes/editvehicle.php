@@ -58,12 +58,12 @@
       <label for="fm-type">Type:</label>
       <select id="fm-type" name="fm-type">
         <option value="">Choose a type</option>
-        <option value="1" <?php if ($info['Type']=="1") print "selected";?>>Passenger Car</option>
-        <option value="2" <?php if ($info['Type']=="2") print "selected";?>>Minivan</option>
-        <option value="3" <?php if ($info['Type']=="3") print "selected";?>>Truck</option>
-        <option value="4" <?php if ($info['Type']=="4") print "selected";?>>Motorcyle</option>
-        <option value="5" <?php if ($info['Type']=="5") print "selected";?>>Commercial Truck</option>
-        <option value="6" <?php if ($info['Type']=="6") print "selected";?>>Other</option>
+        <option value="c" <?php if($info['Type']=="c") print "selected";?>>Passenger Car</option>
+        <option value="v" <?php if($info['Type']=="v") print "selected";?>>Minivan</option>
+        <option value="t" <?php if($info['Type']=="t") print "selected";?>>Truck</option>
+        <option value="m" <?php if($info['Type']=="m") print "selected";?>>Motorcyle</option>
+        <option value="n" <?php if($info['Type']=="n") print "selected";?>>Commercial Truck</option>
+        <option value="o" <?php if($info['Type']=="o") print "selected";?>>Other</option>
       </select>
     </div>
    <div class="fm-multi">
