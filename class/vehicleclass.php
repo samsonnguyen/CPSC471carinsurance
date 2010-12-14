@@ -225,7 +225,13 @@ class Vehicle{
 			} else {
 				print $info['Client_ID'];
 			}
-			print "</td><td>".$info['VIN']."</td><td>".$info['Year']."</td><td>".$info['Make']."</td><td>".$info['Model']."</td>";
+			print "</td><td>";
+			if ($info['VIN']!=null){
+				print "<a href=\"vehicle.php?action=update&vehicle=".$info['VIN']."\">".$info['VIN']."</a>";
+			} else {
+				print $info['VIN'];
+			}
+			print "</td><td>".$info['Year']."</td><td>".$info['Make']."</td><td>".$info['Model']."</td>";
 			if($info['Commercial'] == 1) {
 				print "<td>True</td>";
 			} else {
