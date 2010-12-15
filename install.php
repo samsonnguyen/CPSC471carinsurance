@@ -34,7 +34,7 @@ mysql_query("CREATE TABLE Client
 	FOREIGN KEY (Company) REFERENCES Company(Commercial_License_No)
 		ON DELETE SET NULL			ON UPDATE CASCADE,
 	FOREIGN KEY (Policy_No) REFERENCES Private_Policy(Policy_No)
-		ON DELETE CASCADE			ON UPDATE CASCADE);") or die(mysql_error());  
+		ON DELETE CASCADE			ON UPDATE CASCADE) TYPE = INNODB;") or die(mysql_error());  
 
 //Create Company table
 mysql_query("CREATE TABLE Company(
@@ -49,7 +49,7 @@ mysql_query("CREATE TABLE Company(
 		Policy_No	INT,
 	PRIMARY KEY (Commercial_License_No),
 	FOREIGN KEY (Policy_No) REFERENCES Company_Policy(Policy_No)
-		ON DELETE SET NULL			ON UPDATE CASCADE);")
+		ON DELETE SET NULL			ON UPDATE CASCADE) TYPE = INNODB;")
 or die(mysql_error());
 
 //Create Company_Policy table
@@ -58,7 +58,7 @@ mysql_query("CREATE TABLE Company_Policy
 		Premium_Rate	DOUBLE(11,2) NOT NULL DEFAULT 0,
 		Coverage		INT,
 		Num_of_Employees	INT,	
-	PRIMARY KEY (Policy_No));")
+	PRIMARY KEY (Policy_No)) TYPE = INNODB;")
 or die(mysql_error());
 
 // Create Private_Policy table
@@ -66,7 +66,7 @@ mysql_query("CREATE TABLE Private_Policy
 	(	Policy_No 		INT	NOT	NULL AUTO_INCREMENT,
 		Premium_Rate	DOUBLE(11,2) NOT NULL DEFAULT 0,
 		Coverage		INT,	
-	PRIMARY KEY (Policy_No));")
+	PRIMARY KEY (Policy_No)) TYPE = INNODB;")
 or die(mysql_error());
 
 //Creat Ticket table
@@ -79,12 +79,13 @@ mysql_query("CREATE TABLE Ticket
 		Date			DATE	NOT NULL,
 	PRIMARY KEY (Client_ID,Infraction_No),
 	FOREIGN KEY (Client_ID) REFERENCES Client(Client_ID)
-		ON DELETE CASCADE			ON UPDATE CASCADE);")
+		ON DELETE CASCADE			ON UPDATE CASCADE) TYPE = INNODB;")
 or die(mysql_error());
 
 //Create Vehicle table
 mysql_query("CREATE TABLE Vehicle
-	(	VIN				CHAR(17)		NOT NULL,
+	(	Vehicle_ID		INT NOT NULL AUTO_INCREMENT,
+		VIN				CHAR(17)		NOT NULL,
 		Year			NUMERIC(4,0)	NOT NULL,
 		Make			VARCHAR(15),
 		Model			VARCHAR(20),
@@ -98,9 +99,10 @@ mysql_query("CREATE TABLE Vehicle
 		Client_ID		INT		NOT NULL,
 		Type			CHAR,
 		Commercial		BOOLEAN,
-	PRIMARY KEY (VIN),
+	UNIQUE(VIN),
+	PRIMARY KEY (Vehicle_ID),
 	FOREIGN KEY (Client_ID) REFERENCES Client(Client_ID)
-		ON DELETE CASCADE			ON UPDATE CASCADE);")
+		ON DELETE CASCADE			ON UPDATE CASCADE) TYPE = INNODB;")
 or die(mysql_error());
 
 //Create Claim table
@@ -111,7 +113,7 @@ mysql_query("CREATE TABLE Claim
 		Description		VARCHAR(200),
 		Status			CHAR,
 		Client_At_Fault	BOOLEAN,
-	PRIMARY KEY (Claim_No));")
+	PRIMARY KEY (Claim_No)) TYPE = INNODB;")
 or die(mysql_error());
 
 //Create Claims table (weak entity)
@@ -125,7 +127,7 @@ mysql_query("CREATE TABLE Claims
 	FOREIGN KEY (Claim_No) REFERENCES Claim(Claim_No)
 		ON DELETE CASCADE			ON UPDATE CASCADE,
 	FOREIGN KEY (VIN) REFERENCES Vehicle(VIN)
-		ON DELETE CASCADE			ON UPDATE CASCADE);")
+		ON DELETE CASCADE			ON UPDATE CASCADE) TYPE = INNODB;")
 or die(mysql_error());
 
 //Create Third_Party table
@@ -142,7 +144,7 @@ mysql_query("CREATE TABLE Third_Party
 		Party_License_No	VARCHAR(8) NOT NULL,
 	PRIMARY KEY (Claim_No,Party_Name),
 	FOREIGN KEY (Claim_No) REFERENCES Claim(Claim_ID)
-		ON DELETE CASCADE		ON UPDATE CASCADE);")
+		ON DELETE CASCADE		ON UPDATE CASCADE) TYPE = INNODB;")
 or die(mysql_error());
 //Finished main datatables
 echo "Tables Created!\n";
@@ -158,7 +160,7 @@ mysql_query("CREATE TABLE Employees
 		Username		VARCHAR(20)	NOT NULL,
 		Password		VARCHAR(20) NOT NULL,
 		Permissions		CHAR,
-	PRIMARY KEY (Employee_ID));")
+	PRIMARY KEY (Employee_ID)) TYPE = INNODB;")
 or die(mysql_error());
 
 //Finished employee tables
