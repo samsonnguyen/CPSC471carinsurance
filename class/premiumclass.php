@@ -16,7 +16,7 @@ define(VEHICLE_VALUE_MULTIPLE, 50); //For every $1000 in value, increase by this
 define(COMPANY_EMP_MULTIPLE, 500); //UNIT in DOLLARS, for every employee covered in the policy, increase by this amount
 define(COVERAGE_MULTIPLE, 200); //UNIT IN DOLLARS, as coverage increases by 1, 
 define(CLIENT_RISK_MULTIPLE, 10);
-define(VEHICLE_RISK_MULTIPLE, 0.25);
+define(VEHICLE_RISK_MULTIPLE, 0.20);
 
 class premiumClass{
 	//Local Variables
