@@ -210,6 +210,7 @@ class Client{
 		print "<td><a href=\"client.php?action=remove&client=$clientid\">X</a></td>\n";
 		print "<td> <a href=\"client.php?action=update&client=$clientid\">Edit</a></td>\n";
 		print "<td><a href=\"vehicle.php?action=add&client=$clientid\">Add vehicle</a></td>\n";
+		print "<td><a href=\"tickets.php?action=add&client=$clientid\">Add ticket</a></td>\n";
 	}
 
 	/**
